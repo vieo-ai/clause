@@ -2,9 +2,6 @@
 # CARRIER OS - HERMETIC KERNEL BASE MANIFEST
 # ==============================================================================
 
-[env]
-_.path = ["{{ env.CLAUSE_BIN_DIR }}"]
-
 [bootstrap.packages]
 "brew:lima" = "latest"
 
