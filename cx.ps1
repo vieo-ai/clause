@@ -166,6 +166,23 @@ if (-not [string]::IsNullOrWhiteSpace($CallerMiseEnv)) {
     $env:MISE_ENV = $CallerMiseEnv
 }
 
+# ==============================================================================
+# STAGE 0 PREFLIGHT: HERMETIC HOST HYGIENE INVARIANT
+# ==============================================================================
+# Refuse to boot on hosts with an unmanaged global Mise installation or active
+# host Mise session to guarantee strict filesystem confinement inside CLAUSE_HOME.
+$ClauseBinNorm = [System.IO.Path]::GetFullPath($env:CLAUSE_BIN_DIR).TrimEnd('\', '/')
+if ($env:__MISE_SESSION -or $env:__MISE_DIFF -or $env:MISE_SHELL) {
+    throw "[ClauseOS] Critical: Active host Mise shell session detected (MISE_SHELL=$($env:MISE_SHELL)). ClauseOS requires a clean host without an active global Mise session."
+}
+$ExternalMise = Get-Command "mise" -CommandType Application -ErrorAction SilentlyContinue | Where-Object {
+    $CmdDir = [System.IO.Path]::GetFullPath((Split-Path -Parent $_.Source)).TrimEnd('\', '/')
+    $CmdDir -ne $ClauseBinNorm
+} | Select-Object -First 1
+if ($ExternalMise) {
+    throw "[ClauseOS] Critical: Unmanaged host Mise binary detected at '$($ExternalMise.Source)'. Remove or deactivate host Mise before booting ClauseOS."
+}
+
 Expand-ClauseSymbolTable -TargetTable $RawProvision -LookupTables @($RawAnchors, $RawEnv, $RawProvision)
 foreach ($K in @($RawProvision.Keys)) {
     $DirPath = Normalize-ClausePath -Value $RawProvision[$K]
