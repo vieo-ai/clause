@@ -188,6 +188,22 @@ if [ -n "$_CALLER_MISE_ENV" ]; then
     export MISE_ENV="$_CALLER_MISE_ENV"
 fi
 
+# ==============================================================================
+# STAGE 0 PREFLIGHT: HERMETIC HOST HYGIENE INVARIANT
+# ==============================================================================
+# Refuse to boot on hosts with an unmanaged global Mise installation or active
+# host Mise session to guarantee strict filesystem confinement inside CLAUSE_HOME.
+if [ -n "${__MISE_SESSION:-}" ] || [ -n "${__MISE_DIFF:-}" ] || [ -n "${MISE_SHELL:-}" ]; then
+    echo "[ClauseOS] Critical: Active host Mise shell session detected (MISE_SHELL=${MISE_SHELL:-unknown}). ClauseOS requires a clean host without an active global Mise session." >&2
+    exit 1
+fi
+_HOST_MISE="$(command -v mise 2>/dev/null || true)"
+if [ -n "$_HOST_MISE" ] && [ "$_HOST_MISE" != "${CLAUSE_BIN_DIR}/mise" ]; then
+    echo "[ClauseOS] Critical: Unmanaged host Mise binary detected at '${_HOST_MISE}'. Remove or deactivate host Mise before booting ClauseOS." >&2
+    exit 1
+fi
+unset _HOST_MISE
+
 for _pkey in $_CLAUSE_PROV_KEYS; do
     eval "_pval=\$_CLAUSE_PROV_${_pkey}"
     _pdir="$(expand_clause_string "$_pval")"
