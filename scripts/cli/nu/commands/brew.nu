@@ -1,4 +1,6 @@
 # scripts/cli/nu/commands/brew.nu
+# Hijacked Homebrew CLI (`cx brew`)
+
 use ../core/toml_pin.nu [pin-bootstrap-pkg]
 
 def --wrapped main [...args: string] {
@@ -9,14 +11,16 @@ def --wrapped main [...args: string] {
     mut target_env = ""
     mut clean_args = []
     mut skip = false
-    for i in 0..(($args | length) - 1) {
-        if $skip { $skip = false; continue }
-        let a = ($args | get $i)
-        if ($a == "--env") or ($a == "-e") {
-            $target_env = ($args | get ($i + 1))
-            $skip = true
-        } else {
-            $clean_args = ($clean_args | append $a)
+    if ($args | is-not-empty) {
+        for i in 0..(($args | length) - 1) {
+            if $skip { $skip = false; continue }
+            let a = ($args | get $i)
+            if (($a == "--env") or ($a == "-e")) and (($i + 1) < ($args | length)) {
+                $target_env = ($args | get ($i + 1))
+                $skip = true
+            } else {
+                $clean_args = ($clean_args | append $a)
+            }
         }
     }
 
