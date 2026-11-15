@@ -1,7 +1,7 @@
 # scripts/cli/nu/commands/brew.nu
 # Hijacked Homebrew CLI (`cx brew`)
 
-use ../core/toml_pin.nu [pin-bootstrap-pkg]
+use ../../core/toml_pin.nu [pin-bootstrap-pkg]
 
 def --wrapped main [...args: string] {
     if (($nu.os-info.name | str lowercase) == "windows") {

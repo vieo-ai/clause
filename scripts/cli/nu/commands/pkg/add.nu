@@ -1,7 +1,7 @@
 # scripts/cli/nu/commands/add.nu
 # Unified package installer: `cx add <mise|scoop|brew>:<pkg[@ver]> [--target (-e) <overlay>]`
 
-use ../core/toml_pin.nu [pin-bootstrap-pkg]
+use ../../core/toml_pin.nu [pin-bootstrap-pkg]
 
 def main [
     spec: string,

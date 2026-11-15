@@ -1,7 +1,7 @@
 # scripts/cli/nu/commands/scoop.nu
 # Hijacked Scoop CLI (`cx scoop` and `$CLAUSE_BIN_DIR/scoop.cmd`)
 
-use ../core/toml_pin.nu [pin-bootstrap-pkg]
+use ../../core/toml_pin.nu [pin-bootstrap-pkg]
 
 def --wrapped main [...args: string] {
     if (($nu.os-info.name | str lowercase) != "windows") {
