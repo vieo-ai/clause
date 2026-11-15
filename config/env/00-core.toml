@@ -27,6 +27,7 @@ USER_LOG_LEVEL       = ""
 
 # Hermetic base confinement
 CLAUSE_HOME          = "${CLAUSE_HOME}"
+CLAUSE_CONFIG_DIR    = "${CLAUSE_CONFIG_DIR}"
 HOME                 = "${CLAUSE_HOME}"
 USERPROFILE          = "${CLAUSE_HOME}"
 
