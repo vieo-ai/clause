@@ -3,6 +3,17 @@
 
 export use commands/banner.nu
 
+def resolve-command-script [commands_dir: string, cmd: string, ext: string] {
+    let nested_rel = ($cmd | split row ":" | path join)
+    let nested_script = ($commands_dir | path join $"($nested_rel).($ext)")
+    if ($nested_script | path exists) {
+        return $nested_script
+    }
+
+    let flat_rel = ($cmd | str replace -a ":" "_")
+    ($commands_dir | path join $"($flat_rel).($ext)")
+}
+
 def main [cmd?: string, ...args: string] {
     if ($cmd | is-empty) or ($cmd == "list") or ($cmd == "--help") or ($cmd == "-h") {
         show-help
@@ -11,32 +22,31 @@ def main [cmd?: string, ...args: string] {
 
     let root = ($env.CLAUSE_PROJECT_ROOT? | default ($env.PWD))
     let bin_dir = ($env.CLAUSE_BIN_DIR? | default ($root | path join ".home" ".local" "bin"))
-    let normalized = ($cmd | str replace -a ":" "_")
     let nu_bin = $nu.current-exe
 
     # 1. Search Nushell Engine: scripts/cli/nu/commands/<command>.nu
-    let nu_script = ($root | path join "scripts" "cli" "nu" "commands" $"($normalized).nu")
+    let nu_script = (resolve-command-script ($root | path join "scripts" "cli" "nu" "commands") $cmd "nu")
     if ($nu_script | path exists) {
         ^$nu_bin $nu_script ...$args
         return
     }
 
     # 2. Search TypeScript Engine (Bun): scripts/cli/ts/commands/<command>.ts
-    let ts_script = ($root | path join "scripts" "cli" "ts" "commands" $"($normalized).ts")
+    let ts_script = (resolve-command-script ($root | path join "scripts" "cli" "ts" "commands") $cmd "ts")
     if ($ts_script | path exists) {
         ^bun run $ts_script ...$args
         return
     }
 
     # 3. Search Python Engine: scripts/cli/py/commands/<command>.py
-    let py_script = ($root | path join "scripts" "cli" "py" "commands" $"($normalized).py")
+    let py_script = (resolve-command-script ($root | path join "scripts" "cli" "py" "commands") $cmd "py")
     if ($py_script | path exists) {
         ^python $py_script ...$args
         return
     }
 
     # 4. Search PowerShell Engine: scripts/cli/ps1/commands/<command>.ps1
-    let ps_script = ($root | path join "scripts" "cli" "ps1" "commands" $"($normalized).ps1")
+    let ps_script = (resolve-command-script ($root | path join "scripts" "cli" "ps1" "commands") $cmd "ps1")
     if ($ps_script | path exists) {
         let is_win = (($nu.os-info.name | str lowercase) == "windows")
         let pwsh_name = if $is_win { "pwsh.exe" } else { "pwsh" }
@@ -48,7 +58,7 @@ def main [cmd?: string, ...args: string] {
     }
 
     # 5. Search POSIX/Bash Engine: scripts/cli/sh/commands/<command>.sh
-    let sh_script = ($root | path join "scripts" "cli" "sh" "commands" $"($normalized).sh")
+    let sh_script = (resolve-command-script ($root | path join "scripts" "cli" "sh" "commands") $cmd "sh")
     if ($sh_script | path exists) {
         let bash_cmd = "bash"
         ^$bash_cmd $sh_script ...$args
