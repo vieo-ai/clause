@@ -204,6 +204,20 @@ if [ -n "$_HOST_MISE" ] && [ "$_HOST_MISE" != "${CLAUSE_BIN_DIR}/mise" ]; then
 fi
 unset _HOST_MISE
 
+for _pkg_mgr in scoop brew; do
+    _HOST_MGR="$(command -v "$_pkg_mgr" 2>/dev/null || true)"
+    if [ -n "$_HOST_MGR" ]; then
+        case "$_HOST_MGR" in
+            "${CLAUSE_HOME}"/*) ;;
+            *)
+                echo "[ClauseOS] Critical: Unmanaged host '${_pkg_mgr}' detected at '${_HOST_MGR}'. Remove or deactivate host ${_pkg_mgr} before booting ClauseOS." >&2
+                exit 1
+                ;;
+        esac
+    fi
+done
+unset _pkg_mgr _HOST_MGR
+
 for _pkey in $_CLAUSE_PROV_KEYS; do
     eval "_pval=\$_CLAUSE_PROV_${_pkey}"
     _pdir="$(expand_clause_string "$_pval")"
