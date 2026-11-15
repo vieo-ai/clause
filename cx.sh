@@ -193,18 +193,31 @@ fi
 # ==============================================================================
 # Refuse to boot on hosts with an unmanaged global Mise installation or active
 # host Mise session to guarantee strict filesystem confinement inside CLAUSE_HOME.
+
+# 1. Always forbid an active parent Mise shell session (even in CI)
 if [ -n "${__MISE_SESSION:-}" ] || [ -n "${__MISE_DIFF:-}" ] || [ -n "${MISE_SHELL:-}" ]; then
     echo "[ClauseOS] Critical: Active host Mise shell session detected (MISE_SHELL=${MISE_SHELL:-unknown}). ClauseOS requires a clean host without an active global Mise session." >&2
     exit 1
 fi
-_HOST_MISE="$(command -v mise 2>/dev/null || true)"
-if [ -n "$_HOST_MISE" ] && [ "$_HOST_MISE" != "${CLAUSE_BIN_DIR}/mise" ]; then
-    echo "[ClauseOS] Critical: Unmanaged host Mise binary detected at '${_HOST_MISE}'. Remove or deactivate host Mise before booting ClauseOS." >&2
-    exit 1
-fi
-unset _HOST_MISE
 
-for _pkg_mgr in scoop brew; do
+# 2. In CI, scrub preinstalled runner brew/scoop directories from PATH; on bare metal, redline them
+if [ "${CI:-false}" = "true" ] || [ "${CLAUSE_ALLOW_HOST_MANAGERS:-0}" = "1" ]; then
+    _CLEAN_PATH=""
+    _OLD_IFS="$IFS"
+    IFS=':'
+    for _p in $PATH; do
+        case "$_p" in
+            /opt/homebrew/*|/usr/local/Homebrew/*|/home/linuxbrew/*) ;;
+            *) _CLEAN_PATH="${_CLEAN_PATH:+${_CLEAN_PATH}:}${_p}" ;;
+        esac
+    done
+    IFS="$_OLD_IFS"
+    export PATH="$_CLEAN_PATH"
+    unset _CLEAN_PATH _OLD_IFS _p
+fi
+
+# 3. Verify no unmanaged mise, scoop, or brew remains reachable on PATH
+for _pkg_mgr in mise scoop brew; do
     _HOST_MGR="$(command -v "$_pkg_mgr" 2>/dev/null || true)"
     if [ -n "$_HOST_MGR" ]; then
         case "$_HOST_MGR" in
