@@ -8,11 +8,12 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+$ProgressPreference    = 'SilentlyContinue'
 
 # Only run on Windows NT
 if (-not $IsOSWindows) { return }
 
-# Consume canonical SSOT variables with defensive fallbacks
+# Consume canonical SSOT variables from config/env/00-core.toml & 20-toolchains.toml
 $LocalBin        = if ($env:CLAUSE_BIN_DIR)    { $env:CLAUSE_BIN_DIR }    else { Join-Path $env:LOCALAPPDATA "Programs\bin" }
 $CacheRoot       = if ($env:CLAUSE_CACHE_DIR)  { $env:CLAUSE_CACHE_DIR }  else { Join-Path $env:LOCALAPPDATA "cache" }
 $ScoopDir        = if ($env:SCOOP)             { $env:SCOOP }             else { Join-Path $CacheRoot "toolchain\scoop" }
@@ -20,7 +21,8 @@ $ConfigRoot      = if ($env:CLAUSE_CONFIG_DIR) { $env:CLAUSE_CONFIG_DIR } else {
 $ScoopConfigDir  = Join-Path $ConfigRoot "scoop"
 $ScoopConfigFile = Join-Path $ScoopConfigDir "config.json"
 $EnvHelperPs1    = Join-Path $ScoopConfigDir "environment.ps1"
-$ScoopCoreScript = Join-Path $ScoopDir "apps\scoop\current\bin\scoop.ps1"
+$ScoopAppCurrent = Join-Path $ScoopDir "apps\scoop\current"
+$ScoopCoreScript = Join-Path $ScoopAppCurrent "bin\scoop.ps1"
 $ScoopBinTarget  = Join-Path $LocalBin "scoop.cmd"
 $PatchMarker     = "# clause-scoop-patches: 1"
 
@@ -149,26 +151,36 @@ function Invoke-ClauseScoopPatch {
     if ($old -ne $new) { Set-Content -LiteralPath $sysPs1 -Value $new -NoNewline }
 }
 
-# Pre-seed Scoop into $env:SCOOP if not yet installed
+# Pre-seed Scoop directly via curl.exe + tar.exe (bypasses slow get.scoop.sh WebClient/full-clone)
 if (-not (Test-Path -LiteralPath $ScoopCoreScript)) {
-    Write-ClauseLog "Pre-seeding Hermetic Scoop into $ScoopDir..." -Level INFO
-    $RawInstaller     = Join-Path $env:CLAUSE_TEMP_DIR "install_scoop_raw.ps1"
-    $PatchedInstaller = Join-Path $env:CLAUSE_TEMP_DIR "install_scoop_hermetic.ps1"
+    Write-ClauseLog "Pre-seeding Hermetic Scoop (v$Version) into $ScoopDir..." -Level INFO
+    $ScoopZip = Join-Path $env:CLAUSE_TEMP_DIR "scoop-$Version.zip"
+    $ScoopOut = Join-Path $env:CLAUSE_TEMP_DIR "scoop_extracted"
 
     try {
-        Get-File -Url 'https://get.scoop.sh' -OutFile $RawInstaller
-        $ScriptText = (Get-Content -LiteralPath $RawInstaller -Raw).
-            Replace('$env:XDG_CONFIG_HOME', '"$env:CLAUSE_CONFIG_DIR"').
-            Replace('(Test-Path "$SCOOP_DIR\*")', '$false') -replace '\s\s+Add-ShimsDirToPath', ''
+        $ScoopUrl = "https://github.com/ScoopInstaller/Scoop/archive/refs/tags/v$Version.zip"
+        Get-File -Url $ScoopUrl -OutFile $ScoopZip
+        Expand-HermeticArchive -ArchivePath $ScoopZip -DestinationPath $ScoopOut
 
-        Set-Content -LiteralPath $PatchedInstaller -Value $ScriptText -Encoding UTF8 -NoNewline
-        & $PatchedInstaller -ScoopDir "$ScoopDir" -NoPath
-        Write-ClauseLog "Scoop pre-seeded successfully." -Level INFO
+        $ExtractedRoot = Get-ChildItem -Path $ScoopOut -Directory | Select-Object -First 1
+        if (-not $ExtractedRoot) {
+            throw "Failed to locate extracted Scoop directory inside $ScoopOut"
+        }
+
+        $ScoopAppsDir = Join-Path $ScoopDir "apps\scoop"
+        $ScoopShims   = Join-Path $ScoopDir "shims"
+        New-Item -ItemType Directory -Path $ScoopAppsDir, $ScoopShims -Force | Out-Null
+
+        if (Test-Path -LiteralPath $ScoopAppCurrent) {
+            Remove-Item -LiteralPath $ScoopAppCurrent -Recurse -Force
+        }
+        Move-Item -LiteralPath $ExtractedRoot.FullName -Destination $ScoopAppCurrent -Force
+        Write-ClauseLog "Scoop core seeded successfully." -Level INFO
     } catch {
-        Write-ClauseLog "Failed to install Scoop: $_" -Level FATAL
-        throw "[ClauseOS Stage 2] Error: Failed to install Scoop: $_"
+        Write-ClauseLog "Failed to seed Scoop: $_" -Level FATAL
+        throw "[ClauseOS Stage 2] Error: Failed to seed Scoop: $_"
     } finally {
-        Remove-Item -LiteralPath $RawInstaller, $PatchedInstaller -Force -ErrorAction SilentlyContinue
+        Remove-Item -LiteralPath $ScoopZip, $ScoopOut -Recurse -Force -ErrorAction SilentlyContinue
     }
 }
 
@@ -177,6 +189,30 @@ $SysContent = Get-Content -LiteralPath (Join-Path $ScoopDir "apps\scoop\current\
 if (-not $SysContent -or -not $SysContent.Contains($PatchMarker)) {
     Write-ClauseLog "Applying hermetic runtime patches to Scoop..." -Level INFO
     Invoke-ClauseScoopPatch -TargetScoopDir $ScoopDir
+}
+
+# Seed Scoop 'main' bucket via shallow clone or fast archive download
+$BucketsDir    = Join-Path $ScoopDir "buckets"
+$MainBucketDir = Join-Path $BucketsDir "main"
+if (-not (Test-Path -LiteralPath $MainBucketDir)) {
+    if (-not (Test-Path -LiteralPath $BucketsDir)) {
+        New-Item -ItemType Directory -Path $BucketsDir -Force | Out-Null
+    }
+    if (Get-Command git.exe -ErrorAction SilentlyContinue) {
+        Write-ClauseLog "Seeding Scoop 'main' bucket (shallow)..." -Level INFO
+        git.exe clone --depth 1 --single-branch --quiet https://github.com/ScoopInstaller/Main.git "$MainBucketDir"
+    } else {
+        Write-ClauseLog "Seeding Scoop 'main' bucket (archive)..." -Level INFO
+        $BucketZip = Join-Path $env:CLAUSE_TEMP_DIR "scoop-main.zip"
+        $BucketOut = Join-Path $env:CLAUSE_TEMP_DIR "scoop-main-out"
+        try {
+            Get-File -Url 'https://github.com/ScoopInstaller/Main/archive/refs/heads/master.zip' -OutFile $BucketZip
+            Expand-HermeticArchive -ArchivePath $BucketZip -DestinationPath $BucketOut
+            Move-Item -LiteralPath (Join-Path $BucketOut "Main-master") -Destination $MainBucketDir -Force
+        } finally {
+            Remove-Item -LiteralPath $BucketZip, $BucketOut -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
 }
 
 # Wire $env:CLAUSE_BIN_DIR\scoop.cmd directly into the ClauseOS CLI (`cx scoop`)
