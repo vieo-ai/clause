@@ -20,7 +20,7 @@ def --wrapped main [...args: string] {
         }
     }
 
-    let cmd = ($clean_args | first | default "" | str downcase)
+    let cmd = ($clean_args | first | default "" | str lowercase)
     if ($cmd == "install") and ($clean_args | any {|a| $a == "--cask" }) {
         error make { msg: "[ClauseOS] Homebrew --cask installs are forbidden in ClauseOS." }
     }
