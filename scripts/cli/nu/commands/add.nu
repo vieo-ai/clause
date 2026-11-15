@@ -14,7 +14,8 @@ def main [
         { backend: "mise", target: $spec }
     }
 
-    let mise_bin = ($env.CLAUSE_BIN_DIR | path join (if (($nu.os-info.name | str lowercase) == "windows") { "mise.exe" } else { "mise" }))
+    let is_win = (($nu.os-info.name | str lowercase) == "windows")
+    let mise_bin = ($env.CLAUSE_BIN_DIR | path join (if $is_win { "mise.exe" } else { "mise" }))
 
     match $parsed.backend {
         "mise" => {
