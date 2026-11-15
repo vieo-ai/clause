@@ -14,6 +14,8 @@ $ErrorActionPreference = 'Stop'
 $ProjectRoot = if ($env:CLAUSE_PROJECT_ROOT) { $env:CLAUSE_PROJECT_ROOT } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
 $env:CLAUSE_PROJECT_ROOT = $ProjectRoot
 $CallerMiseEnv = $env:MISE_ENV
+$CallerClauseStatus = $env:CLAUSE_STATUS
+$CallerMiseDataDir = $env:MISE_DATA_DIR
 
 $IsOSWindows = $IsWindows -or $env:OS -eq "Windows_NT"
 $IsOSMac     = $IsMacOS -or ($PSVersionTable.OS -like "*Darwin*")
@@ -166,17 +168,24 @@ if (-not [string]::IsNullOrWhiteSpace($CallerMiseEnv)) {
     $env:MISE_ENV = $CallerMiseEnv
 }
 
+$ClauseHomeNorm = [System.IO.Path]::GetFullPath($env:CLAUSE_HOME).TrimEnd('\', '/')
+if ($CallerClauseStatus -eq "online" -and -not [string]::IsNullOrWhiteSpace($CallerMiseDataDir)) {
+    $CallerMiseNorm = [System.IO.Path]::GetFullPath($CallerMiseDataDir).TrimEnd('\', '/')
+    if ($CallerMiseNorm.StartsWith($ClauseHomeNorm, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $env:CLAUSE_STATUS = "online"
+    }
+}
+
 # ==============================================================================
 # STAGE 0 PREFLIGHT: HERMETIC HOST HYGIENE INVARIANT
 # ==============================================================================
 # Refuse to boot on hosts with an unmanaged global Mise installation or active
 # host Mise session to guarantee strict filesystem confinement inside CLAUSE_HOME.
 # 1. Always forbid an active parent Mise shell session (even in CI)
-if ($env:__MISE_SESSION -or $env:__MISE_DIFF -or $env:MISE_SHELL) {
+if ($env:CLAUSE_STATUS -ne "online" -and ($env:__MISE_SESSION -or $env:__MISE_DIFF -or $env:MISE_SHELL)) {
     throw "[ClauseOS] Critical: Active host Mise shell session detected (MISE_SHELL=$($env:MISE_SHELL)). ClauseOS requires a clean host without an active global Mise session."
 }
 
-$ClauseHomeNorm = [System.IO.Path]::GetFullPath($env:CLAUSE_HOME).TrimEnd('\', '/')
 $IsCI = ($env:CI -eq "true") -or ($env:CLAUSE_ALLOW_HOST_MANAGERS -eq "1")
 
 # 2. In CI, scrub preinstalled runner scoop/brew directories from process PATH
@@ -621,6 +630,7 @@ escript "%~dp0rebar3" %*
 # STAGE 3: NUSHELL HANDOFF (CLI, CI/CD NON-INTERACTIVE, & TTY ROUTING)
 # ==============================================================================
 Set-Location -Path $ProjectRoot
+$env:CLAUSE_STATUS = "online"
 
 $EnvNu    = $env:CLAUSE_BOOT_NU
 $ConfigNu = $env:CLAUSE_CONFIG_NU
