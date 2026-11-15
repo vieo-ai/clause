@@ -183,6 +183,17 @@ if ($ExternalMise) {
     throw "[ClauseOS] Critical: Unmanaged host Mise binary detected at '$($ExternalMise.Source)'. Remove or deactivate host Mise before booting ClauseOS."
 }
 
+$ClauseHomeNorm = [System.IO.Path]::GetFullPath($env:CLAUSE_HOME).TrimEnd('\', '/')
+foreach ($HostPkgMgr in @("scoop", "brew")) {
+    $ExternalMgr = Get-Command $HostPkgMgr -CommandType Application -ErrorAction SilentlyContinue | Where-Object {
+        $CmdPath = [System.IO.Path]::GetFullPath($_.Source)
+        -not $CmdPath.StartsWith($ClauseHomeNorm, [System.StringComparison]::OrdinalIgnoreCase)
+    } | Select-Object -First 1
+    if ($ExternalMgr) {
+        throw "[ClauseOS] Critical: Unmanaged host '$HostPkgMgr' detected at '$($ExternalMgr.Source)'. Remove or deactivate host $HostPkgMgr before booting ClauseOS."
+    }
+}
+
 Expand-ClauseSymbolTable -TargetTable $RawProvision -LookupTables @($RawAnchors, $RawEnv, $RawProvision)
 foreach ($K in @($RawProvision.Keys)) {
     $DirPath = Normalize-ClausePath -Value $RawProvision[$K]
