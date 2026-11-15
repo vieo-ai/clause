@@ -10,6 +10,11 @@ def resolve-command-script [commands_dir: string, cmd: string, ext: string] {
         return $nested_script
     }
 
+    let default_script = ($commands_dir | path join $nested_rel $"_default.($ext)")
+    if ($default_script | path exists) {
+        return $default_script
+    }
+
     let flat_rel = ($cmd | str replace -a ":" "_")
     ($commands_dir | path join $"($flat_rel).($ext)")
 }
