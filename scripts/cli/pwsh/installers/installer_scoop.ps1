@@ -215,10 +215,29 @@ if (-not (Test-Path -LiteralPath $MainBucketDir)) {
     }
 }
 
-# Wire $env:CLAUSE_BIN_DIR\scoop.cmd directly into the ClauseOS CLI (`cx scoop`)
-$ShimContent = @"
+# Ensure Scoop shims and binaries are accessible inside CLAUSE_BIN_DIR
+# Resolve actual core scoop.ps1 path inside the hermetic tree
+# $ScoopCoreScript = Join-Path $ScoopDir "apps\scoop\current\bin\scoop.ps1"
+# $ScoopBinTarget  = Join-Path $LocalBin "scoop.cmd"
+
+if (-not (Test-Path $ScoopBinTarget)) {
+    $ShimContent = @"
+@rem $ScoopCoreScript
 @echo off
-cx scoop %*
+setlocal enabledelayedexpansion
+set args=%*
+:: replace problem characters in arguments
+set args=%args:"='%
+set args=%args:(=`(%
+set args=%args:)=`)%
+set invalid="='
+if !args! == !invalid! ( set args= )
+where /q pwsh.exe
+if %errorlevel% equ 0 (
+    pwsh -noprofile -ex unrestricted -file "$ScoopCoreScript" %args%
+) else (
+    powershell -noprofile -ex unrestricted -file "$ScoopCoreScript" %args%
+)
 "@
-Set-Content -LiteralPath $ScoopBinTarget -Value $ShimContent -Encoding ASCII
-Write-ClauseLog "Hermetic Scoop shim wired at $ScoopBinTarget -> cx scoop" -Level INFO
+    Set-Content -Path $ScoopBinTarget -Value $ShimContent -Encoding ASCII
+}
