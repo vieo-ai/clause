@@ -9,7 +9,7 @@ def main [
 ] {
     let parsed = if ($spec | str contains ":") {
         let parts = ($spec | split row ":" -n 2)
-        { backend: ($parts | get 0 | str downcase), target: ($parts | get 1) }
+        { backend: ($parts | get 0 | str lowercase), target: ($parts | get 1) }
     } else {
         { backend: "mise", target: $spec }
     }
