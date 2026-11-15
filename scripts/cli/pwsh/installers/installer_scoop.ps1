@@ -12,9 +12,10 @@ $ErrorActionPreference = 'Stop'
 # Only run on Windows NT
 if (-not $IsOSWindows) { return }
 
-# Consume canonical SSOT variables from config/env/00-core.toml & 20-toolchains.toml
+# Consume canonical SSOT variables with defensive fallbacks
 $LocalBin        = if ($env:CLAUSE_BIN_DIR)    { $env:CLAUSE_BIN_DIR }    else { Join-Path $env:LOCALAPPDATA "Programs\bin" }
-$ScoopDir        = if ($env:SCOOP)             { $env:SCOOP }             else { Join-Path $env:CLAUSE_CACHE_DIR "toolchain\scoop" }
+$CacheRoot       = if ($env:CLAUSE_CACHE_DIR)  { $env:CLAUSE_CACHE_DIR }  else { Join-Path $env:LOCALAPPDATA "cache" }
+$ScoopDir        = if ($env:SCOOP)             { $env:SCOOP }             else { Join-Path $CacheRoot "toolchain\scoop" }
 $ConfigRoot      = if ($env:CLAUSE_CONFIG_DIR) { $env:CLAUSE_CONFIG_DIR } else { Join-Path $env:LOCALAPPDATA "config" }
 $ScoopConfigDir  = Join-Path $ConfigRoot "scoop"
 $ScoopConfigFile = Join-Path $ScoopConfigDir "config.json"
