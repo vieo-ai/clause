@@ -24,8 +24,7 @@ export def pin-bootstrap-pkg [
     let toml_path = (resolve-target-manifest $target_env)
     mut doc = if ($toml_path | path exists) { open $toml_path } else { {} }
 
-    # Mise's native `mise bootstrap packages` reads [bootstrap.packages]
-    # Key format: "<pkg>" = "<version>" (or "<manager>:<pkg>" depending on your Mise bootstrap schema)
+    # Pin under [bootstrap.packages]
     let boot = ($doc | get -o bootstrap | default {})
     let pkgs = ($boot | get -o packages | default {} | upsert $"($manager):($pkg)" $version)
     $doc = ($doc | upsert bootstrap ($boot | upsert packages $pkgs))
