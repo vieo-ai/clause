@@ -76,9 +76,8 @@ def --wrapped main [...args: string] {
             Save-ScoopPortableUserPath -SnapshotFile $pathSnap
         }
 
-        $forwardArgs = if ($args.Count -gt 0 -and $args[0] -eq "--") { $args[1..($args.Count - 1)] } else { $args }
         try {
-            & $ScoopMain @forwardArgs
+            & $ScoopMain @args
             $rc = $LASTEXITCODE
         } finally {
             if ($pathSnap -and (Test-Path -LiteralPath $pathSnap)) {
@@ -96,7 +95,14 @@ def --wrapped main [...args: string] {
         | str replace "__CMD__" $cmd
     )
 
-    ^$pwsh -NoProfile -ExecutionPolicy Bypass -Command $runner -- ...$clean_args
+    # Write transient runner script inside CLAUSE_TEMP_DIR and execute via -File so $args forwards verbatim
+    let runner_file = ($env.CLAUSE_TEMP_DIR | path join $"clause-scoop-(random uuid).ps1")
+    $runner | save -f $runner_file
+    try {
+        ^$pwsh -NoProfile -ExecutionPolicy Bypass -File $runner_file ...$clean_args
+    } finally {
+        if ($runner_file | path exists) { rm -f $runner_file }
+    }
 
     # On `install`, pin resolved version & manifest env_set/env_add_path into .mise.<env>.toml
     if ($cmd == "install") {
