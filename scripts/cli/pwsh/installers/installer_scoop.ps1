@@ -13,9 +13,10 @@ $ErrorActionPreference = 'Stop'
 if (-not $IsOSWindows) { return }
 
 # Consume canonical SSOT variables from config/env/00-core.toml & 20-toolchains.toml
-$LocalBin        = $env:CLAUSE_BIN_DIR
-$ScoopDir        = $env:SCOOP
-$ScoopConfigDir  = Join-Path $env:CLAUSE_CONFIG_DIR "scoop"
+$LocalBin        = if ($env:CLAUSE_BIN_DIR)    { $env:CLAUSE_BIN_DIR }    else { Join-Path $env:LOCALAPPDATA "Programs\bin" }
+$ScoopDir        = if ($env:SCOOP)             { $env:SCOOP }             else { Join-Path $env:CLAUSE_CACHE_DIR "toolchain\scoop" }
+$ConfigRoot      = if ($env:CLAUSE_CONFIG_DIR) { $env:CLAUSE_CONFIG_DIR } else { Join-Path $env:LOCALAPPDATA "config" }
+$ScoopConfigDir  = Join-Path $ConfigRoot "scoop"
 $ScoopConfigFile = Join-Path $ScoopConfigDir "config.json"
 $EnvHelperPs1    = Join-Path $ScoopConfigDir "environment.ps1"
 $ScoopCoreScript = Join-Path $ScoopDir "apps\scoop\current\bin\scoop.ps1"
