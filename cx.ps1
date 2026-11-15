@@ -171,20 +171,25 @@ if (-not [string]::IsNullOrWhiteSpace($CallerMiseEnv)) {
 # ==============================================================================
 # Refuse to boot on hosts with an unmanaged global Mise installation or active
 # host Mise session to guarantee strict filesystem confinement inside CLAUSE_HOME.
-$ClauseBinNorm = [System.IO.Path]::GetFullPath($env:CLAUSE_BIN_DIR).TrimEnd('\', '/')
+# 1. Always forbid an active parent Mise shell session (even in CI)
 if ($env:__MISE_SESSION -or $env:__MISE_DIFF -or $env:MISE_SHELL) {
     throw "[ClauseOS] Critical: Active host Mise shell session detected (MISE_SHELL=$($env:MISE_SHELL)). ClauseOS requires a clean host without an active global Mise session."
 }
-$ExternalMise = Get-Command "mise" -CommandType Application -ErrorAction SilentlyContinue | Where-Object {
-    $CmdDir = [System.IO.Path]::GetFullPath((Split-Path -Parent $_.Source)).TrimEnd('\', '/')
-    $CmdDir -ne $ClauseBinNorm
-} | Select-Object -First 1
-if ($ExternalMise) {
-    throw "[ClauseOS] Critical: Unmanaged host Mise binary detected at '$($ExternalMise.Source)'. Remove or deactivate host Mise before booting ClauseOS."
-}
 
 $ClauseHomeNorm = [System.IO.Path]::GetFullPath($env:CLAUSE_HOME).TrimEnd('\', '/')
-foreach ($HostPkgMgr in @("scoop", "brew")) {
+$IsCI = ($env:CI -eq "true") -or ($env:CLAUSE_ALLOW_HOST_MANAGERS -eq "1")
+
+# 2. In CI, scrub preinstalled runner scoop/brew directories from process PATH
+if ($IsCI) {
+    $PathSep = if ($IsOSWindows) { ';' } else { ':' }
+    $FilteredPath = ($env:PATH -split [regex]::Escape($PathSep)) | Where-Object {
+        $_ -and ($_ -notmatch '(?i)(\\scoop\\shims|/homebrew/|/linuxbrew/)')
+    }
+    $env:PATH = $FilteredPath -join $PathSep
+}
+
+# 3. Verify no unmanaged mise, scoop, or brew remains reachable on PATH
+foreach ($HostPkgMgr in @("mise", "scoop", "brew")) {
     $ExternalMgr = Get-Command $HostPkgMgr -CommandType Application -ErrorAction SilentlyContinue | Where-Object {
         $CmdPath = [System.IO.Path]::GetFullPath($_.Source)
         -not $CmdPath.StartsWith($ClauseHomeNorm, [System.StringComparison]::OrdinalIgnoreCase)
