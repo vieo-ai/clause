@@ -23,7 +23,7 @@ def --wrapped main [...args: string] {
         }
     }
 
-    let cmd = ($clean_args | first | default "" | str downcase)
+    let cmd = ($clean_args | first | default "" | str lowercase)
     if ($cmd == "install") and ($clean_args | any {|a| ($a == "--global") or ($a =~ '^-[^-]*g') }) {
         error make { msg: "[ClauseOS] Global Scoop installs (-g / --global) are forbidden." }
     }
@@ -39,53 +39,60 @@ def --wrapped main [...args: string] {
     let pwsh_bin = ($env.CLAUSE_BIN_DIR | path join "pwsh.exe")
     let pwsh = if ($pwsh_bin | path exists) { $pwsh_bin } else if (which pwsh | is-not-empty) { "pwsh" } else { "powershell" }
 
-    let runner = $"
-        \$ErrorActionPreference = 'Stop'
-        \$ScoopRoot   = '($scoop_dir)'
-        \$ScoopMain   = '($scoop_main)'
-        \$EnvHelper   = '($env_helper)'
-        \$Cmd         = '($cmd)'
-        \$PatchMarker = '# clause-scoop-patches: 1'
+    let template = '
+        $ErrorActionPreference = "Stop"
+        $ScoopRoot   = "__SCOOP_DIR__"
+        $ScoopMain   = "__SCOOP_MAIN__"
+        $EnvHelper   = "__ENV_HELPER__"
+        $Cmd         = "__CMD__"
+        $PatchMarker = "# clause-scoop-patches: 1"
 
-        if (Test-Path -LiteralPath \$EnvHelper) { . \$EnvHelper }
+        if (Test-Path -LiteralPath $EnvHelper) { . $EnvHelper }
 
         # Re-apply runtime patches if Scoop updated itself
-        \$libDir = Join-Path \$ScoopRoot 'apps\\scoop\\current\\lib'
-        \$sysPs1 = Join-Path \$libDir 'system.ps1'
-        if (-not (Get-Content -LiteralPath \$sysPs1 -Raw).Contains(\$PatchMarker)) {
-            \$corePs1 = Join-Path \$libDir 'core.ps1'
-            if (Test-Path \$corePs1) {
-                \$c = (Get-Content -LiteralPath \$corePs1 -Raw).Replace('\$env:XDG_CONFIG_HOME', '\"\$env:CLAUSE_CONFIG_DIR\"')
-                Set-Content -LiteralPath \$corePs1 -Value \$c -NoNewline
+        $libDir = Join-Path $ScoopRoot "apps\scoop\current\lib"
+        $sysPs1 = Join-Path $libDir "system.ps1"
+        if (-not (Get-Content -LiteralPath $sysPs1 -Raw).Contains($PatchMarker)) {
+            $corePs1 = Join-Path $libDir "core.ps1"
+            if (Test-Path $corePs1) {
+                $c = (Get-Content -LiteralPath $corePs1 -Raw).Replace("$env:XDG_CONFIG_HOME", "`"$env:CLAUSE_CONFIG_DIR`"")
+                Set-Content -LiteralPath $corePs1 -Value $c -NoNewline
             }
-            \$shortPs1 = Join-Path \$libDir 'shortcuts.ps1'
-            if (Test-Path \$shortPs1) {
-                \$s = (Get-Content -LiteralPath \$shortPs1 -Raw) + \"`nfunction create_startmenu_shortcuts(\$manifest, \$dir, \$global, \$arch) { }`nfunction startmenu_shortcut([System.IO.FileInfo] \$target, \$shortcutName, \$arguments, [System.IO.FileInfo]\$icon, \$global) { }`n\"
-                Set-Content -LiteralPath \$shortPs1 -Value \$s -NoNewline
+            $shortPs1 = Join-Path $libDir "shortcuts.ps1"
+            if (Test-Path $shortPs1) {
+                $s = (Get-Content -LiteralPath $shortPs1 -Raw) + "`nfunction create_startmenu_shortcuts($manifest, $dir, $global, $arch) { }`nfunction startmenu_shortcut([System.IO.FileInfo] $target, $shortcutName, $arguments, [System.IO.FileInfo]$icon, $global) { }`n"
+                Set-Content -LiteralPath $shortPs1 -Value $s -NoNewline
             }
-            \$sysNew = (Get-Content -LiteralPath \$sysPs1 -Raw) + \"`nfunction Set-EnvVar { param([string]\$Name, [string]\$Value, [switch]\$Global) }`n\$PatchMarker`n\"
-            Set-Content -LiteralPath \$sysPs1 -Value \$sysNew -NoNewline
+            $sysNew = (Get-Content -LiteralPath $sysPs1 -Raw) + "`nfunction Set-EnvVar { param([string]$Name, [string]$Value, [switch]$Global) }`n$PatchMarker`n"
+            Set-Content -LiteralPath $sysPs1 -Value $sysNew -NoNewline
         }
 
-        # Snapshot HKCU\\Environment\\Path in memory before updates
-        \$pathSnap = \$null
-        if (\$Cmd -eq 'update' -and (Get-Command Save-ScoopPortableUserPath -ErrorAction SilentlyContinue)) {
-            \$pathSnap = Join-Path \$env:CLAUSE_TEMP_DIR ('scoop-path-' + [guid]::NewGuid().ToString('N') + '.json')
-            Save-ScoopPortableUserPath -SnapshotFile \$pathSnap
+        # Snapshot HKCU\Environment\Path in memory before updates
+        $pathSnap = $null
+        if ($Cmd -eq "update" -and (Get-Command Save-ScoopPortableUserPath -ErrorAction SilentlyContinue)) {
+            $pathSnap = Join-Path $env:CLAUSE_TEMP_DIR ("scoop-path-" + [guid]::NewGuid().ToString("N") + ".json")
+            Save-ScoopPortableUserPath -SnapshotFile $pathSnap
         }
 
-        \$forwardArgs = if (\$args.Count -gt 0 -and \$args[0] -eq '--') { \$args[1..(\$args.Count - 1)] } else { \$args }
+        $forwardArgs = if ($args.Count -gt 0 -and $args[0] -eq "--") { $args[1..($args.Count - 1)] } else { $args }
         try {
-            & \$ScoopMain @forwardArgs
-            \$rc = \$LASTEXITCODE
+            & $ScoopMain @forwardArgs
+            $rc = $LASTEXITCODE
         } finally {
-            if (\$pathSnap -and (Test-Path -LiteralPath \$pathSnap)) {
-                Restore-ScoopPortableUserPath -SnapshotFile \$pathSnap | Out-Null
-                Remove-Item -LiteralPath \$pathSnap -Force -ErrorAction SilentlyContinue
+            if ($pathSnap -and (Test-Path -LiteralPath $pathSnap)) {
+                Restore-ScoopPortableUserPath -SnapshotFile $pathSnap | Out-Null
+                Remove-Item -LiteralPath $pathSnap -Force -ErrorAction SilentlyContinue
             }
         }
-        exit \$rc
-    "
+        exit $rc
+    '
+
+    let runner = ($template
+        | str replace "__SCOOP_DIR__" $scoop_dir
+        | str replace "__SCOOP_MAIN__" $scoop_main
+        | str replace "__ENV_HELPER__" $env_helper
+        | str replace "__CMD__" $cmd
+    )
 
     ^$pwsh -NoProfile -ExecutionPolicy Bypass -Command $runner -- ...$clean_args
 
