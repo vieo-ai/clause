@@ -23,6 +23,7 @@ Desktop.ini
 .lesshst
 bootstrap.txt
 .env
+.mise.local.toml
 
 # User-specific files
 .archive/
