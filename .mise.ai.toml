@@ -8,6 +8,7 @@ fastflowlm = "https://github.com/vieo-ai/mise-fastflowlm.git"
 code = "https://github.com/vieo-ai/mise-vscode.git"
 unsloth = "https://github.com/vieo-ai/mise-unsloth.git"
 comfyui = "https://github.com/vieo-ai/mise-comfyui.git"
+inferssd = "https://github.com/vieo-ai/mise-inferssd.git"
 
 [bootstrap.packages]
 # Linux Host C/C++ Build Dependencies (BEAM Compilation Prereqs)
@@ -52,6 +53,7 @@ lemonade = "2026.44.1"
 fastflowlm = "1.0.9"
 unsloth = "2026.10.9"
 comfyui = "v0.43.0"
+inferssd = "v0.1.4"
 
 # --- DEVELOPMENT ENVIRONMENT & UTILITIES ---
 code = "1.144.1"
