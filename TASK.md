@@ -71,13 +71,13 @@ This ledger documents the chronological evolution of the system based on git com
 * **`49f55c6a` – `26262b4e`**: Expanded `README.md` with BEAM distributed backplane, Gleam orchestration, Seax, and RinG interoperability; registered HashiStack (`nomad`, `consul`, `vault`, `boundary`, `pulumi`, `packer`) and BEAM/Gleam (`erlang`, `elixir`, `gleam`, `rebar`) runtimes across layered `MISE_ENV` overlays.
 * **`0f74e6ec` – `dafcd966` & `d41253bb`**: Consolidated Stage 0 microkernel bootloader logic directly into `cx.ps1` and `cx.sh` (removing standalone `boot.ps1` and `justfile`).
 * **`8734d9f5` – `eb6c74f2`**: Implemented ClauseOS Git Subtree Plugin Synchronizer (`cx plugin add|pull|push`) in `scripts/cli/nu/commands/plugin.nu` with `git ls-remote` upstream commit resolution.
-* **`06f59fe5` – `0fd9557e`**: Mounted first-party cross-platform Lua Mise plugins as git subtrees under `plugins/` (`mise-lemonade`, `mise-fastflowlm`, `mise-vscode`/`code`, `mise-unsloth`, and `mise-comfyui`), followed by multi-platform CI stabilization (`0dc2eecf` – `aebb7936`, including Rebar3 Windows `.cmd` launcher generation).
+* **`06f59fe5` – `0fd9557e`**: Mounted first-party cross-platform Lua runtime plugins as git subtrees under `plugins/` (initially `mise-*`, standardized to `plugins/cx-*`: `cx-lemonade`, `cx-fastflowlm`, `cx-vscode`/`code`, `cx-unsloth`, and `cx-comfyui`), followed by multi-platform CI stabilization (`0dc2eecf` – `aebb7936`, including Rebar3 Windows `.cmd` launcher generation).
 * **`803b5b43` – `a0994de6` & `900356ce`**: Retired standalone `env.ps1`/`env.sh` scripts and introduced declarative `config/env/*.toml` modules (`00-core.toml`, `10-identity.toml`, `20-toolchains.toml`, `30-shell.toml`, `40-ml-hub.toml`) parsed via 8-pass iterative `${VAR}` symbol expansion in `cx.ps1` and `cx.sh`.
 * **`277cb20d` – `dbd1af44`**: Added `wsl = "3.0.5"` to `.clause.toml` and implemented `scripts/cli/pwsh/installers/installer_wsl.ps1` with GitHub release verification and elevation gates.
 * **`80a53d59` – `d82553e3`**: Introduced layered `MISE_ENV` overlays (`.mise.paths.toml`, `.mise.ai.toml`, `.mise.cloud.toml`, `.mise.local.toml`) with default `MISE_ENV="paths,ai,cloud"`.
 * **`d553c444` – `9db925e0`**: Implemented hermetically confined Scoop (`installer_scoop.ps1` with in-place core patches to `lib/core.ps1`, `lib/shortcuts.ps1`, `lib/system.ps1`, `libexec/scoop-import.ps1`, and `environment.ps1` registry PATH snapshot guards), Homebrew (`installer_brew.sh`), and the Unified Polyglot Package Control Plane (`cx pkg`, `cx pkg:add`, `cx pkg:mise`, `cx pkg:scoop`, `cx pkg:brew`) with `toml_pin.nu` auto-pinning.
 * **`fdfcdacc` – `134373e0`**: Enforced Stage 0 preflight redlines against unmanaged host `mise`/`scoop`/`brew` installations, CI runner path scrubbing, and `CLAUSE_STATUS="online"` nested session boundary validation.
-* **`fe7fabc5` – `2a8cc8b5`**: Mounted `plugins/mise-inferssd` subtree (`vieo-ai/mise-inferssd`), achieved green multi-platform CI builds (`Windows`, `Linux`, `macOS`), and pinned `inferssd = "v0.1.4"` in `.mise.ai.toml`.
+* **`fe7fabc5` – `2a8cc8b5`**: Mounted `plugins/cx-inferssd` subtree (`vieo-ai/cx-inferssd`, originally `mise-inferssd`), achieved green multi-platform CI builds (`Windows`, `Linux`, `macOS`), and pinned `inferssd = "v0.1.4"` in `.mise.ai.toml`.
 
 ---
 
@@ -120,7 +120,7 @@ This ledger documents the chronological evolution of the system based on git com
 - [x] **Model Hub Environment Unification (`40-ml-hub.toml`)**:
   - Exported canonical `HF_HOME = "${CLAUSE_CACHE_DIR}/huggingface"`, `HF_HUB_CACHE = "${HF_HOME}/hub"`, and `HF_ASSETS_CACHE = "${HF_HOME}/assets"` across platforms via `config/env/40-ml-hub.toml` (`4e34401e`, `3726286e`).
 - [ ] **ComfyUI Path Bridge & Headless Sanity Testing**:
-  - Update `plugins/mise-comfyui/hooks/post_install.lua` to generate `extra_model_paths.yaml` bound to `$env:HF_HUB_CACHE` (`$env:HF_HOME/hub`).
+  - Update `plugins/cx-comfyui/hooks/post_install.lua` to generate `extra_model_paths.yaml` bound to `$env:HF_HUB_CACHE` (`$env:HF_HOME/hub`).
   - Implement `tests/system/test_inference.nu` to validate device resolution without invoking interactive shells.
 - [x] **Hermetic Git & SSH Environment Lock**:
   - Configured Stage 0 confinement of `GIT_CONFIG_GLOBAL` (`${CLAUSE_HOME}/.gitconfig`), `GH_CONFIG_DIR`, and `GIT_SSH_COMMAND` (`ssh -F '${CLAUSE_SSH_CONFIG}'`) in `config/env/10-identity.toml`, `cx.ps1`, and `cx.sh`.
@@ -192,7 +192,7 @@ This ledger documents the chronological evolution of the system based on git com
 - [ ] **Skill Toolset Core (`.enterprise/skills/`)**:
   - Implement execution runner for modular skills (`git-ops`, `code-analysis`, `test-runner`, `adr-writer`).
 - [ ] **Portable VS Code Control Plane**:
-  - Confine user data and extension paths within the `mise-vscode` (`code`) hermetic installation directory.
+  - Confine user data and extension paths within the `cx-vscode` (`code`) hermetic installation directory.
   - Wire workspace extensions and telemetry settings to the local coprocessor and Nomad cluster.
 
 ### Phase 15: Release Promotion & Commercial Fork
@@ -205,4 +205,4 @@ This ledger documents the chronological evolution of the system based on git com
 
 ## Immediate Implementation Step
 
-With the project ledger validated against `git-log_2.txt` and `clause-code.pdf` through `v0.8.0-dev.10` and bumped to `v0.9.0-dev.1`, the immediate next action is completing the remaining **Phase 10** deliverables: authoring the `$env:CLAUSE_HOME`-confined HCL configurations (`ops/config/nomad.hcl`, `ops/config/consul.hcl`, `ops/config/vault.hcl`), wiring ComfyUI's `extra_model_paths.yaml` bridge inside `plugins/mise-comfyui`, and authoring `scripts/cli/nu/commands/identity.nu`.
+With the project ledger validated against `git-log_2.txt` and `clause-code.pdf` through `v0.8.0-dev.10` and bumped to `v0.9.0-dev.1`, the immediate next action is completing the remaining **Phase 10** deliverables: authoring the `$env:CLAUSE_HOME`-confined HCL configurations (`ops/config/nomad.hcl`, `ops/config/consul.hcl`, `ops/config/vault.hcl`), wiring ComfyUI's `extra_model_paths.yaml` bridge inside `plugins/cx-comfyui`, and authoring `scripts/cli/nu/commands/identity.nu`.
