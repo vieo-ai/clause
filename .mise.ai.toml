@@ -3,12 +3,12 @@
 # ==============================================================================
 
 [plugins]
-lemonade = "https://github.com/vieo-ai/mise-lemonade.git"
-fastflowlm = "https://github.com/vieo-ai/mise-fastflowlm.git"
-code = "https://github.com/vieo-ai/mise-vscode.git"
-unsloth = "https://github.com/vieo-ai/mise-unsloth.git"
-comfyui = "https://github.com/vieo-ai/mise-comfyui.git"
-inferssd = "https://github.com/vieo-ai/mise-inferssd.git"
+lemonade = "https://github.com/vieo-ai/cx-lemonade.git"
+fastflowlm = "https://github.com/vieo-ai/cx-fastflowlm.git"
+code = "https://github.com/vieo-ai/cx-vscode.git"
+unsloth = "https://github.com/vieo-ai/cx-unsloth.git"
+comfyui = "https://github.com/vieo-ai/cx-comfyui.git"
+inferssd = "https://github.com/vieo-ai/cx-inferssd.git"
 
 [bootstrap.packages]
 # Linux Host C/C++ Build Dependencies (BEAM Compilation Prereqs)
