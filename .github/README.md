@@ -37,7 +37,7 @@
 > ### 🚧 Active Development & Architectural Stabilization
 > **ClauseOS is currently in rapid, heavy active development (`v0.9.0-dev.1`).**
 > 
-> * The foundational hermetic substrate, modular `config/env/*.toml` environment engine, layered `MISE_ENV` overlays, `cx pkg:*` polyglot package control plane, dynamic GPU auto-detection, and all six first-party `plugins/mise-*` AI/dev toolchains (`v0.8.0-dev.10`) are fully operational and passing 100% green CI/CD across Windows, Linux, and macOS.
+> * The foundational hermetic substrate, modular `config/env/*.toml` environment engine, layered `MISE_ENV` overlays, `cx pkg:*` polyglot package control plane, dynamic GPU auto-detection, and all six first-party `plugins/cx-*` AI/dev toolchains (`v0.8.0-dev.10`) are fully operational and passing 100% green CI/CD across Windows, Linux, and macOS.
 > * Advanced higher-order subsystems—including complete HashiStack daemon topologies (`nomad`, `consul`, `vault`, `packer`, `boundary`), the BEAM/Gleam distributed orchestrator, Pixiecore bare-metal provisioning (MaaS), the `cx vm` hypervisor bridge, Seax (`.cx`) compiler toolchains, and the `.enterprise/` multi-agent organization schemas—are actively being stabilized and wired into the command plane.
 > * Certain declared commands, modules, and configurations may evolve or undergo refactoring between milestone snapshots. Please refer to [TASK.md](TASK.md) and the [ADRs](docs/adr/) for active tracking.
 
@@ -62,7 +62,7 @@ Unlike virtual machines or Docker containers, ClauseOS introduces **zero hypervi
 
 ### 2. ⚙️ Three-Tier Orchestration Model (`Stage 0 Bootstrap` + `Mise Overlays` + `Confined OS Adapters`)
 - **Stage 0 & 1 (Microkernel Bootstrap — `.clause.toml` & `config/env/*.toml`):** `cx.ps1` and `cx.sh` enforce host hygiene preflight redlines, compile modular SSOT environment definitions (`00-core.toml` through `40-ml-hub.toml`), and pre-seed core primitives (`nu`, `mise`, in-place patched `scoop`, isolated `brew`, and `wsl`) directly into `.home/`.
-- **Stage 2 (Layered Mise Overlays & Custom Lua Plugins — `.mise*.toml` & `plugins/mise-*`):** Managed via `mise` across `MISE_ENV="paths,ai,cloud"`, provisioning core runtimes (`uv`, `pulumi`, `packer`), HashiStack orchestrators (`nomad`, `consul`, `vault`, `boundary`), BEAM/Gleam toolchains (`erlang`, `elixir`, `gleam`, `rebar`), and first-party hardware-aware AI plugins (`lemonade`, `fastflowlm`, `inferssd`, `unsloth`, `comfyui`, `code`).
+- **Stage 2 (Layered Mise Overlays & Custom ClauseOS Plugins — `.mise*.toml` & `plugins/cx-*`):** Managed via `mise` across `MISE_ENV="paths,ai,cloud"`, provisioning core runtimes (`uv`, `pulumi`, `packer`), HashiStack orchestrators (`nomad`, `consul`, `vault`, `boundary`), BEAM/Gleam toolchains (`erlang`, `elixir`, `gleam`, `rebar`), and first-party hardware-aware AI plugins (`lemonade`, `fastflowlm`, `inferssd`, `unsloth`, `comfyui`, `code`).
 - **Stage 3 (Unified Polyglot Package Control Plane — `cx pkg:*`):** Dispatches `cx pkg:add`, `cx pkg:mise`, `cx pkg:scoop` (in-place patched to block `HKCU:\Environment` writes and Start Menu `.lnk` creation), and `cx pkg:brew`, automatically pinning resolved versions back into `.mise*.toml` via `toml_pin.nu`.
 
 ### 3. 🧠 Unified Ecosystem Model Storage (`HF_HOME`)
@@ -111,10 +111,10 @@ ClauseOS maps userland binaries and services directly into functional OS system 
 | **Package Adapters** | `cx pkg:*` (`Scoop` / `Brew`) | `.home/.../cache/toolchain/` | In-place patched Scoop & confined Homebrew with `toml_pin.nu` auto-pinning |
 | **Private Python Driver** | `uv` (Astral) | `.home/.../bin/uv` | Hermetic virtual environment & wheel resolution engine |
 | **Micro-Hypervisor** | `cx vm` (WSL2 / Lima) | `.home/.../vms/` | Disposable Linux micro-instances for k3s & Linux-only daemons |
-| **AI Fine-Tuning Engine**| Unsloth (`mise-unsloth`) | `.home/.../mise/installs/unsloth/` | Hardware-accelerated LLM parameter-efficient training & SLM distillation |
-| **Neural Studio** | ComfyUI (`mise-comfyui`) | `.home/.../mise/installs/comfyui/` | Node-based diffusion model inference & visual studio |
+| **AI Fine-Tuning Engine**| Unsloth (`cx-unsloth`) | `.home/.../mise/installs/unsloth/` | Hardware-accelerated LLM parameter-efficient training & SLM distillation |
+| **Neural Studio** | ComfyUI (`cx-comfyui`) | `.home/.../mise/installs/comfyui/` | Node-based diffusion model inference & visual studio |
 | **Neural Coprocessors** | Lemonade / FastFlowLM / InferSSD | `.home/.../mise/installs/{lemonade,fastflowlm,inferssd}/` | Embedded local LLM inference daemons & background agents |
-| **Window Manager / UI** | Portable VS Code (`mise-vscode`) | `.home/.../mise/installs/code/` | Primary graphical cockpit & agent host harness |
+| **Window Manager / UI** | Portable VS Code (`cx-vscode`) | `.home/.../mise/installs/code/` | Primary graphical cockpit & agent host harness |
 | **Distributed Backplane**| Erlang (BEAM) / Gleam | `.home/.../mise/installs/erlang` | Fault-tolerant distributed actor subsystem & orchestrator core |
 | **Transmedia Language** | Seax (`seaxc`) / Air / Jet | `.home/.../bin/{seaxc,air,jet}` | Multi-target carrier language compiler (`Seax`), BEAM actor runtime (`Air`) & infra engine (`Jet`) |
 | **Native Bridge** | RinG (Rust-in-Gleam) | `.home/.../bin/ring` | Type-safe code generator & dirty-scheduler FFI bridge |
@@ -170,13 +170,13 @@ CLAUSE_PROJECT_ROOT/
 ├── packages/                             # Custom internal packages & language extensions
 │   ├── carrier_jet/                      # BEAM/Gleam distributed execution & Air/Jet runtime
 │   └── clause_cli/                       # Native Gleam CLI control plane
-├── plugins/                              # First-party cross-platform Lua Mise plugins (git subtrees)
-│   ├── mise-comfyui/                     # Hardware-aware ComfyUI provisioning & isolation
-│   ├── mise-fastflowlm/                  # FastFlowLM local NPU/GPU inference engine
-│   ├── mise-inferssd/                    # InferSSD high-throughput local inference runtime
-│   ├── mise-lemonade/                    # Lemonade OpenAI-compatible local LLM server
-│   ├── mise-unsloth/                     # Hardware-aware Unsloth fine-tuning environment
-│   └── mise-vscode/                      # Portable VS Code ("code") agent host deployment
+├── plugins/                              # First-party cross-platform Lua runtime plugins (git subtrees)
+│   ├── cx-comfyui/                       # Hardware-aware ComfyUI provisioning & isolation
+│   ├── cx-fastflowlm/                    # FastFlowLM local NPU/GPU inference engine
+│   ├── cx-inferssd/                      # InferSSD high-throughput local inference runtime
+│   ├── cx-lemonade/                      # Lemonade OpenAI-compatible local LLM server
+│   ├── cx-unsloth/                       # Hardware-aware Unsloth fine-tuning environment
+│   └── cx-vscode/                        # Portable VS Code ("code") agent host deployment
 ├── projects/                             # User projects & workspace repositories
 ├── references/                           # Upstream reference architecture subtrees
 ├── scripts/                              # Canonical automation scripts
@@ -374,8 +374,8 @@ cx pkg:add mise:ripgrep
 cx pkg:scoop install jq
 cx pkg:brew install htop
 
-# Synchronize first-party Lua Mise plugins via git subtrees
-cx plugin pull inferssd https://github.com/vieo-ai/mise-inferssd.git
+# Synchronize first-party Lua runtime plugins via git subtrees
+cx plugin pull inferssd https://github.com/vieo-ai/cx-inferssd.git
 ```
 
 ### 4. Launch Orchestration & AI Workloads
