@@ -1,8 +1,0 @@
-[user]
-	name = user-name
-	email = user-email
-[credential]
-	useHttpPath = true
-[core]
-	longpaths = true
-	symlinks = true
