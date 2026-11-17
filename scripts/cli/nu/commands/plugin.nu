@@ -2,7 +2,7 @@
 # ClauseOS Canonical Git Subtree Plugin Manager
 
 def get-prefix [name: string] {
-    $"plugins/mise-($name)"
+    $"plugins/cx-($name)"
 }
 
 def resolve-repo-root [] {
