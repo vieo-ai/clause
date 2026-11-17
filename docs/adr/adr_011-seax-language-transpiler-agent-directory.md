@@ -1,7 +1,7 @@
 # ADR 011: Seax Programming Language, Multi-Target Transpiler, and Directory-Based Agent Architecture
 
 ## Status
-Accepted
+Accepted (Amended 2026-11-15)
 
 ## Context
 Authoring complex transmedia pipelines (audio, video, SMPTE, MIDI, NDI, Dante), autonomous multi-agent hierarchies, and distributed infrastructure in disconnected DSLs, prompt templates, and shell scripts causes brittle glue code and high cognitive overhead.
@@ -36,3 +36,12 @@ Create **Seax** (extension `.cx`), a carrier-class programming language engineer
 * **Positive**: Packaging agents as self-contained directories eliminates configuration sprawl and makes agent departments portable and versionable.
 * **Positive**: Static type safety and compile-time validation for distributed agent messaging and hardware buses.
 * **Negative**: Requires building and maintaining a custom Rust compiler frontend (lexer, Pratt parser, semantic analyzer) and multi-backend code generators.
+
+---
+
+## Architectural Refinement & Addendum (2026-11-15)
+
+To maintain strict separation of concerns between agent actor execution and cluster infrastructure provisioning, the runtime target layer beneath **Seax (`.cx`)** is partitioned into two dedicated engines:
+1. **Seax (`.cx`) — High-Level Transmedia & Systems DSL**: The Dart-like source language (`compiler/seaxc/`) defining agent topologies, media pipelines, and typed capabilities.
+2. **Air (`cx air run`) — BEAM Actor & Agent Execution Runtime**: Built on the Gleam/BEAM actor fabric (`packages/carrier_jet/`), responsible for supervising directory-scoped agents, mailboxes, MCP tool routing, and fault-tolerant OTP supervision trees.
+3. **Jet (`cx jet up`) — Infrastructure & Cluster Provisioning Engine**: Responsible for declarative environment hydration, Nomad/Consul/Vault scheduling, and multi-node topology deployment.
