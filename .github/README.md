@@ -35,9 +35,9 @@
 ---
 
 > ### 🚧 Active Development & Architectural Stabilization
-> **ClauseOS is currently in rapid, heavy active development (`v0.1.5-dev`).**
+> **ClauseOS is currently in rapid, heavy active development (`v0.9.0-dev.1`).**
 > 
-> * The foundational hermetic substrate, two-tier runtime, dynamic GPU auto-detection, and base toolchains are fully operational and passing 100% green CI/CD across Windows, Linux, and macOS.
+> * The foundational hermetic substrate, modular `config/env/*.toml` environment engine, layered `MISE_ENV` overlays, `cx pkg:*` polyglot package control plane, dynamic GPU auto-detection, and all six first-party `plugins/mise-*` AI/dev toolchains (`v0.8.0-dev.10`) are fully operational and passing 100% green CI/CD across Windows, Linux, and macOS.
 > * Advanced higher-order subsystems—including complete HashiStack daemon topologies (`nomad`, `consul`, `vault`, `packer`, `boundary`), the BEAM/Gleam distributed orchestrator, Pixiecore bare-metal provisioning (MaaS), the `cx vm` hypervisor bridge, Seax (`.cx`) compiler toolchains, and the `.enterprise/` multi-agent organization schemas—are actively being stabilized and wired into the command plane.
 > * Certain declared commands, modules, and configurations may evolve or undergo refactoring between milestone snapshots. Please refer to [TASK.md](TASK.md) and the [ADRs](docs/adr/) for active tracking.
 
@@ -60,13 +60,14 @@ Unlike virtual machines or Docker containers, ClauseOS introduces **zero hypervi
 - **Zero Global Pollution:** Deleting `.home/` completely resets the environment to a pristine state without leaving residual files, PATH edits, or registry entries on the host machine.
 - **Automated Hermeticity Assertions:** Continuous CI/CD testing (`tests/system/test_hermeticity.nu`) guarantees zero host path leakage or shell delimiter bleeding.
 
-### 2. ⚙️ Two-Tier Orchestration Model (`mise` + `renv`)
-- **Stage 1 & 2 (Base Tools & Cluster Engines):** Managed via `mise` (`.mise.toml`), provisioning core developer runtimes (`uv`, `just`, `git`, `nu`, `pulumi`) alongside HashiStack orchestrators (`nomad`, `consul`, `vault`, `packer`, `boundary`) and BEAM runtimes (`erlang`, `gleam`, `rebar3`).
-- **Stage 3 (`renv` Application Layer):** Custom, isolated runtime environments provisioned on-demand via standalone `uv` into dedicated virtual environments (`apps/<name>/venv`), each with an independent CPython installation and zero cross-package contamination.
+### 2. ⚙️ Three-Tier Orchestration Model (`Stage 0 Bootstrap` + `Mise Overlays` + `Confined OS Adapters`)
+- **Stage 0 & 1 (Microkernel Bootstrap — `.clause.toml` & `config/env/*.toml`):** `cx.ps1` and `cx.sh` enforce host hygiene preflight redlines, compile modular SSOT environment definitions (`00-core.toml` through `40-ml-hub.toml`), and pre-seed core primitives (`nu`, `mise`, in-place patched `scoop`, isolated `brew`, and `wsl`) directly into `.home/`.
+- **Stage 2 (Layered Mise Overlays & Custom Lua Plugins — `.mise*.toml` & `plugins/mise-*`):** Managed via `mise` across `MISE_ENV="paths,ai,cloud"`, provisioning core runtimes (`uv`, `pulumi`, `packer`), HashiStack orchestrators (`nomad`, `consul`, `vault`, `boundary`), BEAM/Gleam toolchains (`erlang`, `elixir`, `gleam`, `rebar`), and first-party hardware-aware AI plugins (`lemonade`, `fastflowlm`, `inferssd`, `unsloth`, `comfyui`, `code`).
+- **Stage 3 (Unified Polyglot Package Control Plane — `cx pkg:*`):** Dispatches `cx pkg:add`, `cx pkg:mise`, `cx pkg:scoop` (in-place patched to block `HKCU:\Environment` writes and Start Menu `.lnk` creation), and `cx pkg:brew`, automatically pinning resolved versions back into `.mise*.toml` via `toml_pin.nu`.
 
 ### 3. 🧠 Unified Ecosystem Model Storage (`HF_HOME`)
-- Consolidates all AI checkpoints, LoRAs, UNet backbones, and GGUF quantizations into a single shared root (`.home/.local/share/models`).
-- Automatically maps ComfyUI via `extra_model_paths.yaml` directly to the shared Hugging Face cache, eliminating redundant multi-gigabyte weight downloads between Unsloth, ComfyUI, Lemonade, and FastFlowLM.
+- Consolidates all AI checkpoints, LoRAs, UNet backbones, and GGUF quantizations into a single shared root (`${CLAUSE_CACHE_DIR}/huggingface` via `config/env/40-ml-hub.toml`).
+- Eliminates redundant multi-gigabyte weight downloads across Unsloth, ComfyUI, Lemonade, FastFlowLM, and InferSSD.
 
 ### 4. 📦 Cross-Platform Micro-Virtualization (`cx vm`)
 - Unified, disposable micro-instance engine running Linux-exclusive workloads (e.g., bare-metal Kubernetes/k3s, systemd daemons, eBPF probes) without privileged host daemons.
@@ -104,20 +105,20 @@ ClauseOS maps userland binaries and services directly into functional OS system 
 
 | OS Primitive | ClauseOS Component | Hermetic Target Location | System Function |
 | :--- | :--- | :--- | :--- |
-| **Microkernel / Exec** | `boot.ps1` / `cx.*` | `CLAUSE_PROJECT_ROOT/scripts/core/boot.ps1` | Stage 0 bootloader & sandbox barrier enforcement |
-| **Shell & Init (PID 1)** | Nushell (`nu`) | `.home/AppData/Local/Programs/bin/nu` or `.home/.local/bin/nu` | Interactive command processor & process supervisor |
-| **Driver & HAL** | Mise | `.home/.../bin/mise` | Unified toolchain driver & dynamic runtime manager |
-| **Task Scheduler** | Just | `.home/.../bin/just` | Task runner for system workflows & operational recipes |
+| **Microkernel / Exec** | `cx.bat` / `cx.ps1` / `cx.sh` | `CLAUSE_PROJECT_ROOT/cx.*` | Stage 0 bootloader, `config/env/*.toml` compiler & sandbox barrier enforcement |
+| **Shell & Init (PID 1)** | Nushell (`nu`) | `.home/AppData/Local/Programs/bin/nu` or `.home/.local/bin/nu` | Interactive command processor, polyglot CLI router & process supervisor |
+| **Driver & HAL** | Mise | `.home/.../bin/mise` | Unified toolchain driver, `MISE_ENV` overlay engine & dynamic runtime manager |
+| **Package Adapters** | `cx pkg:*` (`Scoop` / `Brew`) | `.home/.../cache/toolchain/` | In-place patched Scoop & confined Homebrew with `toml_pin.nu` auto-pinning |
 | **Private Python Driver** | `uv` (Astral) | `.home/.../bin/uv` | Hermetic virtual environment & wheel resolution engine |
 | **Micro-Hypervisor** | `cx vm` (WSL2 / Lima) | `.home/.../vms/` | Disposable Linux micro-instances for k3s & Linux-only daemons |
-| **AI Fine-Tuning Engine**| Unsloth | `.home/.../apps/unsloth/` | Hardware-accelerated LLM parameter-efficient training & SLM distillation |
-| **Neural Studio** | ComfyUI | `.home/.../apps/comfyui/` | Node-based diffusion model inference & visual studio |
-| **Neural Coprocessors** | Lemonade / FastFlowLM | `.home/.../apps/lemonade/` | Embedded local LLM inference daemons & background agents |
-| **Window Manager / UI** | Portable VS Code | `.home/.../apps/vscode/` | Primary graphical cockpit & agent host harness |
+| **AI Fine-Tuning Engine**| Unsloth (`mise-unsloth`) | `.home/.../mise/installs/unsloth/` | Hardware-accelerated LLM parameter-efficient training & SLM distillation |
+| **Neural Studio** | ComfyUI (`mise-comfyui`) | `.home/.../mise/installs/comfyui/` | Node-based diffusion model inference & visual studio |
+| **Neural Coprocessors** | Lemonade / FastFlowLM / InferSSD | `.home/.../mise/installs/{lemonade,fastflowlm,inferssd}/` | Embedded local LLM inference daemons & background agents |
+| **Window Manager / UI** | Portable VS Code (`mise-vscode`) | `.home/.../mise/installs/code/` | Primary graphical cockpit & agent host harness |
 | **Distributed Backplane**| Erlang (BEAM) / Gleam | `.home/.../mise/installs/erlang` | Fault-tolerant distributed actor subsystem & orchestrator core |
-| **Transmedia Language** | Seax (`seaxc`) | `.home/.../bin/seaxc` | Multi-target carrier language compiler (BEAM, C++, Wasm) |
+| **Transmedia Language** | Seax (`seaxc`) / Air / Jet | `.home/.../bin/{seaxc,air,jet}` | Multi-target carrier language compiler (`Seax`), BEAM actor runtime (`Air`) & infra engine (`Jet`) |
 | **Native Bridge** | RinG (Rust-in-Gleam) | `.home/.../bin/ring` | Type-safe code generator & dirty-scheduler FFI bridge |
-| **Infra Kernel** | Pulumi CLI | `.home/.../apps/pulumi/` | Multi-cloud resource orchestration & programmatic Automation API |
+| **Infra Kernel** | Pulumi CLI | `.home/.../mise/installs/pulumi/` | Multi-cloud resource orchestration & programmatic Automation API |
 | **Workload Scheduler** | HashiCorp Nomad | `.home/.../bin/nomad` | Distributed job & container orchestrator (`raw_exec`) |
 | **Service Registry** | HashiCorp Consul | `.home/.../bin/consul` | Service discovery, mesh DNS, & Raft consensus |
 | **Secrets Engine** | HashiCorp Vault | `.home/.../bin/vault` | Cryptographic key storage, leased tokens, & identity management |
@@ -142,24 +143,23 @@ CLAUSE_PROJECT_ROOT/
 ├── .home/                                # Hermetic Root ($HOME & $USERPROFILE)
 │   ├── AppData/Local/Programs/           # [Windows] Binaries, apps, and logs
 │   │   ├── bin/                          # Unified Stage 0/1 binaries & Mise shims
-│   │   ├── apps/                         # Standalone 'renv' deployments (unsloth, comfyui, vscode)
+│   │   ├── apps/                         # Isolated application deployments
 │   │   ├── vms/                          # Confined WSL2 Virtual Hard Disks (ext4.vhdx)
 │   │   └── logs/                         # Bootstrap & system execution logs
 │   ├── .local/                           # [POSIX] Linux / macOS Application & Binary Root
 │   │   ├── bin/                          # Unified binaries & shims
-│   │   ├── apps/                         # Standalone 'renv' applications
+│   │   ├── apps/                         # Isolated application deployments
 │   │   ├── share/                        # Persistent application data (Mise, Nomad, Consul, Vault)
-│   │   │   ├── models/                   # Unified Model Hub ($HF_HOME)
-│   │   │   │   ├── hub/                  # Shared Hugging Face weights, LoRAs, and checkpoints
-│   │   │   │   └── torch/                # Torch hub cache
 │   │   │   └── vms/                      # Confined Lima micro-instances ($LIMA_HOME)
 │   │   └── logs/                         # Bootstrap & execution logs
 │   ├── .config/                          # [POSIX] XDG Config Home (Mise config, etc.)
-│   ├── .cache/                           # Cache root (uv cache, vms/images rootfs cache)
+│   ├── .cache/                           # Cache root (Mise, uv, Scoop/Brew toolchain, Hugging Face hub)
 │   ├── .ssh/                             # Confined SSH client configuration (config, known_hosts)
 │   └── .gitconfig                        # Isolated Git user identity file
 ├── compiler/                             # Seax Transpiler Core (Rust)
 │   └── seaxc/                            # Lexer, Pratt parser, IR, and target code generators
+├── config/                               # Single Source of Truth (SSOT) Environment Modules
+│   └── env/                              # Modular TOML manifests parsed at Stage 0 boot (00-core..40-ml-hub)
 ├── docs/                                 # Documentation & architecture records
 │   └── adr/                              # Architecture Decision Records (ADRs)
 ├── ops/                                  # Infrastructure as Code & Orchestration
@@ -168,15 +168,23 @@ CLAUSE_PROJECT_ROOT/
 │   ├── packer/                           # Packer templates for in-memory golden rootfs images
 │   └── stacks/                           # Pulumi Cloud Infrastructure definitions
 ├── packages/                             # Custom internal packages & language extensions
+│   ├── carrier_jet/                      # BEAM/Gleam distributed execution & Air/Jet runtime
+│   └── clause_cli/                       # Native Gleam CLI control plane
+├── plugins/                              # First-party cross-platform Lua Mise plugins (git subtrees)
+│   ├── mise-comfyui/                     # Hardware-aware ComfyUI provisioning & isolation
+│   ├── mise-fastflowlm/                  # FastFlowLM local NPU/GPU inference engine
+│   ├── mise-inferssd/                    # InferSSD high-throughput local inference runtime
+│   ├── mise-lemonade/                    # Lemonade OpenAI-compatible local LLM server
+│   ├── mise-unsloth/                     # Hardware-aware Unsloth fine-tuning environment
+│   └── mise-vscode/                      # Portable VS Code ("code") agent host deployment
 ├── projects/                             # User projects & workspace repositories
+├── references/                           # Upstream reference architecture subtrees
 ├── scripts/                              # Canonical automation scripts
 │   ├── cli/                              # Userland CLI utilities & interactive environments
-│   │   ├── nu/                           # Nushell modules (vm.nu, coprocessor.nu, config.nu, identity.nu)
+│   │   ├── nu/                           # Nushell control plane (core/*, config/*, commands/*)
+│   │   ├── posix/                        # POSIX Stage 1 bootstrap installers (installers/*.sh)
 │   │   └── pwsh/                         # PowerShell tooling
-│   │       ├── installers/               # Stage 1 pre-Mise bootstrap installers
-│   │       └── renv/                     # Stage 3 post-Mise runtime environment recipes
-│   └── core/                             # Microkernel bootloader primitives
-│       └── boot.ps1                      # Microkernel boot engine
+│   │       └── installers/               # Stage 1 pre-Mise bootstrap installers
 ├── services/                             # Core distributed system daemons
 │   └── orchestrator/                     # Gleam/OTP cluster orchestrator application
 ├── tests/                                # Test harness suites
@@ -185,10 +193,12 @@ CLAUSE_PROJECT_ROOT/
 │   └── ring/                             # RinG (Rust-in-Gleam) schema & code generator
 ├── .clause.toml                          # Central OS manifest & application toggle declarations
 ├── .mise.toml                            # Toolchain dependency & version manifest
-├── justfile                              # Operational task commands
+├── .mise.paths.toml                      # Hermetic PATH & shim overlay (MISE_ENV="paths")
+├── .mise.ai.toml                         # AI coprocessors, Unsloth, ComfyUI & BEAM/Gleam overlay (MISE_ENV="ai")
+├── .mise.cloud.toml                      # HashiStack, Pulumi, Packer & VM overlay (MISE_ENV="cloud")
 ├── cx.bat                                # Windows Entrypoint Trampoline
-├── cx.ps1                                # PowerShell Entrypoint Trampoline
-└── cx.sh                                 # POSIX (Linux/macOS) Entrypoint Trampoline
+├── cx.ps1                                # PowerShell Stage 0 Microkernel Bootloader
+└── cx.sh                                 # POSIX (Linux/macOS) Stage 0 Microkernel Bootloader
 ```
 
 ---
@@ -198,16 +208,16 @@ CLAUSE_PROJECT_ROOT/
 All AI workloads share a single, zero-duplication model cache rooted in `$HF_HOME`:
 
 ```text
-.home/.local/share/models/
+.home/.cache/huggingface/                 # [POSIX] (.home/AppData/Local/cache/huggingface/ on Windows)
 ├── hub/
 │   ├── models--unsloth--Qwen2.5-Coder-7B-Instruct/   ◄── Shared by Unsloth & Coprocessor
 │   ├── models--black-forest-labs--FLUX.1-schnell/    ◄── Read by ComfyUI via extra_model_paths.yaml
-│   └── models--bartowski--Llama-3.2-3B-GGUF/         ◄── FastFlowLM / Lemonade Agent Daemon
-└── torch/                                             ◄── Torchvision & Torch Hub weights
+│   └── models--bartowski--Llama-3.2-3B-GGUF/         ◄── FastFlowLM / Lemonade / InferSSD Daemon
+└── assets/                                            ◄── Hugging Face Hub assets cache ($HF_ASSETS_CACHE)
 ```
 
 - **Zero Duplication:** Unsloth fine-tunes weights directly against the same Hugging Face cache that ComfyUI queries for image generation and the agent daemons read for inference.
-- **Hermetic Portability:** Backing up or moving `.home/.local/share/models` preserves the complete weights library without touching host OS directories.
+- **Hermetic Portability:** Backing up or moving `$HF_HOME` preserves the complete weights library without touching host OS directories.
 
 ---
 
@@ -261,12 +271,12 @@ ClauseOS includes an enterprise agent harness designed to run autonomous develop
 ├── departments/
 │   ├── engineering/                    # Full repo write access (feature branches, test suites)
 │   ├── security_audit/                 # Static analysis, dependency audits, secret scanning
-│   ├── site_reliability/              # Nomad workload monitoring & Consul mesh health
+│   ├── site_reliability/               # Nomad workload monitoring & Consul mesh health
 │   └── documentation_qa/               # ADR authoring & documentation sync
 └── skills/                             # Modular CLI toolsets (git-ops, test-runner, adr-writer)
 ```
 
-- **Write-Access Guardrails:** Agents run via Nomad `raw_exec` tasks with credentials leased through Vault. Code modifications occur on isolated feature branches and require green passes from `just test-hermeticity` before pull requests are finalized.
+- **Write-Access Guardrails:** Agents run via Nomad `raw_exec` tasks with credentials leased through Vault. Code modifications occur on isolated feature branches and require green passes from `cx test` before pull requests are finalized.
 - **Portable Cockpit:** Portable VS Code runs natively within the profile, bound directly to the local coprocessor (`http://127.0.0.1:8000/v1`) for local code intelligence.
 
 ---
@@ -289,7 +299,7 @@ ClauseOS departs from traditional infrastructure stacks by positioning the **BEA
 - **Dart-Inspired Syntax:** Object-oriented class and interface ergonomics inspired by Dart and C#, with dependency injection and lifecycle hooks influenced by Laravel and Fowler's enterprise patterns.
 - **Transmedia & Actor Keywords:** First-class language keywords for media protocols (`audio`, `video`, `midi`, `ndi`, `osc`, `smpte`, `dante`) and distributed agents (`agent`, `actor`, `telcom`, `broadcast`, `container`, `process`).
 - **Monkey X Multi-Target Transpiler:** The Rust-based compiler (`seaxc`) lowers code directly to the optimal target platform without virtual-machine emulation:
-  - `target: beam` $\rightarrow$ Compiles to Core Erlang AST and `.beam` bytecode for distributed cluster orchestration.
+  - `target: beam` $\rightarrow$ Compiles to Core Erlang AST and `.beam` bytecode executed by the **Air** (`cx air run`) actor runtime (`packages/carrier_jet/`) alongside **Jet** (`cx jet up`) cluster provisioning.
   - `target: native-dsp` $\rightarrow$ Compiles to optimized C++20 / Rust NIF routines linked with JUCE or native hardware SDKs.
   - `target: client` $\rightarrow$ Compiles to TypeScript and WebAssembly for interactive agent dashboards and web control planes.
 - **Agent-as-a-Folder Architecture:** A complete agent or operational department is packaged as an isolated directory containing its coordinator (`agent.cx`), sub-agents (`team/`), capabilities (`skills/`), embedded MCP servers (`mcp/`), and target manifest (`package.seax`).
@@ -353,10 +363,22 @@ cx
 Once inside the ClauseOS Nushell session, verify that your environment is completely confined to `.home/`:
 
 ```nushell
-just test-hermeticity
+cx test
 ```
 
-### 3. Launch Orchestration & AI Workloads
+### 3. Manage Hermetic Packages & Plugins
+
+```nushell
+# Install packages across Mise, hermetically patched Scoop, or Homebrew with auto-pinning
+cx pkg:add mise:ripgrep
+cx pkg:scoop install jq
+cx pkg:brew install htop
+
+# Synchronize first-party Lua Mise plugins via git subtrees
+cx plugin pull inferssd https://github.com/vieo-ai/mise-inferssd.git
+```
+
+### 4. Launch Orchestration & AI Workloads
 
 ```nushell
 # Start local HashiCorp Nomad dev cluster
