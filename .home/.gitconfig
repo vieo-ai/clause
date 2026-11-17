@@ -1,6 +1,6 @@
 [user]
-	name = mrpastewart
-	email = p.stewart@vieo.ai
+	name = user-name
+	email = user-email
 [credential]
 	useHttpPath = true
 [core]
