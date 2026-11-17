@@ -28,6 +28,6 @@ bootstrap.txt
 
 # User-specific files
 .archive/
-.home/.gitconfig
+.home/
 
 packages/
