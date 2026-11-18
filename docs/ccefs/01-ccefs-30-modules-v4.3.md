@@ -5,6 +5,16 @@
 
 ---
 
+## Document Suite Navigation (`docs/ccefs/`)
+
+* **`00-PROJECT-SPECIFICATION-v3.0.md`** — Master Architectural Vision, Quad Model & 27-Package Illuminate Mapping
+* **`01-ccefs-30-modules-v4.3.md` *(This File)*** — Complete 6-Stage / 30-Module Master Curriculum Map
+* **`02-stage0-foundation-modules-v4.3.md`** — Stage 0 Deep-Dive (`Modules 0.1–0.5`: Hermetic `.home/` Userland & AIEFS Spine)
+* **`03-stage1-2-compiler-orchestrator-v4.3.md`** — Stage 1 & Stage 2 Deep-Dive (`Modules 1–10`: Seax Compiler `seaxc`, Monkey-X Codegen, Distributed Orchestrator & Pulumi IaC)
+* **`04-vieo-ai-curriculum-portal.md`** — Vieo.ai Portal Architecture (`Track 1 CCEFS`, `Track 2 Claude/OpenClaw/Hermes in Seax`, `Track 3 AIEFS Encyclopedia`, `Track 4 Bonus Track`)
+
+---
+
 ## The 4-Track Vieo.ai Curriculum Architecture
 
 ```
@@ -49,7 +59,7 @@ Every lesson, code walkthrough, and interactive verification gate across **vieo.
 ## Track 1: CCEFS — The Master Track (Building ClauseOS From Scratch, 30 Modules)
 
 ### Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)
-*(Full specifications in `docs/ccefs/01-stage0-foundation-modules-v4.3.md`)*
+*(Deep-dive specification in `docs/ccefs/02-stage0-foundation-modules-v4.3.md`)*
 
 *Goal: Turn an empty folder on a bare host OS into ClauseOS's self-bootstrapping, zero-leak `.home/` sandbox where every compiler, runtime, and model lives hermetically—with zero host OS contamination.*
 
@@ -65,6 +75,7 @@ Every lesson, code walkthrough, and interactive verification gate across **vieo.
   * Building the SHA-256 content-addressed blob vault + atomic `os.rename` Markdown/JSONL state layer inside `.home/` (`crates/seax-vfs` in Rust + Seax bindings), anchored to the **AIEFS Encyclopedia (`Vol. 1–6`)**. `[e01–e06, ADR-0005, ADR-0008]` *(Encyclopedia Ref: AIEFS Vol. 1 Phase 00.09 Data Management)*
 
 ### Stage 1: Building the Seax (`.cx`) Language & Multi-Target Compiler Inside `.home/` (Modules 1–5)
+*(Deep-dive specification in `docs/ccefs/03-stage1-2-compiler-orchestrator-v4.3.md`)*
 
 *Goal: Build `seaxc` from scratch in Rust so Seax itself—not an external framework—natively unifies Claude Code, OpenClaw, Hermes, actors, and transmedia primitives inside `$CLAUSE_BIN_DIR`.*
 
@@ -80,6 +91,7 @@ Every lesson, code walkthrough, and interactive verification gate across **vieo.
   * Lowering verified Seax IR (`[c05]`) to: (1) **`--target rust`** (borrow-checker-safe `Arc<T>`/`Bytes` code wired to `Ractor`/`Spawned` OTP actors + native media crates), (2) **`--target beam`** (`Core Erlang` / `.beam` bytecode for the `Air` runtime & `Glimr` interop), and (3) **`--target client`** (`TypeScript`/`Wasm` + `flutter_rust_bridge`), compiling `seaxc`, `air`, and `jet` directly into `$CLAUSE_BIN_DIR`. `[c02, c05, ADR-0011]`
 
 ### Stage 2: Distributed Orchestrator, Micro-VMs & Native Pulumi IaC (Modules 6–10)
+*(Deep-dive specification in `docs/ccefs/03-stage1-2-compiler-orchestrator-v4.3.md`)*
 
 *Goal: Build ClauseOS's cluster orchestrator and infrastructure thrust engine (`Jet`) from scratch in Rust + Seax so programs schedule workloads across local silicon, micro-VMs, bare metal, and cloud clusters.*
 
@@ -141,7 +153,7 @@ Every lesson, code walkthrough, and interactive verification gate across **vieo.
 
 ---
 
-## Track 2, Track 3 & Track 4 Overview (See `02-vieo-ai-curriculum-portal.md`)
+## Track 2, Track 3 & Track 4 Overview (See `04-vieo-ai-curriculum-portal.md`)
 
 * **Track 2 (Build Claude, OpenClaw & Hermes in Seax):** Extracts Modules 16–20 into three hands-on vertical build tracks (`2A: Claude Code`, `2B: OpenClaw`, `2C: Hermes`) using **Seax** as the default language (with **Rust** and polyglot targets), showing how their best mechanics live natively as Seax language keywords and framework primitives.
 * **Track 3 (AIEFS Reference Encyclopedia):** Indexes all 223 chapters across *AI Engineering From Scratch* (`Vol. 1–6`) as a structured technical encyclopedia—ported to **Seax** (default) and **Rust** (systems/tensors)—so any CCEFS or Agent module can link directly to deep-dive theory and runnable code.
