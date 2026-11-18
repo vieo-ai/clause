@@ -49,6 +49,7 @@ Every lesson, code walkthrough, and interactive verification gate across **vieo.
 ## Track 1: CCEFS — The Master Track (Building ClauseOS From Scratch, 30 Modules)
 
 ### Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)
+*(Full specifications in `docs/ccefs/01-stage0-foundation-modules-v4.3.md`)*
 
 *Goal: Turn an empty folder on a bare host OS into ClauseOS's self-bootstrapping, zero-leak `.home/` sandbox where every compiler, runtime, and model lives hermetically—with zero host OS contamination.*
 
