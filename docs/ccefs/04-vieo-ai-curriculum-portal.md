@@ -1,5 +1,7 @@
 # Vieo.ai Engineering Portal: Curriculum Architecture & Track Blueprint
 
+> **Reading Order (`docs/ccefs/`):** `00-PROJECT-SPECIFICATION-v3.0.md` $\rightarrow$ `01-ccefs-30-modules-v4.3.md` $\rightarrow$ `02-stage0-foundation-modules-v4.3.md` *(Stage 0)* $\rightarrow$ `03-stage1-2-compiler-orchestrator-v4.3.md` *(Stages 1–2)* $\rightarrow$ **`04-vieo-ai-curriculum-portal.md` *(4-Track Portal)***
+
 > **The Centerpiece Thesis:** **"The code is the product, not the end results."**  
 > **ClauseOS (`clause.os` / `cx`) IS the living reference implementation of the entire curriculum.**  
 > Unlike tutorials that build toy scripts and throw them away, following **Track 1 (CCEFS — The Master Track)** from start to finish builds **ClauseOS itself** from an empty directory—a 100% open-source (MIT / Apache-2.0), forkable, programmable transmedia & cloud software factory that takes total control of userland inside a zero-leak bare-metal sandbox (`.home/`).
