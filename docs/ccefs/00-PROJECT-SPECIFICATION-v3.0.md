@@ -5,8 +5,12 @@
 ### **1.1 Document Control & Mission**
 * **Project Name:** **CCEFS** (*Carrier-Class Engineering From Scratch*), built upon the **ClauseOS (`clause.os` / `cx`)** Hermetic Microkernel Substrate and the **Seax (`.cx` / `.seax`)** Transmedia & Agent Carrier Language (developed by **Vieo**; formerly prototyped under the *Vieo Tigah* agent harness specification v2.1).
 * **Centerpiece Thesis:** *"The code is the product, not the end results."* **ClauseOS (`clause.os` / `cx`) IS the living reference implementation** of **Track 1 (CCEFS — The Master Track)**. Following Track 1 from Module 0.1 through Module 25 constructs **ClauseOS itself** from an empty folder—a 100% open-source (MIT / Apache-2.0), forkable, programmable transmedia & cloud software factory sealed inside `.home/`.
-* **Primary Goal:** Synthesize 128+ primary learning resources, compiler/orchestrator books, source repositories, formal protocol specifications, and ClauseOS reference implementations into a single, cohesive, step-by-step from-scratch engineering curriculum and sovereign production system.
-* **Operational Strategy:** Ground every curriculum module and runtime subsystem in primary source documents, ClauseOS git history (`v0.8.0-dev.10` / `v0.9.0-dev.1`), and accepted Architecture Decision Records (`ADR 0001`–`0013`), ensuring complete technical alignment, zero omitted features, and verifiable ground-truth citations.
+* **Reading Order (`docs/ccefs/`):**
+  * `00-PROJECT-SPECIFICATION-v3.0.md` — Architectural vision, Quad Model, 27-package Illuminate mapping, and rules.
+  * `01-ccefs-30-modules-v4.3.md` — Track 1 Master 30-Module Curriculum Map (`Stage 0` $\rightarrow$ `Stage 5`).
+  * `02-stage0-foundation-modules-v4.3.md` — Stage 0 Deep-Dive (`Modules 0.1–0.5`: Sealing `.home/`).
+  * `03-stage1-2-compiler-orchestrator-v4.3.md` — Stage 1 & Stage 2 Deep-Dive (`Modules 1–10`: Seax Compiler & Distributed Orchestrator).
+  * `04-vieo-ai-curriculum-portal.md` — Vieo.ai Portal & 4-Track Architecture (`CCEFS`, `Claude/OpenClaw/Hermes in Seax`, `AIEFS Encyclopedia`, `Bonus Track`).
 
 ### **1.2 Enterprise Positioning & Commercial Model (100% Open-Core + Industry Adaptation)**
 * **Unconstrained 100% Open-Source Substrate (MIT / Apache-2.0):** Complete bare-metal hermetic runtime (`.home/` confinement), multi-node clustering (`Nomad`, `Consul`, `Vault`, `Boundary`), cloud bursting (`Pulumi` / revived `pulumi-gestalt`), BEAM/Rust orchestration, dynamic 5-way GPU acceleration, Seax compiler toolchain (`seaxc`), pure-Rust transmedia codecs (`Craft`/`oximedia`/`nih-plug`), and the base Virtual Enterprise harness (`ADR 0007`).
@@ -127,7 +131,7 @@ The curriculum builds strictly linearly from bare metal upward—no module may r
 
 ## **5. Master CCEFS Curriculum Blueprint (6 Stages / 30 Integrated Modules — v4.3)**
 
-CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 0.1–0.5, detailed in `01-stage0-foundation-modules-v4.3.md`)** with **25 Systems, Compiler, Transmedia, Agent, and Enterprise Modules (Stages 1–5: Modules 1–25, detailed in `01-ccefs-30-modules-v4.3.md`)**, while preserving the complete 24-module technical depth of `01-unified-agent-harness-24-modules-v3.2.md` inside Stages 4–5:
+CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 0.1–0.5, detailed in `02-stage0-foundation-modules-v4.3.md`)** with **25 Systems, Compiler, Transmedia, Agent, and Enterprise Modules (Stages 1–5: Modules 1–25, with Stages 1–2 detailed in `03-stage1-2-compiler-orchestrator-v4.3.md`)**:
 
 ### **Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)**
 * **Module 0.1:** Zero-Leak Profile Confinement & Stage 0 Trampolines (`cx.bat`, `cx.ps1`, `cx.sh`, `config/env/*.toml`) `[f01, ADR-0001, ADR-0004]`
