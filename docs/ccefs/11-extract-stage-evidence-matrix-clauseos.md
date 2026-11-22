@@ -1,148 +1,159 @@
-# ClauseOS Extract-Stage Evidence Matrix & Source Register
+# Extract-Stage Research Architecture & Evidence Matrix
 
-This document serves as the formal **Extract-Stage Evidence Matrix, Source Paper Cards, and Passage Register** for the **CCEFS: Building ClauseOS** project. It establishes an empirical baseline reconciling the live codebase (`06-clauseos-source-bundle.md`), forensic audit defect reports (`05-source-bundle-audit-report.md`), forensic notes (`n01-scoop-path-audit`), supreme curriculum specifications (`00-PROJECT-SPECIFICATION-v3.0.md` through `04-vieo-ai-curriculum-portal.md`), and the subordinate research corpus (`a` through `t`).
-
-All extractions are governed strictly by the **Hierarchy Supremacy Rule**: physical code in `06-clauseos-source-bundle.md` (v0.9.0-dev.1, 195 tracked files) takes precedence over all other documentation. Specification claims that are unbacked by repository code are marked explicitly as specification drift.
+**Artifact Designation:** `docs/ccefs/11-extract-stage-evidence-matrix-clauseos.md`  
+**Classification:** Track 1 CCEFS Foundation Specification & Evidence Matrix  
+**Governance Overlay:** Supreme Single Source of Truth (SSOT) Protocol (`06` $\rightarrow$ `05` $\rightarrow$ `00`–`04` $\rightarrow$ `a`–`t`)  
+**Analytical Perspective:** Principal Systems Architect / PhD Curriculum Fellow (Quad Synthesis: *Fowler P-EAA* + *Gang of Four* + *Otwell/Laravel DX* + *Storer Real-Time Zero-Allocation Audio/Video DSP*)
 
 ---
 
-## 1. Structured Extraction Schema (CES-10)
+## Executive Summary & Extract Stage Context
 
-To guarantee downstream compiler, runtime, and curriculum usability across all twelve project domains, every source analysis conforms to the unified **ClauseOS Extraction Schema (CES-10)**:
+Following the **Triage Stage** (`docs/ccefs/10-triage-stage-corpus-governance-clauseos.md`), the project enters the **Extract Stage**. The objective of this phase is to construct structured empirical extractions, formal source paper cards, method breakdowns, target populations, quantitative and qualitative measures, verified findings, operational limits, visual/diagrammatic interpretations, and anchored source passages across the primary governing literature of **ClauseOS**.
 
-| Field Identifier | Name | Scope and Verification Constraint |
+All extractions are governed strictly by the **Hierarchy Supremacy Rule**: physical implementation in the live repository snapshot (`06-clauseos-source-bundle.md`) and verified forensic audits (`05-source-bundle-audit-report.md`) take absolute precedence over curriculum specifications (`00`–`04`), design transcripts (`d01`–`d51`), and subordinate research sources (`a`–`t`). Any discrepancy between architecture documents and the codebase is surfaced explicitly as a specification drift rather than assumed to be implemented.
+
+---
+
+## Section 1: Extraction Schema Design (Task 37)
+
+### 37. Extraction Schema Architecture (CES-10)
+
+To eliminate narrative ambiguity and ensure downstream compiler, runtime, and curriculum usability across all twelve project domains, every source card and extraction record conforms to a unified **10-Field Extraction Schema (CES-10)**:
+
+| Field Key | Field Name | Definition & Verification Constraint |
 | :--- | :--- | :--- |
-| **F-01** | Record Identifier | Canonical tracking key (e.g., `EX-01-SRC-BUNDLE`, `EX-02-CCEFS-SPEC`). |
-| **F-02** | Source Reference | Notebook document title, authority stratum, and version hash. |
-| **F-03** | Method Class | Empirical implementation, formal specification, or algorithmic proof. |
-| **F-04** | Target Runtime | Operating system kernel, hypervisor boundary, or virtual machine stack. |
-| **F-05** | Quantitative Measures | Measurable performance indicators (reductions, latency, loudness limits). |
-| **F-06** | Grounded Findings | Operational invariants, state representations, and execution primitives. |
-| **F-07** | Bounded Limits | Failure modes, anti-patterns, and memory or scheduler ceilings. |
-| **F-08** | Visual / Topology | Structural layouts, directory hierarchies, and dispatch graphs. |
-| **F-09** | Passage Anchors | Line-level citations mapping claims directly to source contexts. |
-| **F-10** | Drift / Defect State | Divergence between written specifications and live codebase reality. |
+| **F-01** | Record ID | Canonical identifier (e.g., `EX-01-SRC-BUNDLE`, `EX-02-CCEFS-SPEC`). |
+| **F-02** | Source Ref | Notebook document title, authority stratum tier, and version hash. |
+| **F-03** | Method Class | Empirical implementation, formal specification, RFC, or proof. |
+| **F-04** | Target Runtime | Host OS kernel, hypervisor, compiler crate, or VM layer. |
+| **F-05** | Measures & SLO | Quantitative ceilings (reductions, latency, loudness limits, ms). |
+| **F-06** | Key Findings | Concrete mechanisms, state models, and operational primitives. |
+| **F-07** | Bounded Limits | Documented boundaries, failure modes, and anti-patterns. |
+| **F-08** | Visual / Diag | Schematics, ASCII topological maps, and architectural flows. |
+| **F-09** | Ground Passages | Verifiable line-level citations terminating in exact source anchors. |
+| **F-10** | Drift / Defect | Discrepancies between spec and physical repository code. |
 
 ---
 
-## 2. Authoritative Source Paper Cards
+## Section 2: Authoritative Source Paper Cards (Tasks 38–44)
 
 ### Source Card 1: Live Implementation Repository (`06-clauseos-source-bundle.md`)
 
-* **Record Identifier:** `EX-01-SRC-BUNDLE`
+* **Record ID:** `EX-01-SRC-BUNDLE`
 * **Source Reference:** `06-clauseos-source-bundle.md` (v0.9.0-dev.1, 195 tracked files, generated 2026-11-21) [Stratum 0 / Tier 1 SSOT].
-* **Method Class (Task 39):** Multi-stage shell and script orchestration implementing an 8-pass iterative symbol expansion compiler (`${VAR}`) across modular environment manifests (`config/env/*.toml`), defensive multi-pass path splitting across semicolon (`;`) and colon (`:`), in-place runtime binary patching of package managers via marker injection (`# clause-scoop-patches: 1`), and Git subtree squash management.
-* **Target Population (Task 40):** Windows NT 10.0+ (x64), Linux (x86_64, aarch64 musl/gnu), and macOS Darwin (x86_64, arm64).
-* **Measures and SLOs (Task 41):**
-  * Zero-byte modification of host `%USERPROFILE%`, `HKCU:\Environment`, or `~` outside the repository boundary.
+* **Task 39 (Methods):** Multi-stage shell and script orchestration implementing an 8-pass iterative symbol expansion compiler (`${VAR}`) across modular environment manifests (`config/env/*.toml`), defensive multi-pass path splitting across semicolon (`;`) and colon (`:`), in-place runtime binary patching of package managers via marker injection (`# clause-scoop-patches: 1`), and Git subtree squash management.
+* **Task 40 (Population):** Windows NT 10.0+ (x64), Linux (x86_64, aarch64 musl/gnu), and macOS Darwin (x86_64, arm64).
+* **Task 41 (Measures & SLOs):**
+  * Zero-byte modification of host `%USERPROFILE%`, `HKCU:\Environment`, or `~` outside the workspace boundary.
   * Sub-millisecond environment compilation across five modular configuration files (`00-core.toml` through `40-ml-hub.toml`).
-  * Total state containment within `${CLAUSE_PROJECT_ROOT}/.home/`.
-* **Grounded Findings (Task 42):**
+  * 100% binary state isolation within `${CLAUSE_PROJECT_ROOT}/.home/`.
+* **Task 42 (Findings):**
   * The hermetic sandbox maps `CLAUSE_DATA_DIR` to `.home/AppData/Local` on Windows NT and `.home/.local/share` on POSIX systems.
   * Package plane isolation in `installer_scoop.ps1` replaces `Set-EnvVar` with an empty function and sets `create_startmenu_shortcut = $false` to eliminate registry pollution.
   * The Nushell control plane prepends `$env:CLAUSE_BIN_DIR` to the session path in `config.nu` and `env.nu`, intercepting system binaries.
-* **Limits and Defects (Task 43):**
+* **Task 43 (Limits & Defects):**
   * `scripts/cli/nu/config/env.nu` still attempts to read a legacy `.env` file and indexes obsolete `WIN_LOCALAPPDATA` keys, producing errors during clean boot.
-  * `docs/adr/adr_006-micro-instance-virtualization.md` contains an accidental duplicate of `ADR 0005` (Model Storage).
+  * `docs/adr/adr_006-micro-instance-virtualization.md` contains an accidental copy-paste duplicate of `ADR 005` (Model Storage).
   * `.github/workflows/ci.yml` has `./cx.sh test` and `.\cx.ps1 test` commented out, disabling continuous integration verification.
-  * `installer_scoop.ps1` omits `$env:SCOOP\shims` from `$env:PATH`, preventing standard CLI execution of Scoop-installed packages.
-* **Visual Topology (Task 44):**
-  * The root trampolines (`cx.ps1` and `cx.sh`) ingest `config/env/*.toml`, run an 8-pass expansion loop, configure the `.home/` jail, verify the `Set-EnvVar` no-op patch, and launch `scripts/cli/nu/core/boot.nu`.
-* **Passage Anchors (Task 45):**
+  * `installer_scoop.ps1` omits `$env:SCOOP\shims` from `$env:PATH`, preventing standard CLI execution of Scoop-installed packages (`n01-scoop-path-audit`).
+* **Task 44 (Visual Interpretation):**
+  * Root trampolines (`cx.ps1` and `cx.sh`) ingest `config/env/*.toml`, run an 8-pass expansion loop, configure the `.home/` jail, verify the `Set-EnvVar` no-op patch, and launch `scripts/cli/nu/core/boot.nu`.
+* **Task 45 (Anchored Passages):**
   * `config/env/00-core.toml` (lines 14–48): Directory isolation anchors.
   * `installer_scoop.ps1` (lines 35–85): Scoop registry and shortcut patching.
   * `cx.ps1` (lines 14–80): Iterative symbol expansion algorithm.
 
 ### Source Card 2: CCEFS Master Curriculum Specification (`docs/ccefs/00-PROJECT-SPECIFICATION-v3.0.md`)
 
-* **Record Identifier:** `EX-02-CCEFS-SPEC`
+* **Record ID:** `EX-02-CCEFS-SPEC`
 * **Source Reference:** `docs/ccefs/00-PROJECT-SPECIFICATION-v3.0.md` (v3.0) [Stratum 2 / Tier 2 SSOT].
-* **Method Class (Task 39):** Quad Synthesis Model combining Fowler's *Patterns of Enterprise Application Architecture* (P-EAA), Gang of Four structural patterns, Taylor Otwell's Laravel Illuminate component ergonomics, and Julian Storer's JUCE real-time zero-allocation memory discipline.
-* **Target Population (Task 40):** 30 sequential curriculum modules mapping 27 Laravel Illuminate packages directly into Rust systems programming, Erlang/OTP actors, and Clause primitives.
-* **Measures and SLOs (Task 41):**
+* **Task 39 (Methods):** Quad Synthesis Model combining Fowler's *Patterns of Enterprise Application Architecture* (P-EAA), Gang of Four structural patterns, Taylor Otwell's Laravel Illuminate component ergonomics, and Julian Storer's JUCE real-time zero-allocation memory discipline.
+* **Task 40 (Population):** 30 sequential curriculum modules mapping 27 Laravel Illuminate packages directly into Rust systems programming, Erlang/OTP actors, and Clause primitives.
+* **Task 41 (Measures & SLOs):**
   * Elimination of boilerplate across MCP/A2A JSON-RPC envelopes and WebRTC/SIP streams.
   * Compile-time contract enforcement via two-stage classifiers (AST syntax gate plus local SLM pre-screen) within a 2-second timeout window.
   * Deterministic test gate execution (`cx test` / `cargo test --offline`) returning exit code `0`.
-* **Grounded Findings (Task 42):**
+* **Task 42 (Findings):**
   * `illuminate/container` maps to `IContainer` (Module 0) for Inversion of Control auto-wiring without global singletons.
   * `illuminate/pipeline` maps to `IPipeline` (Module 0.1) executing `send().through().then()` middleware over prompts, tool calls, and DSP graphs.
   * `illuminate/filesystem` maps to `ContentAddressedWorkspace` enforcing atomic file writes (`os.rename`) inside `.home/`.
-* **Limits and Defects (Task 43):**
-  * Refers to the language as `Seax` (`seaxc`) in `compiler/seaxc/` and references an `Air`/`Jet` split, whereas the live architecture has pivoted to `Clause` (`.cx`) and `cxc` forked inside `packages/clause/`.
-* **Visual Topology (Task 44):**
+* **Task 43 (Limits & Defects):**
+  * Refers to the language as `Seax` (`seaxc`) in `compiler/seaxc/` and references an `Air`/`Jet` split, whereas the live architecture has pivoted to `Clause` (`.cx`) and `cxc` forked inside `packages/clause/` (`[SPEC DRIFT]`).
+* **Task 44 (Visual Interpretation):**
   * Fowler P-EAA establishes boundaries (Unit of Work, Separated Interface); Gang of Four supplies mechanics (Strategy, Adapter, Visitor); Laravel provides ergonomics (Fluent Cascades, ServiceProviders); JUCE enforces real-time zero-allocation hotpaths.
-* **Passage Anchors (Task 45):**
+* **Task 45 (Anchored Passages):**
   * `00-PROJECT-SPECIFICATION-v3.0.md` (§1.3, lines 45–62): Laravel DX and JUCE DSP synthesis.
   * `00-PROJECT-SPECIFICATION-v3.0.md` (§1.5, lines 75–125): 27 Illuminate packages mapped to ClauseOS primitives.
 
 ### Source Card 3: Gleam Compiler & Multi-Target Transpiler Blueprint (`docs/ccefs/06-blueprint`)
 
-* **Record Identifier:** `EX-03-CXC-BLUEPRINT`
+* **Record ID:** `EX-03-CXC-BLUEPRINT`
 * **Source Reference:** `docs/ccefs/06-clause-cxc-gleam-refactoring-multi-target-blueprint.md` / `d48-gleam-to-clause-forking` [Stratum 2 / Tier 2 SSOT].
-* **Method Class (Task 39):** Direct fork of `gleam-lang/gleam` inside `packages/clause/` emitting the `cxc` CLI binary, preserving the Hindley-Milner type inference engine and decoupling code emission via pluggable backends (`Target::Rust`, `Target::Beam`, `Target::Client`) modeled after Mark Sibley's Monkey-X `transcc`.
-* **Target Population (Task 40):** Multi-target code generation targeting native Rust (`cargo build`), distributed Erlang/OTP (`.beam`), and client-side ECMAScript/WebAssembly (`Lustre`, `Plushie`, `Shore`, `O2K`).
-* **Measures and SLOs (Task 41):**
+* **Task 39 (Methods):** Direct fork of `gleam-lang/gleam` inside `packages/clause/` emitting the `cxc` CLI binary, preserving the Hindley-Milner type inference engine and decoupling code emission via pluggable backends (`Target::Rust`, `Target::Beam`, `Target::Client`) modeled after Mark Sibley's Monkey-X `transcc`.
+* **Task 40 (Population):** Multi-target code generation targeting native Rust (`cargo build`), distributed Erlang/OTP (`.beam`), and client-side ECMAScript/WebAssembly (`Lustre`, `Plushie`, `Shore`, `O2K`).
+* **Task 41 (Measures & SLOs):**
   * Direct zero-cost crate linking via `@external(rust, ...)` without FFI boundary marshaling overhead on `--target rust`.
   * Automatic synthesis of dirty-scheduler NIFs (`tools/ring/`, `ADR 0012`) when `@external(rust, ...)` is compiled for `--target beam`.
   * Prevention of scheduler starvation by isolating compute-heavy DSP into Erlang `DirtyCpu` / `DirtyIo` threads.
-* **Grounded Findings (Task 42):**
+* **Task 42 (Findings):**
   * Language grammar is partitioned into **Three Syntactic Tiers**:
     1. *Tier 1 (Top-Level Declarations):* `kernel`, `service_provider`, `infra`, `provider`, `agent`, `gateway`, `trunk`, `bridge`, `dialplan`, `bus`, `rack`, `patchbay`, `split`, `stage`, `mcr`, `headend`, `airgap`, `sortie`.
     2. *Tier 2 (Contextual Clauses and Attributes):* `@hangar`, `@airgap`, `@needs`, `@squawk`, `stem`, `take`, `slate`, `reel`, `grade`, `scram`.
     3. *Tier 3 (Standard Library Namespaces):* `clause/kernel`, `clause/app`, `clause/infra`, `clause/comms`, `clause/studio`, `clause/stage`, `clause/stream`, `clause/tactical`, `clause/tigah`.
-* **Limits and Defects (Task 43):**
+* **Task 43 (Limits & Defects):**
   * Core language grammar strictly quarantines generic consumer/commercial verticals (healthcare, retail POS, banking) per `ADR 0007` to maintain carrier domain purity.
-* **Visual Topology (Task 44):**
+* **Task 44 (Visual Interpretation):**
   * `.cx` source files enter the `cxc` front-end (Logos scanner, Pratt parser, Hindley-Milner typing) and branch into `Target::Rust` (native DSP, `oximedia`), `Target::Beam` (Kazoo Class 5 softswitch, Membrane), and `Target::Client` (Lustre, Plushie).
-* **Passage Anchors (Task 45):**
+* **Task 45 (Anchored Passages):**
   * `docs/ccefs/06-blueprint` (§1.2, lines 15–35): Multi-target compiler decoupling.
   * `docs/ccefs/06-blueprint` (§3.1, lines 60–110): 9 Canonical Operational Pillars and 3-Tier Grammar.
 
 ### Source Card 4: Curated Domain SLMs vs. Saturated Generalists (`docs/adr/adr_013`)
 
-* **Record Identifier:** `EX-04-ADR-013-SLM`
+* **Record ID:** `EX-04-ADR-013-SLM`
 * **Source Reference:** `docs/adr/adr_013-curated-domain-slms-vs-saturated-generalists.md` [Stratum 2 / Tier 2 SSOT].
-* **Method Class (Task 39):** Two-View Architectural Model separating unconstrained human-facing conversational steering (The Reservoir) from deterministic, task-specific worker execution (The Cup) utilizing 1B–7B local SLMs fine-tuned via `Unsloth` on `$HF_HOME`.
-* **Target Population (Task 40):** TIGAH domain SLM family: `tigah-coder`, `tigah-instruct`, `tigah-audio`, `tigah-midi`, `tigah-vision`.
-* **Measures and SLOs (Task 41):**
+* **Task 39 (Methods):** Two-View Architectural Model separating unconstrained human-facing conversational steering (The Reservoir) from deterministic, task-specific worker execution (The Cup) utilizing 1B–7B local SLMs fine-tuned via `Unsloth` on `$HF_HOME`.
+* **Task 40 (Population):** TIGAH domain SLM family: `tigah-coder`, `tigah-instruct`, `tigah-audio`, `tigah-midi`, `tigah-vision`.
+* **Task 41 (Measures & SLOs):**
   * Sub-50ms inference latency for local CLI command loops.
   * Complete elimination of evasion vectors and narrative excuses by stripping conversational prose from fine-tuning corpora.
   * Binary exit code verification: worker models execute schema contracts, run local test gates (`cx test`), return `$?`, and terminate.
-* **Grounded Findings (Task 42):**
+* **Task 42 (Findings):**
   * Generalist frontier models (70B–400B+) suffer from information saturation, introducing latent representations of sycophancy, conflicting framework dialects, and hallucinated flags.
   * Contained worker SLMs operate exclusively on domain-restricted weight spaces saturated with canonical ground-truth ADRs, AST schemas, and test vectors.
-* **Limits and Defects (Task 43):**
+* **Task 43 (Limits & Defects):**
   * Requires maintaining local distillation datasets as repository contracts evolve.
-* **Visual Topology (Task 44):**
+* **Task 44 (Visual Interpretation):**
   * View 1 (Conversational Steering) handles intent elicitation and schema generation without direct repository write access. View 2 (Contained Operational Workers) executes code, runs `cx test`, asserts `$? == 0`, and exits.
-* **Passage Anchors (Task 45):**
+* **Task 45 (Anchored Passages):**
   * `docs/adr/adr_013` (lines 12–45): The Cup vs. The Reservoir architectural duality.
   * `config/env/40-ml-hub.toml` (lines 1–25): `$HF_HOME` and model cache anchors.
 
 ### Source Card 5: Forensic Scoop Installation and PATH Audit (`n01-scoop-path-audit`)
 
-* **Record Identifier:** `EX-05-NOTE-SCOOP`
+* **Record ID:** `EX-05-NOTE-SCOOP`
 * **Source Reference:** `n01-scoop-path-audit` (Forensic Audit Note) [Stratum 1 / Tier 1 Forensic Overlay].
-* **Method Class (Task 39):** Static code audit and physical path inspection of `installer_scoop.ps1`, `scripts/cli/nu/commands/pkg/scoop.nu`, and `config/env/*.toml`.
-* **Target Population (Task 40):** Windows NT execution environment utilizing Scoop for package management.
-* **Measures and SLOs (Task 41):**
+* **Task 39 (Methods):** Static code audit and physical path inspection of `installer_scoop.ps1`, `scripts/cli/nu/commands/pkg/scoop.nu`, and `config/env/*.toml`.
+* **Task 40 (Population):** Windows NT execution environment utilizing Scoop for package management.
+* **Task 41 (Measures & SLOs):**
   * Zero host registry writes to `HKCU:\Environment`.
   * Deterministic execution of Scoop-installed binaries via session `$env:PATH`.
-* **Grounded Findings (Task 42):**
+* **Task 42 (Findings):**
   * `installer_scoop.ps1` patches `Set-EnvVar` to an empty function body and disables Start Menu shortcut creation, successfully preventing registry contamination.
   * Scoop installs application shims into `$env:SCOOP\shims`, where `$env:SCOOP` defaults to `$env:CLAUSE_DATA_DIR/toolchain/scoop`.
-* **Limits and Defects (Task 43):**
+* **Task 43 (Limits & Defects):**
   * Neither `cx.ps1` nor `config/env/20-toolchains.toml` exposes `$env:SCOOP\shims` on `$env:PATH`.
   * `scripts/cli/nu/commands/pkg/scoop.nu` only parses `env_add_path` from package manifests and completely ignores the `"bin"` property, preventing 95% of installed tools from being discovered or executed.
-* **Visual Topology (Task 44):**
+* **Task 44 (Visual Interpretation):**
   * Scoop installs binaries to `$env:SCOOP/apps/<pkg>/current/` and writes proxy executables to `$env:SCOOP/shims`. Because this path is omitted from Nushell's `$env:PATH`, tools are installed but unreachable from the shell prompt.
-* **Passage Anchors (Task 45):**
+* **Task 45 (Anchored Passages):**
   * `n01-scoop-path-audit` (§1): Core audit finding on PATH omission.
   * `n01-scoop-path-audit` (§2.C): Forensic analysis of missing shim exports in `cx.ps1`.
 
 ---
 
-## 3. Cross-Domain Evidence Matrix
+## Section 3: Cross-Domain Evidence Matrix (Tasks 39–43)
 
 The matrix below synthesizes extracted methods, platforms, quantitative measures, findings, and limits across all major subsystems:
 
@@ -158,7 +169,7 @@ The matrix below synthesizes extracted methods, platforms, quantitative measures
 
 ---
 
-## 4. Diagrammatic & Topological Extractions
+## Section 4: Visual & Diagrammatic Extractions (Task 44)
 
 ### 4.1 Physical Userland Confinement Hierarchy
 
@@ -201,11 +212,11 @@ The operational flow below charts how `cxc` separates declarative control logic 
 
 ---
 
-## 5. Comprehensive Passage Register
+## Section 5: Comprehensive Passage Register (Task 45)
 
 The register below anchors every architectural invariant to its exact physical source location across the notebook corpus:
 
-| Passage Identifier | Canonical Source Document | Source Location | Grounded Invariant or Technical Evidence |
+| Passage Key | Canonical Source Document | Source Location | Grounded Invariant or Technical Evidence |
 | :--- | :--- | :--- | :--- |
 | **`PAS-01`** | `00-PROJECT-SPECIFICATION-v3.0.md` | §1.3 (lines 45–62) | Laravel DX and JUCE real-time zero-allocation DSP synthesis. |
 | **`PAS-02`** | `00-PROJECT-SPECIFICATION-v3.0.md` | §1.4 (lines 65–70) | Target Synthesis Formula: P-EAA + GoF + Laravel + JUCE. |
@@ -236,7 +247,7 @@ The register below anchors every architectural invariant to its exact physical s
 
 ---
 
-## 6. Extraction Quality Gate & Release Conditions
+## Section 6: Extraction Quality Gate & Release Conditions
 
 The extractions compiled in this document provide an unbroken chain of custody between written curriculum modules, architecture records, and the physical code snapshot. 
 
