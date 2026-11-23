@@ -1,0 +1,72 @@
+name: "📝 User Story"
+description: "Create a Scrum-style user story with acceptance criteria"
+title: "[Story] <Short description>"
+labels: ["user story"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 📝 User Story Template
+        Please describe the user story in Scrum format, add acceptance criteria, and define the done state.
+
+  - type: input
+    id: role
+    attributes:
+      label: "As a..."
+      description: "Who is the user or role this story is for?"
+      placeholder: "Example: As a customer"
+    validations:
+      required: true
+
+  - type: input
+    id: goal
+    attributes:
+      label: "I want to..."
+      description: "What does this user want to do?"
+      placeholder: "Example: I want to reset my password"
+    validations:
+      required: true
+
+  - type: input
+    id: benefit
+    attributes:
+      label: "So that..."
+      description: "Why does this matter? What’s the benefit?"
+      placeholder: "Example: So that I can regain access to my account"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: "✅ Acceptance Criteria"
+      description: "List the conditions that must be met for this story to be complete."
+      placeholder: |
+        - [ ] Given I am on the login page, when I click 'Forgot password', then I see a reset form
+        - [ ] Reset email is sent when I submit my email
+        - [ ] I can set a new password and log in
+    validations:
+      required: true
+
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: "📌 Definition of Done"
+      description: "Additional requirements for considering this story 'done' (testing, documentation, review, etc.)"
+      placeholder: |
+        - Code reviewed
+        - Unit tests passed
+        - Documentation updated
+        - Deployed to staging
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: "🗒️ Additional Notes"
+      description: "Any supporting details, links, or related tasks"
+      placeholder: "Add references, design links, etc."
+    validations:
+      required: false
