@@ -432,31 +432,31 @@ ClauseOS strictly adheres to an unconstrained, developer-first open-core model:
 
 Key architectural decisions are documented under `docs/adr/`:
 
-* [**ADR 0001**: Hermetic State Confinement and Canonical Directory Hierarchy](./docs/adr/adr_001_hermetic_state_confinement_and_canonical_directory_hierarchy.md)
+* [**ADR 0001**: Hermetic State Confinement and Canonical Directory Hierarchy](../docs/adr/adr_001_hermetic_state_confinement_and_canonical_directory_hierarchy.md)
 
-* [**ADR 0002**: Two-Tier Toolchain Orchestration (`mise` and `renv`)](docs/adr/adr_002_two_tier_toolchain_orchestration_mise_renv.md)
+* [**ADR 0002**: Two-Tier Toolchain Orchestration (`mise` and `renv`)](../docs/adr/adr_002_two_tier_toolchain_orchestration_mise_renv.md)
 
-* [**ADR 0003**: Dynamic Multi-Vendor Hardware Acceleration Matrix](docs/adr/adr_003_dynamic_multi_vendor_hardware_acceleration_matrix.md)
+* [**ADR 0003**: Dynamic Multi-Vendor Hardware Acceleration Matrix](../docs/adr/adr_003_dynamic_multi_vendor_hardware_acceleration_matrix.md)
 
-* [**ADR 0004**: Cross-Shell Environment and PATH Delimiter Canonicalization](docs/adr/adr_004_cross_shell_environment_and_path_delimiter_canonicalization.md)
+* [**ADR 0004**: Cross-Shell Environment and PATH Delimiter Canonicalization](../docs/adr/adr_004_cross_shell_environment_and_path_delimiter_canonicalization.md)
 
-* [**ADR 0005**: Unified Model Storage & Ecosystem Cache Projection](docs/adr/adr_005_unified_model_storage_hub.md)
+* [**ADR 0005**: Unified Model Storage & Ecosystem Cache Projection](../docs/adr/adr_005_unified_model_storage_hub.md)
 
-* [**ADR 0006**: Cross-Platform Micro-Instance Virtualization (`cx vm`)](docs/adr/adr_006-micro-instance-virtualization.md)
+* [**ADR 0006**: Cross-Platform Micro-Instance Virtualization (`cx vm`)](../docs/adr/adr_006-micro-instance-virtualization.md)
 
-* [**ADR 0007**: Open-Core Substrate vs. Industry Adaptation Commercialization](docs/adr/adr_007-open-core-and-monetization.md)
+* [**ADR 0007**: Open-Core Substrate vs. Industry Adaptation Commercialization](../docs/adr/adr_007-open-core-and-monetization.md)
 
-* [**ADR 0008**: Virtual Enterprise Organizational Hierarchy & Agent Governance](docs/adr/adr_008-virtual-enterprise-agent-hierarchy.md)
+* [**ADR 0008**: Virtual Enterprise Organizational Hierarchy & Agent Governance](../docs/adr/adr_008-virtual-enterprise-agent-hierarchy.md)
 
-* [**ADR 0009**: VS Code Agent Host, Extensibility Plugins, and Skill Toolsets](docs/adr/adr_009-agent-skills-plugins-vscode-harness.md)
+* [**ADR 0009**: VS Code Agent Host, Extensibility Plugins, and Skill Toolsets](../docs/adr/adr_009-agent-skills-plugins-vscode-harness.md)
 
-* [**ADR 0010**: Distributed BEAM Backplane, Gleam Orchestration, Nomad Scheduling, and MaaS](docs/adr/adr_010-beam-orchestrator-nomad-scheduler-maas.md)
+* [**ADR 0010**: Distributed BEAM Backplane, Gleam Orchestration, Nomad Scheduling, and MaaS](../docs/adr/adr_010-beam-orchestrator-nomad-scheduler-maas.md)
 
-* [**ADR 0011**: Clause Programming Language, Multi-Target Transpiler, and Agent Directory Pattern](docs/adr/adr_011-clause-language-transpiler-agent-directory.md)
+* [**ADR 0011**: Clause Programming Language, Multi-Target Transpiler, and Agent Directory Pattern](../docs/adr/adr_011-clause-language-transpiler-agent-directory.md)
 
-* [**ADR 0012**: RinG (Rust-in-Gleam) Type-Safe Native Integration Bridge](docs/adr/adr_012-ring-rust-in-gleam-bridge.md)
+* [**ADR 0012**: RinG (Rust-in-Gleam) Type-Safe Native Integration Bridge](../docs/adr/adr_012-ring-rust-in-gleam-bridge.md)
 
-* [**ADR 0013**: Curated Domain SLMs vs. Saturated Generalist Models](docs/adr/adr_013-curated-domain-slms-vs-saturated-generalists.md)
+* [**ADR 0013**: Curated Domain SLMs vs. Saturated Generalist Models](../docs/adr/adr_013-curated-domain-slms-vs-saturated-generalists.md)
 
 ---
 
