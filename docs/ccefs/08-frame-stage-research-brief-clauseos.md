@@ -70,6 +70,7 @@ Can the ClauseOS hermetic userland (`.home/`) deterministically host, build, and
 ### Secondary Research Questions & Empirical Tests
 
 #### Secondary Question 1: Package Manager Hermeticity and Path Shim Visibility
+
 Does the in-place patching of Scoop in `installer_scoop.ps1` eliminate host registry mutation while exposing installed binary shims to Nushell sessions without polluting the host environment path?
 
 * **Falsification Probe:** Execute `installer_scoop.ps1` on a clean Windows NT host, install CLI packages (`jq`, `ripgrep`), and assert:
@@ -78,16 +79,19 @@ Does the in-place patching of Scoop in `installer_scoop.ps1` eliminate host regi
   3. Installed binaries are resolvable inside Nushell via `$env:PATH`.
 
 #### Secondary Question 2: Toolchain Isolation and Build Artifact Containment
+
 Does adding explicit toolchain variable declarations (`CARGO_HOME` and `RUSTUP_HOME`) to `config/env/20-toolchains.toml` prevent the Rust toolchain from leaking build caches, downloaded crates, and toolchain binaries into host profile directories?
 
 * **Falsification Probe:** Trigger a clean `cargo build` of `packages/clause/` within the isolated environment and verify that `%USERPROFILE%\.cargo` and `~/.cargo` remain untouched, with all downloads landing within `${CLAUSE_DATA_DIR}/cargo`.
 
 #### Secondary Question 3: Dual-Plane Compilation and Dirty-Scheduler Safety
+
 Can the `cxc` compiler lower `.cx` syntax into `--target rust` (linking native DSP engines like `oximedia` and `nih-plug`) and `--target beam` (Erlang/OTP supervision actors) while safely managing cross-plane interop via `tools/ring` without starving Erlang schedulers?
 
 * **Falsification Probe:** Generate a high-throughput audio DSP processing loop inside `.cx`, compile to native Rust, expose via Dirty-Scheduler NIFs to an Erlang actor supervision tree, and assert that standard reductions per scheduling turn remain within the 2,000 to 4,000 ceiling without causing thread lockups.
 
 #### Secondary Question 4: Domain Purity AST Gating
+
 Does the Clause compiler front-end successfully reject ungrounded commercial vertical syntax at the parser level while cleanly resolving canonical pillar constructs?
 
 * **Falsification Probe:** Submit source files containing anti-keywords (such as `retail_pos`, `hospital_ehr`, `bakery`) to `cxc` and verify deterministic parse failure, while valid pillar constructs (`trunk`, `rack`, `stage`, `infra`) lower to target code without error.
@@ -211,7 +215,7 @@ Stakeholder roles across the twelve operational domains are structured using the
 | **Domain 7: Media Accounting & Rights** | Automated split sheets, residual governance | **C** | Smart contract rules, ASC 926 ledger |
 | **Domain 8: Hermetic Systems & Sandboxing** | OS userland isolation, zero host leak | **R** | `cx.ps1`, `cx.sh`, `config/env/*.toml` |
 | **Domain 9: Cloud & Micro-Virtualization** | HashiStack, bare-metal iPXE, `cx vm` | **R** | `crates/clause-pulumi`, Lima/WSL2 hooks |
-| **Domain 10: Software & Language Engineering**| `cxc` compiler, Pratt parser, multi-codegen | **R** | `packages/clause/`, Monkey-X emitters |
+| **Domain 10: Software & Language Engineering** | `cxc` compiler, Pratt parser, multi-codegen | **R** | `packages/clause/`, Monkey-X emitters |
 | **Domain 11: DevOps, SecOps & CI/CD** | Offline CI validation, kernel sandboxes | **R** | `tests/system/run_all.nu`, CI workflows |
 | **Domain 12: AI Engineering & SLM Harnesses** | 1B–7B domain SLMs, local coprocessors | **R** | TIGAH engine, `$HF_HOME` shared cache |
 | **Founder / L0 Executive** | Overall project stewardship, release signoff | **A** | Final governance decisions (GO/REVISE) |
@@ -254,7 +258,7 @@ The empirical findings for each evaluated gate are documented as follows:
 
 ## 9. Formal Governance Verdict & Workflow Return Loop
 
-```
+```text
 ================================================================================
                     FRAME-STAGE GATE DECISION: REVISE
 ================================================================================
