@@ -35,7 +35,7 @@ Create **Clause** (extension `.cx`), a carrier-class transmedia, systems, and ag
    * An agent directory compiles and executes as a headless BEAM service, an HTTP API, a desktop tool, or a Nomad worker job.
 
 4. **Domain Purity Invariant (`ADR 0007` Compliance)**:
-   * Language keywords and standard library namespaces (`stdlib/clause/`) are strictly confined to the Nine Canonical Operational Pillars. Generic commercial business verticals (retail POS, bakery software, hospital EHR) are barred from compiler core crates and quarantined to optional downstream `.enterprise/` or `.apm/` cartridges.
+   * Language keywords and standard library namespaces (`stdlib/clause/`) are strictly confined to the Nine Canonical Operational Pillars. Generic commercial business verticals (retail POS, bakery software, hospital EHR) are barred from compiler core crates and quarantined to optional downstream `.apm/` packages.
 
 ## Consequences
 
