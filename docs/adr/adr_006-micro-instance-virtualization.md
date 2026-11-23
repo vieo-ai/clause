@@ -1,27 +1,73 @@
-# ADR 005: Unified Model Storage & Ecosystem Cache Projection
+# ADR 006: Cross-Platform Micro-Instance Virtualization (cx vm)
 
 ## Status
+
 Accepted
 
 ## Context
-ClauseOS hosts heterogeneous AI coprocessors, fine-tuning runtimes, and inference engines, including:
-- **Unsloth / Hugging Face Transformers** (PyTorch safetensors, tokenizers, LoRAs)
-- **ComfyUI** (Checkpoints, UNet backbones, VAE, CLIP, GGUF diffusion)
-- **Lemonade / FastFlowLM** (GGUF quantizations, OpenAI-compatible local APIs)
 
-Without strict path unification, each subsystem defaults to isolated download caches, resulting in multi-gigabyte duplications, disk exhaustion, and broken offline hermetic operation.
+ClauseOS requires an infrastructure and compute substrate capable of hosting Linux-kernel-exclusive workloads (such as bare-metal Kubernetes via k3s, systemd system daemons, container runtimes, and eBPF network tracing) across diverse host operating systems (Windows NT, Linux, macOS).
 
-## Decision
-1. **Single Hermetic Anchor**: Direct all model downloads and hub caches into `$env:CLAUSE_HOME/.local/share/models`.
-2. **Canonical Environment Exposure**: Standardize on Hugging Face Hub environment variables across all platforms:
-   - `HF_HOME = $env:CLAUSE_HOME/.local/share/models`
-   - `HUGGINGFACE_HUB_CACHE = $HF_HOME/hub`
-   - `TRANSFORMERS_CACHE = $HUGGINGFACE_HUB_CACHE`
-   - `TORCH_HOME = $HF_HOME/torch`
-3. **ComfyUI Bridge**: Automate generation of `extra_model_paths.yaml` inside ComfyUI's root during Stage 3 provisioning, pointing directly to the unified `$HF_HOME/hub` root.
-4. **GGUF Unification**: GGUF weights pulled via Hugging Face repositories reside in `$HF_HOME/hub` without artificial symlink indirection. Tools requiring local paths read from this single source of truth.
+Running standard hypervisor solutions (e.g., VirtualBox, VMware, or unmanaged Docker Desktop) introduces severe virtualization overhead, degrades disk and memory I/O, pollutes global host storage, and complicates hardware GPU/NPU passthrough. Furthermore, third-party virtualization daemons create background services that mutate host network adapters and violate the zero-leak hermetic invariant of ClauseOS.
+
+ClauseOS requires a disposable, featherweight micro-instance virtualization substrate that executes entirely unprivileged, stores all disk state strictly within `$env:CLAUSE_HOME`, spins up in under two seconds, and grants guest workloads transparent access to host silicon accelerators.
+
+## Decision Drivers
+
+- **Zero Host Mutation**: Virtual hard disks, kernel images, and instance state must reside strictly inside `$env:CLAUSE_HOME` (or `$env:LOCALAPPDATA\Programs\vms` on Windows, `$env:LIMA_HOME` on POSIX).
+- **Sub-Second Spinup Velocity**: Micro-instances must initialize rapidly to serve as ephemeral test targets and runner workers.
+- **Bare-Metal Silicon Passthrough**: Preserve direct access to host GPU and NPU hardware (NVIDIA CUDA, AMD ROCm, Apple Metal) from within Linux guest instances.
+- **Unified Command Interface**: Expose cross-platform virtual machine operations through a single Nushell router verb: `cx vm {launch, exec, shell, list, stop, purge}`.
+
+## Considered Options
+
+1. **Container-in-Userland Engines (Rootless Podman / Docker)**: Enforces process isolation but cannot boot custom kernels or test native systemd service managers.
+2. **Heavyweight Virtualization (Multipass / MicroCloud / VirtualBox)**: Evaluated in transcript d13 and early prototyping. Rejected due to background daemon installation on the host, Hyper-V interference with AMD ROCm/NPU compute, and multi-gigabyte memory footprints.
+3. **Native Microkernel Bridge (WSL2 on Windows NT + Lima on macOS/Linux)**: Leverages lightweight, native OS virtualization bridges managed by hermetically confined scripts.
+
+## Decision Outcome
+
+Chosen Option: **Option 3 (WSL2 on Windows NT + Lima on macOS/Linux)**.
+
+ClauseOS establishes the unified `cx vm` micro-instance virtualization engine, dynamically dispatching to the host-native microkernel bridge while confining all filesystem artifacts to `.home/`:
+
+### 1. Windows NT Implementation (WSL2 Driver)
+
+- **Engine**: Driven via `wsl.exe` targeting custom, unmanaged distribution instances initialized via `scripts/cli/pwsh/installers/installer_wsl.ps1`.
+- **Filesystem Anchoring**: Micro-instance disk images are imported directly into:
+  - `$env:CLAUSE_HOME\AppData\Local\Programs\vms\<instance_name>\ext4.vhdx`
+- **Host Isolation Rules**:
+  - The instance configuration (`/etc/wsl.conf`) explicitly disables Windows PATH appending (`[interop] appendWindowsPath = false`) to prevent host tool leakage into the guest.
+  - Native systemd initialization is enabled (`[boot] systemd = true`) for running modern Linux service daemons.
+- **Hardware Acceleration**: Transparent access to host DirectX / GPU compute via `/usr/lib/wsl/lib` and direct driver passthrough.
+
+### 2. POSIX Implementation (Lima Driver on macOS and Linux)
+
+- **Engine**: Driven via `limactl`, bootstrapped through `.mise.cloud.toml` (`"brew:lima" = "latest"`) and pinned inside `$env:HOMEBREW_PREFIX`.
+- **Filesystem Anchoring**: All virtual machine templates, QCOW2 images, and runtime sockets are confined by setting:
+  - `export LIMA_HOME="${CLAUSE_DATA_DIR}/vms"` (resolving to `${CLAUSE_HOME}/.local/share/vms`)
+- **Container Target**: Lima templates provide ephemeral Alpine, Ubuntu, and Debian rootfs environments with pre-configured containerd and k3s runtimes.
+
+### 3. CLI Command Surface (`cx vm`)
+
+All micro-instance lifecycle operations are governed by `scripts/cli/nu/commands/vm.nu`:
+
+- `cx vm launch <name> [--distro <alpine|ubuntu|debian>] [--memory <mb>]`: Spawns and configures a disposable instance.
+- `cx vm exec <name> -- <command>`: Executes an ephemeral command within the micro-instance and streams stdout/stderr.
+- `cx vm shell <name>`: Opens an interactive PTY session inside the instance.
+- `cx vm list`: Enumerates active and stopped micro-instances with memory and disk metrics.
+- `cx vm stop <name>`: Gracefully stops the micro-instance.
+- `cx vm purge <name>`: Destroys the micro-instance and deletes its localized VHDX/QCOW2 disk image, recovering 100% of host storage.
 
 ## Consequences
-- **Positive**: Zero duplicate weight downloads between fine-tuning (Unsloth) and image/LLM generation (ComfyUI / FastFlowLM).
-- **Positive**: Complete portability—moving or backing up `.home/.local/share/models` moves all downloaded AI assets.
-- **Negative**: Initial download paths within ComfyUI file pickers reflect Hugging Face blob directory structures rather than clean flat filenames unless mapped via workflow presets.
+
+### Positive
+
+- True zero-leak virtualization: Deleting `$env:CLAUSE_HOME` removes all virtual machines, rootfs tarballs, and runtime disks without residual host hypervisor state.
+- Enables air-gapped integration testing of Kubernetes manifests (`k3s`), Nomad Linux workers, and systemd services directly from developer workstations.
+- Near-native I/O throughput and sub-second cold boot times on featherweight Alpine distributions.
+
+### Negative
+
+- Requires Windows NT 10.0+ with WSL2 platform components enabled and macOS/Linux with virtualization entitlements.
+- Disk usage expands with the creation of multiple large Linux rootfs layers within `.home/`.
