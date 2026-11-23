@@ -13,6 +13,7 @@ With the bare-metal userland sealed inside `.home/` (`Stage 0: Modules 0.1–0.5
 * **Shared Concept**: Building the **Seax (`seaxc`, `.cx`)** compiler in Rust using Thorsten Ball's exact textbook pipeline—extended with syntactic AST macros (`[c01-lost]`), Jet's capability/schema contracts (`[c04]`), and Mark Sibley's Monkey X (`transcc`) multi-target code generation (`[c05]`)—so one Dart-flavored source file compiles directly to **Pure Rust (`Ractor`/`Spawned` OTP actors + `Craft`/`oximedia`/`nih-plug` + revived `pulumi-gestalt`)**, **BEAM (`Core Erlang` / `Glimr` interop)**, and **Client (`TypeScript`/`Wasm` / `Flutter`)**.
 
 ### **Module Breakdown (Modules 1–5)**
+
 * **Module 1 — Single-Pass Lexer & Token Spans (`crates/seax-token`, `crates/seax-lexer` — `[c01]` Ch. 1):**
   * Zero-copy `&str` scanner with `position`/`readPosition`/`peekChar` tracking line/column spans, tokenizing Dart-style C-family syntax (`{ }`, `( )`, `[ ]`, `..` cascades, `->`, `async`/`await`, `schema`, `switch`) alongside first-class **agent/harness keywords** (`agent`, `skill`, `tool`, `memory`, `compact`, `gateway`, `channel`, `heartbeat`), **transmedia keywords** (`audio`, `video`, `midi`, `ndi`, `osc`, `smpte`, `dante`, `dsp`), **carrier keywords** (`actor`, `pipeline`, `telcom`, `broadcast`, `infra`), and **capability keywords** (`needs`, `platform`, `provide`, `expose`).
 * **Module 2 — Pratt Expression & Recursive-Descent Block Parser (`crates/seax-ast`, `crates/seax-parser` — `[c01]` Ch. 2):**
@@ -27,6 +28,7 @@ With the bare-metal userland sealed inside `.home/` (`Stage 0: Modules 0.1–0.5
   * **`--target client` (Touch Glass & Field Mobile):** Emits TypeScript / WebAssembly and `flutter_rust_bridge` bindings for browser consoles and iOS/Android companion apps, installing `seaxc`, `air`, and `jet` into `$CLAUSE_BIN_DIR`.
 
 ### **Laravel Component Adoption & Quad Model (Stage 1)**
+
 * **Laravel Component Adoption & Target Primitives**:
   * **Target Primitives**: `ISeaxCompiler`, `IMacroExpander`, `ISymbolResolver`, `IMultiTargetCodegen`, `IInfraProvider`
   * **Created Components**: `reflection` (`SymbolTable` & `seax-checker` AST resolver), `json-schema` (`schema` & `jet_sap` Schema-Aligned Parsing emitter).
@@ -47,6 +49,7 @@ With the bare-metal userland sealed inside `.home/` (`Stage 0: Modules 0.1–0.5
 * **Shared Concept**: Stripping away black-box container magic by building the five fundamental primitives of every cluster orchestrator (`Task`, `Worker`, `Manager`, `Scheduler`, `Store`) from scratch in Rust (`Ractor`/`Spawned` OTP actors) and wiring them directly to HashiStack (`Nomad`, `Consul`, `Vault`), `cx vm` micro-instances, `Pixiecore`/`Packer` bare-metal netbooting, and native `pulumi-gestalt` cloud bursting.
 
 ### **Module Breakdown (Modules 6–10)**
+
 * **Module 6 — Orchestrator Core: `Task → Worker → Manager → Scheduler` (`[c03]` Ch. 1–9):**
   * **Task 5-State Lifecycle & Transition Matrix (`[c03]` Ch. 2–4):** Models every workload (Docker container, Nomad `raw_exec` agent, `cx vm` micro-instance, or DSP render job) as a `Task` (`ID`, `ContainerID`, `Name`, `State`, `Image`, `Cpu`, `Memory`, `Disk`, `ExposedPorts`, `PortBindings`, `RestartPolicy`, `HealthCheck`, `RestartCount`, `StartTime`, `FinishTime`) driven by `TaskEvent` state triggers through a validated finite state machine (`Pending` $\rightarrow$ `Scheduled` $\rightarrow$ `Running` $\rightarrow$ `Completed` | `Failed`, enforced via `stateTransitionMap` and `ValidStateTransition(src, dst)`).
   * **Worker Execution Engine, FIFO Queue & `/proc` Telemetry (`[c03]` Ch. 4–6):** Each `Worker` owns an inbound FIFO `Queue` (desired state), a `Store` (current state), a runtime driver (`Docker` / `Nomad` / `cx vm`), and a periodic `CollectStats()` loop reading CPU (`idle` vs `nonIdle` delta percentage), `MemTotal`/`MemAvailable`, `DiskTotal`/`DiskFree`, and `LoadAvg`—exposed via REST/RPC endpoints (`GET /tasks`, `POST /tasks`, `DELETE /tasks/{taskID}`, `GET /stats`).
@@ -61,6 +64,7 @@ With the bare-metal userland sealed inside `.home/` (`Stage 0: Modules 0.1–0.5
   * Adopts and maintains `andrzejressel/pulumi-gestalt` inside the Rust workspace (`crates/clause-pulumi/`) with prominent attribution to Andrzej Ressel so Seax `infra` blocks compile to native, YAML-free Pulumi resource graphs (`clause cloud up` / `clause cloud detach`) for air-gapped cloud bursting.
 
 ### **Laravel Component Adoption & Quad Model (Stage 2)**
+
 * **Laravel Component Adoption & Target Primitives**:
   * **Target Primitives**: `IOrchestratorManager`, `IWorkerNode`, `IScheduler`, `IWorkloadStore`, `IVirtualMachineDriver`, `ICloudBurstEngine`
   * **Created Components**: `queue` (`Pending` & worker FIFO task queues), `database` (Persistent `TaskStore` & `EventStore`), `process` (Container/Nomad/VM runtime drivers), `concurrency` (Concurrent manager reconciliation & health-check loops).
