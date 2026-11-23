@@ -217,7 +217,7 @@ This ledger documents the chronological evolution of the system based on git com
 * [ ] **Carrier Softswitch & Media Routing**:
   * Compile `.cx` `target: beam` topologies to Erlang/OTP 29 running Kazoo Class 5 softswitch and Membrane live OTT pipelines.
 * [ ] **TIGAH Agent Swarms & Virtual Enterprise Governance**:
-  * Scaffold `.enterprise/` (and `.apm/`) board, executive, and departmental hierarchies.
+  * Scaffold `.apm/` board, executive, and departmental hierarchies with `apm.yml` and `apm build` compiler projection.
   * Train contained 1B–7B domain SLMs via Unsloth into `$HF_HUB_CACHE` with zero-evasion weights.
   * Enforce adversarial gatekeeper validation (`cx test` exit `0`) unlocking dynamic Vault Git merge tokens.
 
