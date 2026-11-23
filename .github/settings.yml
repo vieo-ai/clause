@@ -4,7 +4,7 @@
 repository:
   # See https://developer.github.com/v3/repos/#edit for all available settings.
   name: clause
-  description: "🐯 ClauseOS (cx): Bare-metal hermetic operating substrate, Clause (.cx) carrier language, and TIGAH autonomous AI & transmedia orchestration platform."
+  description: "🐾 ClauseOS (cx): Bare-metal hermetic operating substrate, Clause (.cx) carrier language, and 🐯 TIGAH autonomous AI & transmedia orchestration platform."
   homepage: https://vieo.ai
   topics: clauseos, clause, hermetic-os, beam, rust, nushell, mise, nomad, consul, vault, tigah, transmedia, ai-agents, vieo
   private: false
