@@ -9,6 +9,7 @@
 ## 1. Executive Summary of Document Tree Drift
 
 Now that the architectural nomenclature and compiler design are locked in:
+
 * **Parent Steward:** **Vieo** (`vieo-ai`)
 * **Operating Substrate:** **ClauseOS (`cx`)** — Carrier Exchange
 * **Programming Language:** **Clause (`.cx`)** in `packages/clause/`
@@ -58,6 +59,7 @@ Every tracked document in the repository falls into one of **four synchronizatio
 ## 5. Tier 4: Live Code & CI Defects Flagged in `05-source-bundle-audit-report.md` (For Synchronized Fix)
 
 While updating the documentation tree, these **6 remaining code/config defects** from `05-source-bundle-audit-report.md` should be patched in lockstep so `06-clauseos-source-bundle.md` stays 100% green:
+
 1. **`scripts/cli/nu/core/env.nu`:** Remove legacy `.env` file parsing and read environment variables exported by `cx.ps1`/`cx.sh` from `config/env/*.toml`.
 2. **`config/env/20-toolchains.toml`:** Add `CARGO_HOME = "${CLAUSE_DATA_DIR}/cargo"` and `RUSTUP_HOME = "${CLAUSE_DATA_DIR}/rustup"` so compiling `packages/clause` (`cxc`) never pollutes host `~/.cargo`.
 3. **`.github/workflows/ci.yml`:** Uncomment `./cx.sh test` and `.\cx.ps1 test` so `run_all.nu` executes in CI.
