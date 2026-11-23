@@ -1,260 +1,199 @@
+# GitHub Repository Settings (probot/settings / safe-settings format)
+# Repository: vieo-ai/clause
+
 repository:
-    # See https://developer.github.com/v3/repos/#edit for all available settings.
+  # See https://developer.github.com/v3/repos/#edit for all available settings.
+  name: clause
+  description: "ClauseOS (cx): Bare-metal hermetic operating substrate, Clause (.cx) carrier language, and TIGAH autonomous AI & transmedia orchestration platform."
+  homepage: https://vieo.ai
+  topics: clauseos, clause, hermetic-os, beam, rust, nushell, mise, nomad, consul, vault, tigah, transmedia, ai-agents, vieo
+  private: false
+  has_issues: true
+  has_wiki: false
+  has_downloads: true
+  default_branch: main
 
-    # The name of the repository. Changing this will rename the repository
-    #name: repo-name
+  # Enforce linear squash-merge history for deterministic Conventional Commits & SemVer changelog generation
+  allow_squash_merge: true
+  allow_merge_commit: false
+  allow_rebase_merge: false
 
-    # A short description of the repository that will show up on GitHub
-    #description: description of repo
-
-    # A URL with more information about the repository
-    #homepage: https://example.github.io/
-
-    # A comma-separated list of topics to set on the repository
-    #topics: project, template, project-template
-
-    # Either `true` to make the repository private, or `false` to make it public.
-    #private: false
-
-    # Either `true` to enable issues for this repository, `false` to disable them.
-    #has_issues: true
-
-    # Either `true` to enable the wiki for this repository, `false` to disable it.
-    #has_wiki: true
-
-    # Either `true` to enable downloads for this repository, `false` to disable them.
-    #has_downloads: true
-
-    # Updates the default branch for this repository.
-    #default_branch: master
-
-    # Either `true` to allow squash-merging pull requests, or `false` to prevent
-    # squash-merging.
-    #allow_squash_merge: true
-
-    # Either `true` to allow merging pull requests with a merge commit, or `false`
-    # to prevent merging pull requests with merge commits.
-    #allow_merge_commit: true
-
-    # Either `true` to allow rebase-merging pull requests, or `false` to prevent
-    # rebase-merging.
-    #allow_rebase_merge: true
-
-# Labels: define labels for Issues and Pull Requests
+# Labels: define labels for Issues, Pull Requests, and Virtual Enterprise (.enterprise/) routing
 labels:
-    - name: 'Status: Backlog'
-      color: d4c5f9
-      description: Items that are defined and prioritized but not yet started.
+  # --- Workflow & Triage Status ---
+  - name: 'Status: Backlog'
+    color: d4c5f9
+    description: Defined and prioritized in roadmap or CCEFS curriculum, not yet started.
 
-    - name: 'Status: Ready'
-      color: 0e8a16
-      description: Items that are fully defined, estimated, and ready to be picked up in a sprint.
+  - name: 'Status: Ready'
+    color: 0e8a16
+    description: Fully specified with clear verification gate criteria and ready for execution.
 
-    - name: 'Status: In Progress'
-      color: 006b75
-      description: Items actively being worked on.
+  - name: 'Status: In Progress'
+    color: 006b75
+    description: Actively being implemented by a maintainer or Virtual Enterprise agent.
 
-    - name: 'Status: In Review'
-      color: cfd3d7
-      description: Items completed by a developer and awaiting review (code review, QA, etc.).
+  - name: 'Status: In Review'
+    color: cfd3d7
+    description: PR open and awaiting maintainer review and offline cx test CI verification.
 
-    - name: 'Status: Done'
-      color: 84b6eb
-      description: Items that are fully completed, tested, and potentially deployed.
+  - name: 'Status: Done'
+    color: 84b6eb
+    description: Verified against all deterministic gates and merged into main.
 
-    - name: 'Status: Blocked'
-      color: cc317c
-      description: Items that cannot proceed due to external dependencies or issues.
+  - name: 'Status: Blocked'
+    color: cc317c
+    description: Blocked by upstream toolchain release, hardware target, or dependency issue.
 
-    - name: 'Status: Duplicate'
-      color: EB862D
-      description: Duplicate of another issue.
+  - name: 'Status: Duplicate'
+    color: EB862D
+    description: Duplicate of an existing issue or defect ledger entry.
 
-    - name: 'Status: Invalid'
-      color: faef50
-      description: This issue doesn't seem right.
+  - name: 'Status: Invalid'
+    color: faef50
+    description: Out of scope or invalid report.
 
-    - name: "Status: Won't fix"
-      color: C8D9E6
-      description: Reported issue is working as intended.
+  - name: "Status: Won't fix"
+    color: C8D9E6
+    description: Working as intended per ClauseOS hermeticity or architectural invariants.
 
-    - name: 'Priority: Critical'
-      color: b60205
-      description: Task is considered critical-priority.
+  # --- Priority ---
+  - name: 'Priority: Critical'
+    color: b60205
+    description: Blocks Stage 0/1 boot, breaks .home/ sandbox confinement, or halts release gate.
 
-    - name: 'Priority: High +'
-      color: d93f0b
-      description: Task is considered high-priority.
+  - name: 'Priority: High'
+    color: d93f0b
+    description: High-impact defect or milestone deliverable for the active v0.9.0-dev.x runway.
 
-    - name: 'Priority: Medium'
-      color: fbca04
-      description: Task is considered medium-priority.
+  - name: 'Priority: Medium'
+    color: fbca04
+    description: Standard priority enhancement or non-blocking defect.
 
-    - name: 'Priority: Low -'
-      color: 0e8a16
-      description: Task is considered low-priority.
+  - name: 'Priority: Low'
+    color: 0e8a16
+    description: Nice-to-have polish, cleanup, or deferred optimization.
 
-    - name: 'Severity: Blocker'
-      color: 660000
-      description: Severity is considered blocking.
+  # --- Severity ---
+  - name: 'Severity: Blocker'
+    color: 660000
+    description: Completely prevents bootstrapping, compilation, or test gate execution.
 
-    - name: 'Severity: Major'
-      color: FF0000
-      description: Severity is considered major.
+  - name: 'Severity: Major'
+    color: FF0000
+    description: Core subsystem regression or host-OS environment leak.
 
-    - name: 'Severity: Minor'
-      color: ff9900
-      description: Severity is considered minor.
+  - name: 'Severity: Minor'
+    color: ff9900
+    description: Partial degradation with a deterministic workaround.
 
-    - name: 'Severity: Trivial'
-      color: 336600
-      description: Severity is considered trivial.
+  - name: 'Severity: Trivial'
+    color: 336600
+    description: Cosmetic, typo, or minor DX friction.
 
-    - name: 'Area: Core'
-      color: 6600ff
-      description: For work related to foundational components like Nomad, Consul, Vault, or Pulumi.
+  # --- ClauseOS Architectural Areas ---
+  - name: 'Area: Substrate & Boot'
+    color: 6600ff
+    description: Stage 0 microkernel bootloaders (cx.bat/cx.ps1/cx.sh), .home/ confinement, and config/env/*.toml SSOT.
 
-    - name: 'Area: Infra'
-      color: 0052cc
-      description: For infrastructure provisioning and management (e.g., Terraform, Packer, MAAS)
+  - name: 'Area: Compiler (cxc)'
+    color: 5319e7
+    description: Clause (.cx) language frontend, AST/macros, and multi-target emitters (--target rust, beam, client) in packages/clause/.
 
-    - name: 'Area: Security'
-      color: b58e00
-      description: For issues related to Vault, Boundary, security hardening, or compliance
+  - name: 'Area: BEAM & Orchestrator'
+    color: 7057ff
+    description: Erlang/OTP 29 backplane, packages/clause_jet/, RinG dirty-scheduler FFI (tools/ring/), and HashiStack (Nomad/Consul/Vault).
 
-    - name: 'Area: AI-MLOps'
-      color: cfd3d7
-      description: For MLflow, BeeAI, LiteLLM, or other AI/ML lifecycle components
+  - name: 'Area: Infra & MaaS'
+    color: 0052cc
+    description: Native Rust Pulumi IaC (crates/clause-pulumi/), Pixiecore + Packer iPXE bare-metal MaaS, and cx vm micro-VMs (WSL2/Lima).
 
-    - name: 'Area: UI-UX'
-      color: c5def5
-      description: For user interface or user experience related tasks, including Directus UI
+  - name: 'Area: TIGAH & AI'
+    color: 1d76db
+    description: Local neural coprocessors (Lemonade, FastFlowLM, InferSSD, Unsloth, ComfyUI), $HF_HOME hub, and contained 1B-7B SLMs.
 
-    - name: 'Area: Dev-Experience'
-      color: f5d0a9
-      description: For work on VSCodium, Roocode, CLI, or local development setup
+  - name: 'Area: Virtual Enterprise'
+    color: 0e8a16
+    description: .enterprise/ governance, .apm/ agent packaging, MCP/A2A protocols, and VS Code / Claude / Codex harness compilation.
 
-    - name: 'Area: Specialized-Engines'
-      color: 884488
-      description: For components like Pro-Media Engine (JUCE/Tracktion), AudioGridder, Kazoo, OBS, TVHeadend
+  - name: 'Area: Transmedia & Telecom'
+    color: 884488
+    description: Zero-alloc audio/video DSP (oximedia, nih-plug, Craft), Kazoo/Kamailio SIP switching, Membrane/CasparCG playout, and C2PA/DDEX.
 
-    - name: 'Area: Docs'
-      color: d876e3
-      description: For documentation efforts (e.g., quickstarts, whitepapers)
+  - name: 'Area: Plugins & Toolchains'
+    color: 006b75
+    description: First-party Lua Mise adapters (plugins/cx-*), sterilized Scoop (# clause-scoop-patches: 1), confined Brew, and .mise.*.toml overlays.
 
-    - name: 'Area: CI-CD'
-      color: f9d0c4
-      description: For Continuous Integration/Deployment pipeline work (e.g., GitHub Actions)
+  - name: 'Area: CLI & DX'
+    color: f5d0a9
+    description: Polyglot Nushell command router (scripts/cli/nu/), portable VS Code cockpit (cx-vscode), and Flight Deck UIs (Lustre/Shore/O2K).
 
-    - name: 'Area: Research'
-      color: 669966
-      description: For exploratory or investigation tasks.
-    
-    - name: 'Area: Integration'
-      color: 669966
-      description: For exploratory or investigation tasks.
+  - name: 'Area: Security'
+    color: b58e00
+    description: Zero-leak sandbox hardening, Vault dynamic leases, OS MAC sandboxes (Landlock/Seatbelt), and supply-chain integrity.
 
-    - name: 'Size: XL'
-      color: 006600
-      description: Xtra Large sprint planning and capacity estimation.
+  - name: 'Area: CI-CD & Tests'
+    color: f9d0c4
+    description: Deterministic offline verification gates (cx test, tests/system/run_all.nu, tests/env/run_tests.ps1) and GitHub Actions.
 
-    - name: 'Size: L'
-      color: 339933
-      description: Large sprint planning and capacity estimation.
+  - name: 'Area: Docs & Curriculum'
+    color: d876e3
+    description: Architecture Decision Records (docs/adr/), Track 1 CCEFS modules (docs/ccefs/), and vieo.ai documentation.
 
-    - name: 'Size: M'
-      color: 66cc66
-      description: Medium sprint planning and capacity estimation.
+  # --- Effort / Sizing ---
+  - name: 'Size: XL'
+    color: 006600
+    description: Multi-module architectural milestone or full subsystem vertical slice.
 
-    - name: 'Size: S'
-      color: 99ff99
-      description: Small sprint planning and capacity estimation.
+  - name: 'Size: L'
+    color: 339933
+    description: Significant feature or cross-platform substrate implementation.
 
-    - name: 'Size: XS'
-      color: ccffcc
-      description: Extra Small sprint planning and capacity estimation.
+  - name: 'Size: M'
+    color: 66cc66
+    description: Self-contained module, CLI command, or cx-* plugin update.
 
-    - name: '3rd party issue'
-      color: e88707
-      description: This issue might be caused by a 3rd party script/package/other reasons
+  - name: 'Size: S'
+    color: 99ff99
+    description: Focused bug fix, test assertion, or config overlay update.
 
-    - name: 'Os: Windows'
-      color: AEB1C2
-      description: Is Windows-specific
+  - name: 'Size: XS'
+    color: ccffcc
+    description: Trivial patch, version pin bump, or documentation fix.
 
-    - name: 'Os: Mac'
-      color: AEB1C2
-      description: Is Mac-specific
+  # --- External & Host / Compute Targets ---
+  - name: 'Upstream / 3rd Party'
+    color: e88707
+    description: Issue originates in an upstream dependency (Mise, Nushell, Gleam, Erlang/OTP, Scoop, Homebrew, ROCm/CUDA).
 
-    - name: 'Os: Linux'
-      color: AEB1C2
-      description: Is Linux-specific
+  - name: 'Target: Windows'
+    color: AEB1C2
+    description: Specific to Windows 10/11 (x64), PowerShell 7 Stage 0/1, Patched Scoop, or WSL2 micro-VMs.
 
-    - name: 'Os: iOS'
-      color: AEB1C2
-      description: Is iOS-specific
+  - name: 'Target: Linux'
+    color: AEB1C2
+    description: Specific to Linux (x64/arm64 gnu/musl), POSIX Stage 0/1, Landlock/Bubblewrap, or bare-metal MaaS.
 
-    - name: 'Os: Android'
-      color: AEB1C2
-      description: Is Android-specific
-# # Collaborators: give specific users access to this repository.
-# # See https://developer.github.com/v3/repos/collaborators/#add-user-as-a-collaborator for available options
-# collaborators:
-#   # - username: bkeepers
-#   #   permission: push
-#   # - username: hubot
-#   #   permission: pull
+  - name: 'Target: macOS'
+    color: AEB1C2
+    description: Specific to macOS (Apple Silicon/Intel), confined Homebrew, Seatbelt, or Lima micro-VMs.
 
-#   # Note: `permission` is only valid on organization-owned repositories.
-#   # The permission to grant the collaborator. Can be one of:
-#   # * `pull` - can pull, but not push to or administer this repository.
-#   # * `push` - can pull and push, but not administer this repository.
-#   # * `admin` - can pull, push and administer this repository.
-#   # * `maintain` - Recommended for project managers who need to manage the repository without access to sensitive or destructive actions.
-#   # * `triage` - Recommended for contributors who need to proactively manage issues and pull requests without write access.
-
-# # See https://developer.github.com/v3/teams/#add-or-update-team-repository for available options
-# teams:
-#   - name: core
-#     # The permission to grant the team. Can be one of:
-#     # * `pull` - can pull, but not push to or administer this repository.
-#     # * `push` - can pull and push, but not administer this repository.
-#     # * `admin` - can pull, push and administer this repository.
-#     # * `maintain` - Recommended for project managers who need to manage the repository without access to sensitive or destructive actions.
-#     # * `triage` - Recommended for contributors who need to proactively manage issues and pull requests without write access.
-#     permission: admin
-#   - name: docs
-#     permission: push
+  - name: 'Target: Hardware / NPU-GPU'
+    color: AEB1C2
+    description: Specific to hardware acceleration backends (AMD Strix Halo / ROCm, XDNA2 NPU, NVIDIA CUDA, Apple Metal, Vulkan).
 
 # branches:
-#   - name: master
-#     # https://developer.github.com/v3/repos/branches/#update-branch-protection
-#     # Branch Protection settings. Set to null to disable
+#   - name: main
 #     protection:
-#       # Required. Require at least one approving review on a pull request, before merging. Set to null to disable.
 #       required_pull_request_reviews:
-#         # The number of approvals required. (1-6)
 #         required_approving_review_count: 1
-#         # Dismiss approved reviews automatically when a new commit is pushed.
 #         dismiss_stale_reviews: true
-#         # Blocks merge until code owners have reviewed.
 #         require_code_owner_reviews: true
-#         # Specify which users and teams can dismiss pull request reviews. Pass an empty dismissal_restrictions object to disable. User and team dismissal_restrictions are only available for organization-owned repositories. Omit this parameter for personal repositories.
-#         dismissal_restrictions:
-#           users: []
-#           teams: []
-#       # Required. Require status checks to pass before merging. Set to null to disable
 #       required_status_checks:
-#         # Required. Require branches to be up-to-date before merging.
 #         strict: true
-#         # Required. The list of status checks to require in order to merge into this branch
-#         contexts: []
-#       # Required. Enforce all configured restrictions for administrators. Set to true to enforce required status checks for repository administrators. Set to null to disable.
+#         contexts:
+#           - "ClauseOS Hermeticity & System Tests (Windows)"
+#           - "ClauseOS Hermeticity & System Tests (Linux)"
+#           - "ClauseOS Hermeticity & System Tests (macOS)"
 #       enforce_admins: true
-#       # Prevent merge commits from being pushed to matching branches
 #       required_linear_history: true
-#       # Required. Restrict who can push to this branch. Team and user restrictions are only available for organization-owned repositories. Set to null to disable.
-#       restrictions:
-#         apps: []
-#         users: []
-#         teams: []
