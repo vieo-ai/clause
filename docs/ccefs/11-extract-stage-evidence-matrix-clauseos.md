@@ -227,7 +227,7 @@ The register below anchors every architectural invariant to its exact physical s
 | **`PAS-07`** | `05-source-bundle-audit-report.md` | §2.0 Finding 1 (lines 40–55) | `scripts/cli/nu/config/env.nu` reading retired `.env` file. |
 | **`PAS-08`** | `05-source-bundle-audit-report.md` | §2.0 Finding 2 (lines 60–75) | `adr_006` duplicate body corruption requiring restoration. |
 | **`PAS-09`** | `06-clauseos-source-bundle.md` | `config/env/00-core.toml` | Root anchors: `CLAUSE_DATA_DIR`, `CLAUSE_HOME`, `USERPROFILE`. |
-| **`PAS-10`** | `06-clauseos-source-bundle.md` | `config/env/20-toolchains.toml`| Toolchain paths: `MISE_DATA_DIR`, `SCOOP`, `HOMEBREW_PREFIX`. |
+| **`PAS-10`** | `06-clauseos-source-bundle.md` | `config/env/20-toolchains.toml` | Toolchain paths: `MISE_DATA_DIR`, `SCOOP`, `HOMEBREW_PREFIX`. |
 | **`PAS-11`** | `06-clauseos-source-bundle.md` | `config/env/30-shell.toml` | Nushell environment: `NU_CONFIG_DIR`, `CLAUSE_BOOT_NU`. |
 | **`PAS-12`** | `06-clauseos-source-bundle.md` | `docs/adr/adr_004...md` | Cross-shell canonicalization and 8-pass TOML compiler addendum. |
 | **`PAS-13`** | `06-clauseos-source-bundle.md` | `docs/adr/adr_006...md` | ADR 005 body duplicated under `adr_006` filename in codebase. |
@@ -249,8 +249,9 @@ The register below anchors every architectural invariant to its exact physical s
 
 ## Section 6: Extraction Quality Gate & Release Conditions
 
-The extractions compiled in this document provide an unbroken chain of custody between written curriculum modules, architecture records, and the physical code snapshot. 
+The extractions compiled in this document provide an unbroken chain of custody between written curriculum modules, architecture records, and the physical code snapshot.
 
 Advancing from the **Extract Stage** into downstream compiler compilation and runtime assembly requires satisfying two final conditions:
+
 1. **Defect Remediation (Batch 3):** The eight implementation bugs identified in Source Cards 1 and 5 must be patched in the physical files.
 2. **Specification Synchronization (Batch 2):** Curriculum documents `00-PROJECT-SPECIFICATION-v3.0.md` through `04-vieo-ai-curriculum-portal.md` must be updated to replace obsolete `seaxc` references with the `cxc` Gleam compiler fork.
