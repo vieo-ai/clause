@@ -33,7 +33,7 @@
 </div>
 ---
 
-> ### 🚧 Active Development & Architectural Stabilization
+> ## 🚧 Active Development & Architectural Stabilization
 >
 > **ClauseOS is currently in rapid, heavy active development (`v0.9.0-dev.1`).**
 >
@@ -452,7 +452,7 @@ Key architectural decisions are documented under `docs/adr/`:
 
 * [**ADR 0010**: Distributed BEAM Backplane, Gleam Orchestration, Nomad Scheduling, and MaaS](docs/adr/adr_010-beam-orchestrator-nomad-scheduler-maas.md)
 
-* [**ADR 0011**: Clause Programming Language, Multi-Target Transpiler, and Agent Directory Pattern](docs/adr/adr_011-seax-language-transpiler-agent-directory.md)
+* [**ADR 0011**: Clause Programming Language, Multi-Target Transpiler, and Agent Directory Pattern](docs/adr/adr_011-clause-language-transpiler-agent-directory.md)
 
 * [**ADR 0012**: RinG (Rust-in-Gleam) Type-Safe Native Integration Bridge](docs/adr/adr_012-ring-rust-in-gleam-bridge.md)
 
