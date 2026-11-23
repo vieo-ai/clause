@@ -1,129 +1,112 @@
-name: "💉 Failing Test"
-description: "Report failing tests or CI jobs."
+name: "💉 Failing Test / CI Gate"
+description: "Report failing verification suites (clause test, run_tests.ps1), plugin tests, or CI jobs."
 title: "[Test] "
-labels: ["Type: Test"]
+labels: ["Area: CI-CD & Tests", "Status: Backlog"]
 
 body:
   - type: markdown
     attributes:
       value: |
-        # **💉 Failing Test**
-        Use this form to report failing tests or CI jobs.
+        # **💉 Failing Test / CI Gate**
+        Use this form to report failing offline verification suites (`clause test`), cross-shell environment tests (`run_tests.ps1`), `plugins/cx-*` adapter checks, or GitHub Actions CI runners.
 
   - type: dropdown
-    id: package-name
+    id: subsystem
     attributes:
-      label: Select package
-      description: Select package where test is failing
+      label: Affected Subsystem / Test Suite
+      description: Select the ClauseOS subsystem, plugin, or verification suite where the test is failing.
       options:
-        - Auth
-        - Auth_OAuth2
-        - Auth_Twitter
-        - OAuth2
-        - Broadcasting
-        - Bus
-        - Cache
-        - Client
-        - Collections
-        - Concurrency
-        - Conditionable
-        - Config
-        - Console
-        - Container
-        - Contracts
-        - Cookie
-        - Database
-        - DBO
-        - RethinkDB
-        - Encryption
-        - Events
-        - Filesystem
-        - Foundation
-        - Hashing
-        - Log
-        - Macroable
-        - Mail
-        - CORS
-        - Proxy
-        - Security
-        - User_Agent
-        - Mirrors
-        - Modals
-        - Notifications
-        - Pagination
-        - Pipeline
-        - Process
-        - Production
-        - Queue
-        - Reload
-        - Routing
-        - Serialize
-        - File_Service
-        - Mongo
-        - Redis
-        - Sembast
-        - Session
-        - Support
-        - Testing
-        - Translation
-        - SEO
-        - Shelf
-        - Static
-        - Sync
-        - Validation
-        - Blade
-        - Html
-        - Jael
-        - Jinja
-        - Mark
-        - Websocket
+        - "Stage 0 Bootloader & Hydration (cx.bat / cx.ps1 / cx.sh)"
+        - "SSOT Environment Engine (config/env/*.toml / 8-pass expansion)"
+        - "Hermeticity & Sandbox Isolation (.home/ / PATH / AppData / XDG)"
+        - "Cross-Shell Environment Suite (tests/env/run_tests.ps1)"
+        - "Systems Verification Suite (tests/system/run_all.nu)"
+        - "Polyglot CLI & Nushell Router (scripts/cli/nu/)"
+        - "Package Substrate (Sterilized Scoop / Confined Brew / Mise)"
+        - "Plugin: cx-comfyui"
+        - "Plugin: cx-fastflowlm"
+        - "Plugin: cx-inferssd"
+        - "Plugin: cx-lemonade"
+        - "Plugin: cx-multipass"
+        - "Plugin: cx-unsloth"
+        - "Plugin: cx-vscode"
+        - "Compiler & Language Core (packages/clause / cxc)"
+        - "BEAM & Orchestrator (packages/clause_jet / tools/ring / HashiStack)"
+        - "Infra, MaaS & Micro-VMs (crates/clause-pulumi / cx vm / Pixiecore)"
+        - "TIGAH AI & Unified Model Hub ($HF_HOME / 40-ml-hub.toml)"
+        - "Virtual Enterprise & Harnesses (.enterprise / .apm / MCP)"
+        - "GitHub Actions Workflow (.github/workflows/)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: target-platform
+    attributes:
+      label: Target Platform & Runner Environment
+      description: Select the OS or CI runner environment where the failure occurred.
+      options:
+        - "Windows 10/11 (x64 - PowerShell 7)"
+        - "Linux (x64 / arm64 - GNU / musl)"
+        - "macOS (Apple Silicon / Intel)"
+        - "GitHub Actions CI (windows-latest)"
+        - "GitHub Actions CI (ubuntu-latest)"
+        - "GitHub Actions CI (macos-latest)"
+        - "Micro-VM (WSL2 / Lima / Multipass)"
     validations:
       required: true
 
   - type: input
     id: failing-tests
     attributes:
-      label: Which jobs/test(s) are failing
-      description: Specify the CI jobs or tests that are failing.
-      placeholder: e.g., `test_authentication`, `build_pipeline`
+      label: Failing Command, CI Job, or Assertion
+      description: Specify the exact command, test file, or CI job name that failed.
+      placeholder: "e.g., clause test (test_hermeticity.nu), pwsh tests/env/run_tests.ps1, or ci.yml / windows-test"
+    validations:
+      required: true
+
+  - type: textarea
+    id: failure-output
+    attributes:
+      label: Failure Log & Diagnostic Output
+      description: Paste the exact assertion error, stack trace, or `clause doctor` output (formatted inside code blocks).
+      placeholder: |
+        ```text
+        [Hermeticity Failure] PATH leak! Expected head ...
+        ```
+    validations:
+      required: true
 
   - type: textarea
     id: reason-for-failure
     attributes:
-      label: Reason for failure/description
-      description: Try to describe why the test is failing or what might be missing to make it pass.
-      placeholder: Provide details about the failure.
+      label: Root Cause Analysis / Expected Behavior
+      description: Describe why the test is failing, any host-OS leakage observed, or what is needed to make it pass.
+      placeholder: "Explain the expected invariant vs. actual behavior."
 
   - type: dropdown
     id: is-regression
     attributes:
       label: Is this a regression?
-      description: Did this behavior used to work in a previous version?
+      description: Did this test or CI gate pass on an earlier commit or release tag (`v0.9.0-dev.x`)?
       options:
         - "Yes"
         - "No"
-        - Not Sure
+        - "Not Sure"
     validations:
       required: true
 
   - type: textarea
-    id: media-proof
-    attributes:
-      label: Media proof
-      description: If applicable, add screenshots or videos to help explain your problem.
-      placeholder: Provide a link to media or describe media attachments.
-
-  - type: textarea
     id: additional-context
     attributes:
-      label: Additional context
-      description: Add any other context or additional information about the problem.
-      placeholder: Provide any additional details here.
+      label: Additional Context
+      description: Add hardware accelerator details (Strix Halo/ROCm, XDNA2 NPU, CUDA, Metal), commit SHA, or screenshots/recordings if applicable.
+      placeholder: "Commit SHA, hardware backend, or extra reproduction notes."
 
   - type: markdown
     attributes:
       value: |
         ---
         **Please Note:**
-        - Ensure you’ve searched open and closed issues before submitting.
-        - Review our Rules of Conduct in `.github/CODE_OF_CONDUCT.md`.
+        - Always execute tests inside the hermetic ClauseOS workbench (`clause test` or `.\cx.ps1 test` / `./cx.sh test`) rather than an uninitialized host shell.
+        - Search open and closed issues before submitting a duplicate report.
+        - Review our [Code of Conduct](../CODE_OF_CONDUCT.md) and [Contributing Guidelines](../CONTRIBUTING.md).
