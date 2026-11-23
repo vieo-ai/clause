@@ -82,6 +82,7 @@ Rather than maintaining three incompatible agent frameworks, **Seax** absorbs th
 ## 4. Track 3: AIEFS Reference Encyclopedia (`Vol. 1–6` Cross-Reference Map)
 
 Because **AIEFS (*AI Engineering From Scratch*, `aiengineeringfromscratch.com`)** consists of focused, self-contained mini-courses on mathematical and algorithmic primitives rather than full end-to-end applications, **vieo.ai** positions it as the **Reference Encyclopedia** supporting Tracks 1, 2, and 4. Every encyclopedia entry provides:
+
 1. **Default Seax (`.cx`) Implementation** (using Seax tensor/math primitives and `..` cascades)
 2. **Rust Systems Implementation** (zero-allocation `crates/*` implementation)
 3. **Python / PyTorch / JAX Reference** (original AIEFS baseline for cross-verification)
@@ -100,6 +101,7 @@ Because **AIEFS (*AI Engineering From Scratch*, `aiengineeringfromscratch.com`)*
 ## 5. Track 4: Bonus Track — AIEFS Claude Code in Seax
 
 To bridge learners coming from the AIEFS ecosystem directly into **ClauseOS**, **Track 4** presents the **AIEFS Claude Code Track** ported end-to-end into **Seax** and **Rust**:
+
 * **Side-by-Side Idiom Translation:** Every chapter shows the concise **Seax (`.cx`)** native construct (`agent`, `tool`, `compact`, `memory`, `expose -> Schema`, `needs`) alongside its **Rust** systems implementation and the original Python reference.
 * **Zero-Setup Execution Inside ClauseOS:** Learners clone the repository, run `cx` (or `./cx.sh`), and execute every lab offline inside `.home/` using local neural coprocessors (`Lemonade` / `InferSSD`)—zero API keys or host pollution required.
 * **Agent-Ready `llms.txt` & `.ground` Index:** Every module on **vieo.ai** exposes a machine-readable `llms.txt` manifest so coding agents inside ClauseOS can tutor, verify exercises against `cx test`, and generate PRs directly against the curriculum specification.
