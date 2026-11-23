@@ -1,12 +1,15 @@
 # ADR 007: Open-Core Substrate vs. Industry Adaptation Commercialization
 
 ## Status
+
 Accepted
 
 ## Context
+
 Defining the boundary between the open-source base repository and future commercial/monetized editions is necessary to guide development priorities and avoid artificial feature crippleware.
 
 ## Decision
+
 1. **Unconstrained Open-Core Substrate**:
    - The open-source repository is a fully functional, self-contained operating system workbench.
    - Node count, clustering (Nomad/Consul/Vault), cloud bursting (Pulumi), GPU acceleration, and agent harnesses are **never paywalled or artificially limited**.
@@ -18,5 +21,6 @@ Defining the boundary between the open-source base repository and future commerc
      - Enterprise system bridges (SAP, Oracle, Epic, corporate Active Directory).
 
 ## Consequences
+
 - **Positive**: Drives adoption among developers who gain a powerful, unconstrained tool.
 - **Positive**: Enterprise buyers pay for domain-specific risk reduction, compliance, and pre-packaged agent teams rather than low-level software licenses.
