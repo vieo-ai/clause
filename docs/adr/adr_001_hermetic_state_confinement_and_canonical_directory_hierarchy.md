@@ -32,12 +32,14 @@ All subshells and runtime processes launched by ClauseOS operate with their core
 ### Directory Layout & Variable Contracts
 
 #### Common Base Anchors
+
 - `CLAUSE_PROJECT_ROOT`: Absolute, fully resolved root path of the repository.
 - `CLAUSE_HOME`: Path to `$CLAUSE_PROJECT_ROOT/.home`.
 - `HOME`: Anchored directly to `$CLAUSE_HOME`.
 - `USERPROFILE`: Anchored directly to `$CLAUSE_HOME`.
 
 #### Windows NT Hierarchy (`$IsOSWindows`)
+
 - `LOCALAPPDATA` $\rightarrow$ `$CLAUSE_HOME\AppData\Local`
 - `APPDATA` $\rightarrow$ `$CLAUSE_HOME\AppData\Roaming`
 - `CLAUSE_BIN_DIR` $\rightarrow$ `$LOCALAPPDATA\Programs\bin`
@@ -51,6 +53,7 @@ All subshells and runtime processes launched by ClauseOS operate with their core
 - `MISE_CACHE_DIR` $\rightarrow$ `$LOCALAPPDATA\mise\cache`
 
 #### POSIX XDG Hierarchy (Linux & macOS)
+
 - `XDG_CONFIG_HOME` $\rightarrow$ `$CLAUSE_HOME/.config`
 - `XDG_DATA_HOME` $\rightarrow$ `$CLAUSE_HOME/.local/share`
 - `XDG_STATE_HOME` $\rightarrow$ `$CLAUSE_HOME/.local/state`
@@ -68,10 +71,12 @@ All subshells and runtime processes launched by ClauseOS operate with their core
 ### Consequences
 
 #### Positive
+
 - Zero footprint on host storage outside of the project workspace.
 - Deleting `$CLAUSE_PROJECT_ROOT/.home` guarantees a complete, clean reset of all state.
 - Automated tests (`test_hermeticity.nu`) programmatically verify that no process escapes the sandbox boundary.
 
 #### Negative
+
 - Tools assuming hardcoded system paths (e.g. `/etc` or `C:\ProgramData`) must be shimmed or configured via environment variables.
 - Bootloader scripts must verify that directory structures exist prior to process execution.
