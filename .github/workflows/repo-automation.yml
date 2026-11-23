@@ -1,0 +1,100 @@
+name: ClauseOS Repo Automation
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+  push:
+    branches:
+      - main
+  schedule:
+    # Run daily at 08:00 UTC for stale issue/PR hygiene
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  # 1. First-Time Issue & PR Welcome (Replaces behaviorbot/new-issue-welcome & new-pr-welcome)
+  welcome-first-time-contributors:
+    name: Welcome First-Time Contributors
+    if: github.event_name == 'issues' || github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post Welcome Comment
+        uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            Welcome to **Vieo / ClauseOS** (`vieo-ai/clause.os`), and thank you for opening your first issue!
+            To help maintainers and Virtual Enterprise agents triage and reproduce this deterministically, please ensure you have included:
+            - Your target platform (`Windows`, `Linux`, or `macOS`) and hardware backend if applicable (e.g., `Strix Halo / ROCm`, `XDNA2 NPU`, `CUDA`, `Metal`)
+            - Output from `clause doctor` or `clause test` (`tests/system/run_all.nu`)
+            - Any relevant `config/env/*.toml` overlay or `plugins/cx-*` adapter context
+
+            Please also review our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md).
+          pr-message: |
+            Thank you for opening your first pull request to **ClauseOS** (`vieo-ai/clause.os`)!
+            Before review, please verify that your PR meets our repository invariants:
+            - **PR Title:** Uses Conventional Commits (`feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`) for deterministic SemVer (`v0.9.0-dev.x`) release notes
+            - **Zero-Leak Confinement:** All state, caches, and toolchains remain strictly confined inside `.home/` and resolve through `config/env/*.toml`
+            - **Verification Gates:** Both `clause test` (`tests/system/run_all.nu`) and `pwsh tests/env/run_tests.ps1` pass cleanly across target platforms
+
+            See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
+
+  # 2. Automated @todo / TODO(clause) / FIXME(clause) Issue Sync (Replaces jasonetco/todo)
+  todo-to-issue:
+    name: Sync Code Markers to Issues
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Convert TODO Markers to Backlog Issues
+        uses: alstr/todo-to-issue-action@v5
+        with:
+          REPO: ${{ github.repository }}
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LABEL: '"Status: Backlog"'
+          IDENTIFIERS: '[{"name": "@todo", "labels": ["Status: Backlog"]}, {"name": "TODO(clause)", "labels": ["Status: Backlog"]}, {"name": "FIXME(clause)", "labels": ["Status: Backlog", "Priority: High"]}]'
+          AUTO_P: true
+          CLOSE_ISSUES: true
+
+  # 3. Stale Issue & PR Hygiene (Replaces probot/stale)
+  stale-hygiene:
+    name: Stale Issue & PR Hygiene
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark & Close Stale Items
+        uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-issue-stale: 45
+          days-before-pr-stale: 45
+          days-before-issue-close: 14
+          days-before-pr-close: 14
+          stale-issue-label: 'Status: Backlog'
+          stale-pr-label: 'Status: Backlog'
+          exempt-issue-labels: 'Priority: Critical,Severity: Blocker,Status: In Progress,Status: Blocked,Area: Docs & Curriculum'
+          exempt-pr-labels: 'Priority: Critical,Severity: Blocker,Status: In Progress,Status: Blocked,Area: Docs & Curriculum'
+          stale-issue-message: >
+            This issue has had no activity for 45 days. If it is still relevant to the active
+            ClauseOS (`v0.9.0-dev.x`) runway, please comment with an update or reproduction log;
+            otherwise it will close automatically in 14 days.
+          stale-pr-message: >
+            This pull request has had no activity for 45 days. Please rebase against `main` and
+            confirm `clause test` passes, or comment with a status update; otherwise it will close
+            automatically in 14 days.
+          close-issue-message: >
+            Closing due to inactivity. Feel free to reopen or file a fresh issue with updated
+            `clause doctor` diagnostics if this persists.
+          close-pr-message: >
+            Closing pull request due to inactivity. Feel free to reopen when ready for review.
