@@ -21,179 +21,163 @@ repository:
 # Labels: define labels for Issues, Pull Requests, and Virtual Enterprise (.enterprise/) routing
 labels:
   # --- Workflow & Triage Status ---
-  - name: Status: Backlog
+  - name: 'Status: Backlog'
     color: d4c5f9
-    description: Defined and prioritized in roadmap or CCEFS curriculum, not yet started.
+    description: "Defined and prioritized in roadmap or CCEFS curriculum, not yet started."
 
-  - name: Status: Ready
+  - name: 'Status: Ready'
     color: 0e8a16
-    description: Fully specified with clear verification gate criteria and ready for execution.
+    description: "Fully specified with clear verification gate criteria and ready for execution."
 
-  - name: Status: In Progress
+  - name: 'Status: In Progress'
     color: 006b75
-    description: Actively being implemented by a maintainer or Virtual Enterprise agent.
+    description: "Actively being implemented by a maintainer or Virtual Enterprise agent."
 
-  - name: Status: In Review
+  - name: 'Status: In Review'
     color: cfd3d7
-    description: PR open and awaiting maintainer review and offline cx test CI verification.
+    description: "PR open and awaiting maintainer review and offline cx test CI verification."
 
-  - name: Status: Done
+  - name: 'Status: Done'
     color: 84b6eb
-    description: Verified against all deterministic gates and merged into main.
+    description: "Verified against all deterministic gates and merged into main."
 
   - name: 'Status: Blocked'
     color: cc317c
-    description: Blocked by upstream toolchain release, hardware target, or dependency issue.
+    description: "Blocked by upstream toolchain release, hardware target, or dependency issue."
 
   - name: 'Status: Duplicate'
     color: EB862D
-    description: Duplicate of an existing issue or defect ledger entry.
+    description: "Duplicate of an existing issue or defect ledger entry."
 
   - name: 'Status: Invalid'
     color: faef50
-    description: Out of scope or invalid report.
+    description: "Out of scope or invalid report."
 
   - name: "Status: Won't fix"
     color: C8D9E6
-    description: Working as intended per ClauseOS hermeticity or architectural invariants.
+    description: "Working as intended per ClauseOS hermeticity or architectural invariants."
 
   # --- Priority ---
   - name: 'Priority: Critical'
     color: b60205
-    description: Blocks Stage 0/1 boot, breaks .home/ sandbox confinement, or halts release gate.
+    description: "Blocks Stage 0/1 boot, breaks .home/ sandbox confinement, or halts release gate."
 
   - name: 'Priority: High'
     color: d93f0b
-    description: High-impact defect or milestone deliverable for the active v0.9.0-dev.x runway.
+    description: "High-impact defect or milestone deliverable for the active v0.9.0-dev.x runway."
 
   - name: 'Priority: Medium'
     color: fbca04
-    description: Standard priority enhancement or non-blocking defect.
+    description: "Standard priority enhancement or non-blocking defect."
 
   - name: 'Priority: Low'
     color: 0e8a16
-    description: Nice-to-have polish, cleanup, or deferred optimization.
+    description: "Nice-to-have polish, cleanup, or deferred optimization."
 
   # --- Severity ---
   - name: 'Severity: Blocker'
     color: 660000
-    description: Completely prevents bootstrapping, compilation, or test gate execution.
+    description: "Completely prevents bootstrapping, compilation, or test gate execution."
 
   - name: 'Severity: Major'
     color: FF0000
-    description: Core subsystem regression or host-OS environment leak.
+    description: "Core subsystem regression or host-OS environment leak."
 
   - name: 'Severity: Minor'
     color: ff9900
-    description: Partial degradation with a deterministic workaround.
+    description: "Partial degradation with a deterministic workaround."
 
   - name: 'Severity: Trivial'
     color: 336600
-    description: Cosmetic, typo, or minor DX friction.
+    description: "Cosmetic, typo, or minor DX friction."
 
   # --- ClauseOS Architectural Areas ---
   - name: 'Area: Substrate & Boot'
     color: 6600ff
-    description: Stage 0 microkernel bootloaders (cx.bat/cx.ps1/cx.sh), .home/ confinement, and config/env/*.toml SSOT.
+    description: "Stage 0 microkernel bootloaders (cx.bat/cx.ps1/cx.sh), .home/ confinement, and config/env/*.toml SSOT."
 
   - name: 'Area: Compiler (cxc)'
     color: 5319e7
-    description: Clause (.cx) language frontend, AST/macros, and multi-target emitters (--target rust, beam, client) in packages/clause/.
+    description: "Clause (.cx) language frontend, AST/macros, and multi-target emitters (--target rust, beam, client) in packages/clause/."
 
   - name: 'Area: BEAM & Orchestrator'
     color: 7057ff
-    description: Erlang/OTP 29 backplane, packages/clause_jet/, RinG dirty-scheduler FFI (tools/ring/), and HashiStack (Nomad/Consul/Vault).
+    description: "Erlang/OTP 29 backplane, packages/clause_jet/, RinG dirty-scheduler FFI (tools/ring/), and HashiStack (Nomad/Consul/Vault)."
 
   - name: 'Area: Infra & MaaS'
     color: 0052cc
-    description: Native Rust Pulumi IaC (crates/clause-pulumi/), Pixiecore + Packer iPXE bare-metal MaaS, and cx vm micro-VMs (WSL2/Lima).
+    description: "Native Rust Pulumi IaC (crates/clause-pulumi/), Pixiecore + Packer iPXE bare-metal MaaS, and cx vm micro-VMs (WSL2/Lima)."
 
   - name: 'Area: TIGAH & AI'
     color: 1d76db
-    description: Local neural coprocessors (Lemonade, FastFlowLM, InferSSD, Unsloth, ComfyUI), $HF_HOME hub, and contained 1B-7B SLMs.
+    description: "Local neural coprocessors (Lemonade, FastFlowLM, InferSSD, Unsloth, ComfyUI), $HF_HOME hub, and contained 1B-7B SLMs."
 
   - name: 'Area: Virtual Enterprise'
     color: 0e8a16
-    description: .enterprise/ governance, .apm/ agent packaging, MCP/A2A protocols, and VS Code / Claude / Codex harness compilation.
+    description: ".enterprise/ governance, .apm/ agent packaging, MCP/A2A protocols, and VS Code / Claude / Codex harness compilation."
 
   - name: 'Area: Transmedia & Telecom'
     color: 884488
-    description: Zero-alloc audio/video DSP (oximedia, nih-plug, Craft), Kazoo/Kamailio SIP switching, Membrane/CasparCG playout, and C2PA/DDEX.
+    description: "Zero-alloc audio/video DSP (oximedia, nih-plug, Craft), Kazoo/Kamailio SIP switching, Membrane/CasparCG playout, and C2PA/DDEX."
 
   - name: 'Area: Plugins & Toolchains'
     color: 006b75
-    description: First-party Lua Mise adapters (plugins/cx-*), sterilized Scoop (# clause-scoop-patches: 1), confined Brew, and .mise.*.toml overlays.
+    description: "First-party Lua Mise adapters (plugins/cx-*), sterilized Scoop (# clause-scoop-patches: 1), confined Brew, and .mise.*.toml overlays."
 
   - name: 'Area: CLI & DX'
     color: f5d0a9
-    description: Polyglot Nushell command router (scripts/cli/nu/), portable VS Code cockpit (cx-vscode), and Flight Deck UIs (Lustre/Shore/O2K).
+    description: "Polyglot Nushell command router (scripts/cli/nu/), portable VS Code cockpit (cx-vscode), and Flight Deck UIs (Lustre/Shore/O2K)."
 
   - name: 'Area: Security'
     color: b58e00
-    description: Zero-leak sandbox hardening, Vault dynamic leases, OS MAC sandboxes (Landlock/Seatbelt), and supply-chain integrity.
+    description: "Zero-leak sandbox hardening, Vault dynamic leases, OS MAC sandboxes (Landlock/Seatbelt), and supply-chain integrity."
 
   - name: 'Area: CI-CD & Tests'
     color: f9d0c4
-    description: Deterministic offline verification gates (cx test, tests/system/run_all.nu, tests/env/run_tests.ps1) and GitHub Actions.
+    description: "Deterministic offline verification gates (cx test, tests/system/run_all.nu, tests/env/run_tests.ps1) and GitHub Actions."
 
   - name: 'Area: Docs & Curriculum'
     color: d876e3
-    description: Architecture Decision Records (docs/adr/), Track 1 CCEFS modules (docs/ccefs/), and vieo.ai documentation.
+    description: "Architecture Decision Records (docs/adr/), Track 1 CCEFS modules (docs/ccefs/), and vieo.ai documentation."
 
   # --- Effort / Sizing ---
   - name: 'Size: XL'
     color: 006600
-    description: Multi-module architectural milestone or full subsystem vertical slice.
+    description: "Multi-module architectural milestone or full subsystem vertical slice."
 
   - name: 'Size: L'
     color: 339933
-    description: Significant feature or cross-platform substrate implementation.
+    description: "Significant feature or cross-platform substrate implementation."
 
   - name: 'Size: M'
     color: 66cc66
-    description: Self-contained module, CLI command, or cx-* plugin update.
+    description: "Self-contained module, CLI command, or cx-* plugin update."
 
   - name: 'Size: S'
     color: 99ff99
-    description: Focused bug fix, test assertion, or config overlay update.
+    description: "Focused bug fix, test assertion, or config overlay update."
 
   - name: 'Size: XS'
     color: ccffcc
-    description: Trivial patch, version pin bump, or documentation fix.
+    description: "Trivial patch, version pin bump, or documentation fix."
 
   # --- External & Host / Compute Targets ---
   - name: 'Upstream / 3rd Party'
     color: e88707
-    description: Issue originates in an upstream dependency (Mise, Nushell, Gleam, Erlang/OTP, Scoop, Homebrew, ROCm/CUDA).
+    description: "Issue originates in an upstream dependency (Mise, Nushell, Gleam, Erlang/OTP, Scoop, Homebrew, ROCm/CUDA)."
 
   - name: 'Target: Windows'
     color: AEB1C2
-    description: Specific to Windows 10/11 (x64), PowerShell 7 Stage 0/1, Patched Scoop, or WSL2 micro-VMs.
+    description: "Specific to Windows 10/11 (x64), PowerShell 7 Stage 0/1, Patched Scoop, or WSL2 micro-VMs."
 
   - name: 'Target: Linux'
     color: AEB1C2
-    description: Specific to Linux (x64/arm64 gnu/musl), POSIX Stage 0/1, Landlock/Bubblewrap, or bare-metal MaaS.
+    description: "Specific to Linux (x64/arm64 gnu/musl), POSIX Stage 0/1, Landlock/Bubblewrap, or bare-metal MaaS."
 
   - name: 'Target: macOS'
     color: AEB1C2
-    description: Specific to macOS (Apple Silicon/Intel), confined Homebrew, Seatbelt, or Lima micro-VMs.
+    description: "Specific to macOS (Apple Silicon/Intel), confined Homebrew, Seatbelt, or Lima micro-VMs."
 
   - name: 'Target: Hardware / NPU-GPU'
     color: AEB1C2
-    description: Specific to hardware acceleration backends (AMD Strix Halo / ROCm, XDNA2 NPU, NVIDIA CUDA, Apple Metal, Vulkan).
-
-# branches:
-#   - name: main
-#     protection:
-#       required_pull_request_reviews:
-#         required_approving_review_count: 1
-#         dismiss_stale_reviews: true
-#         require_code_owner_reviews: true
-#       required_status_checks:
-#         strict: true
-#         contexts:
-#           - "ClauseOS Hermeticity & System Tests (Windows)"
-#           - "ClauseOS Hermeticity & System Tests (Linux)"
-#           - "ClauseOS Hermeticity & System Tests (macOS)"
-#       enforce_admins: true
-#       required_linear_history: true
+    description: "Specific to hardware acceleration backends (AMD Strix Halo / ROCm, XDNA2 NPU, NVIDIA CUDA, Apple Metal, Vulkan)."
