@@ -38,6 +38,7 @@ To eliminate subjective evaluation and speculative drift, every source entering 
 The repository's 199 sources were screened across the twelve operational competency domains and evaluated against the lexicon boundaries codified in Architecture Decision Record 0007.
 
 #### Core Subsystem Domain Allocation
+
 * **Systems and Userland Sandboxes (Domain 8):** Captured authoritatively in root bootloaders `cx.bat`, `cx.ps1`, `cx.sh`, modular environment manifests `config/env/00-core.toml` through `40-ml-hub.toml`, and the shell literature spanning `l21` through `l32`.
 * **Compilers, Transpilers, and Multi-Target Codegen (Domain 10):** Governed by the compiler blueprint in `docs/ccefs/06-clause-cxc-gleam-refactoring-multi-target-blueprint.md`, transcript `d48-gleam-to-clause-forking`, and compiler engineering texts `k01` through `k03`.
 * **Telecommunications, Switching, and Media Streaming (Domains 2, 4, 5):** Grounded in the master architectural blueprints for Real-Time Communications, Digital Media Infrastructure, Open Source Broadcast, and the state of the BEAM ecosystem.
@@ -45,7 +46,9 @@ The repository's 199 sources were screened across the twelve operational compete
 * **AI Engineering and Autonomous Harnesses (Domain 12):** Governed by the Claude Code extraction series `r01` through `r22`, protocol standards `s01` through `s05`, and the AI Engineering From Scratch encyclopedia `e01` through `e06`.
 
 #### Anti-Keywords & Strict Lexicon Boundaries (ADR 0007)
+
 In strict enforcement of Architecture Decision Record 0007, generic business applications, retail point-of-sale systems, bakery management software, electronic health record workflows, and hospital clinical data models are formally designated as anti-keywords:
+
 * **Anti-Keywords:** `retail-pos`, `bakery`, `hospital-ehr`, `hl7`, `fhir`, `clinical-trials`, `legal-billing`, `real-estate-mls`, `general-saas`.
 * **Enforcement Rule:** Such domains are strictly prohibited from entering the standard library of the Clause language (`stdlib/clause/`). Where enterprise business orchestration appears in discussion transcripts (such as `d20-onemancompany-framework-review` or `d23-ai-company-os-evaluation-report`), it is quarantined to downstream commercial cartridges (`.apm/` or `.enterprise/`), ensuring the core operating system maintains carrier-class purity.
 
@@ -67,7 +70,7 @@ All 199 selected sources and the single forensic note were verified against thei
 | **l01–l49 Polyglot Stacks** | 49 files | PDF | Deep technical specifications across 19 target runtimes, emphasizing Rust (`l13`, `l14`), Elixir/BEAM (`l04`), and shells. |
 | **r01–r22 Agent Harnesses** | 22 files | PDF | Source decompilations and architectural analyses of Claude Code, OpenClaw, and production coding harnesses. |
 | **s01–s05 Protocol Standards** | 5 files | PDF | Model Context Protocol landscape, security architectures, Agent-to-Agent protocols, and the Longhorn harness. |
-| **t01–t09 Strategic Whitepapers**| 9 files | Markdown (Drive) | Agentic software development life cycles, Agent Package Manager, AI Company OS, and prompt engineering protocols. |
+| **t01–t09 Strategic Whitepapers** | 9 files | Markdown (Drive) | Agentic software development life cycles, Agent Package Manager, AI Company OS, and prompt engineering protocols. |
 | **Strategic Master Blueprints** | 10 files | Google Docs | Industrial analyses spanning converged media economics, cloud infrastructure, broadcast engineering, and RTC backplanes. |
 | **Forensic Audit Notes** | 1 note (`n01`) | Notebook Note | Byte-level verification of Scoop installation substrate, registry no-op patching, and session PATH exposure gaps. |
 
@@ -194,6 +197,7 @@ A coverage audit across the twelve domains was conducted to evaluate coverage de
                     CLAUSEOS CORPUS GOVERNANCE CHARTER
 ================================================================================
 ```
+
 1. **Rule of Code Supremacy:** `06-clauseos-source-bundle.md` (v0.9.0-dev.1) followed by `05-source-bundle-audit-report.md` is the **Supreme Single Source of Truth**. Any architectural claim contradicted by the physical code is null and void unless accompanied by an explicit patch.
 2. **Rule of Non-Destructive Editing:** No spec in `00`–`04` or ADR in `adr_001`–`013` shall be silently overwritten, compressed, or truncated. All updates must be delivered as targeted diffs per `docs/ccefs/07-clauseos-document-tree-synchronization-plan.md`.
 3. **Rule of the 9 Canonical Pillars:** The standard language library (`stdlib/clause/`) and runtime architecture are restricted strictly to `kernel`, `app`, `infra`, `deck`, `comms`, `studio`, `stage`, `stream`, and `tactical`. All generic commercial verticals are barred from the core corpus.
@@ -229,6 +233,7 @@ A coverage audit across the twelve domains was conducted to evaluate coverage de
 ### Deliverable C: Approved Active Corpus (Summary Inventory)
 
 The approved active corpus comprises **199 validated sources and 1 note**, organized into the formal taxonomy:
+
 1. **SSOT Specifications & Code:** Sources `00`, `01`, `02`, `03`, `04`, `05`, `06`, and Note `n01`.
 2. **Architectural Foundations:** Sources `a00`–`a07`, `b00`–`b04`, `b18`, `b23`.
 3. **Compiler & Systems Engineering:** Sources `k01`–`k04`, `l01`–`l49`.
@@ -249,6 +254,7 @@ The following items are formally registered in the **Gap Queue** as unresolved d
                          CLAUSEOS ACTIVE GAP QUEUE
 ================================================================================
 ```
+
 1. **[GAP-01 | SPEC DRIFT] `seaxc` vs. `cxc` Fork:**  
    `01-ccefs-30-modules-v4.3.md` and `03-stage1-2-compiler-orchestrator-v4.3.md` still prescribe building `crates/seax-core` and Pratt parser from scratch in Rust, whereas `docs/ccefs/06` and `d48` mandate forking `gleam-lang/gleam` inside `packages/clause/` (`cxc`).  
    *Remediation:* Apply Batch 2 diffs from `07-clauseos-document-tree-synchronization-plan.md`.
