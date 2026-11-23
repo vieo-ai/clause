@@ -26,6 +26,7 @@ Desktop.ini
 bootstrap.txt
 .env
 .mise.local.toml
+git-history.csv
 
 # User-specific files
 .archive/
