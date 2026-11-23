@@ -19,9 +19,9 @@ In accordance with the Supreme Single Source of Truth protocol, physical impleme
 
 Metadata attributes across the entire repository corpus have been verified to prevent institutional confusion, eliminate hallucinated attributions, and establish unambiguous legal and operational identity.
 
-The project is governed under the corporate stewardship of Vieo (`vieo-ai`), operating as the foundational technology substrate for sovereign virtual enterprises and media networks. The core operating system substrate is designated as ClauseOS (`clause.os` / `cx`), transitioning from the legacy Vieo Tigah prototype harness v2.1 into a self-contained carrier-grade operating system. 
+The project is governed under the corporate stewardship of Vieo (`vieo-ai`), operating as the foundational technology substrate for sovereign virtual enterprises and media networks. The core operating system substrate is designated as ClauseOS (`clause.os` / `cx`), transitioning from the legacy Vieo Tigah prototype harness v2.1 into a self-contained carrier-grade operating system.
 
-The domain-specific language is officially designated as Clause (file extension `.cx`), replacing legacy working references to Seax. The compiler command-line interface binary is `cxc`, constructed as an upstream-clean fork of the Gleam compiler (`gleam-lang/gleam`) situated within `packages/clause/`. 
+The domain-specific language is officially designated as Clause (file extension `.cx`), replacing legacy working references to Seax. The compiler command-line interface binary is `cxc`, constructed as an upstream-clean fork of the Gleam compiler (`gleam-lang/gleam`) situated within `packages/clause/`.
 
 The distributed control plane, mission control switchboard, and agent supervisor runtime is designated as `clause_jet`, residing in `packages/clause_jet/` and compiling to the Erlang/OTP 29 BEAM virtual machine.
 
@@ -60,6 +60,7 @@ System reproducibility requires absolute temporal anchoring. The table below doc
 Every filesystem path referenced across the thirty curriculum modules, architectural blueprints, and environment configurations was audited against the physical layout of the live repository. Target paths fall into two categories: verified existing anchors and acknowledged development targets.
 
 ### Verified Physical Target Paths on Disk
+
 The following file structures are verified to exist on disk within the `v0.9.0-dev.1` source bundle:
 
 * Environment Manifest Declarations: Located in `config/env/` across five modular TOML files: `00-core.toml`, `10-identity.toml`, `20-toolchains.toml`, `30-shell.toml`, and `40-ml-hub.toml`.
@@ -69,6 +70,7 @@ The following file structures are verified to exist on disk within the `v0.9.0-d
 * Test Execution Suites: Located in `tests/system/`, containing `run_all.nu`, `test_stage0.nu`, and `test_stage1.nu`.
 
 ### Acknowledged Un-scaffolded Target Paths
+
 The following paths represent active engineering targets defined in architectural specifications and synchronization plans that are not yet committed to the live physical tree:
 
 * `packages/clause/`: The compiler core fork emitting the `cxc` binary, modeled in `docs/ccefs/06-clause-cxc-gleam-refactoring-multi-target-blueprint.md`.
@@ -103,11 +105,13 @@ The audit matrix below evaluates the precision of each synthesized claim against
 The authoritative bibliography for ClauseOS is categorized across the four tiers of the Supreme Single Source of Truth document hierarchy, incorporating the verified repository prefix taxonomy.
 
 ### Tier 1: Ground-Truth Implementation Snapshot, Audit & Forensic Notes
+
 * `06-clauseos-source-bundle.md`: ClauseOS Complete Source & Architecture Bundle (v0.9.0-dev.1). Generated 2026-11-21 23:46:47 -07:00, comprising 195 tracked files across shell microkernels, modular TOML configurations, Nushell core engines, and Lua toolchain plugins. Absolute primary baseline.
 * `05-source-bundle-audit-report.md`: ClauseOS Source Bundle & Notebook Forensic Audit Report. Published 2026-11-17 22:17:38 -0800 (Commit `7fa82f1`). Audits 177 files and identifies the seven internal code, test, and documentation defects.
 * Note `n01-scoop-path-audit`: Forensic Architectural and Implementation Audit: Scoop Installation Substrate and PATH Visibility in ClauseOS. Documents the omission of `$env:SCOOP\shims` from Nushell `$env:PATH` and manifest parsing omissions.
 
 ### Tier 2: Supreme Architectural & Curriculum Specifications
+
 * `00-PROJECT-SPECIFICATION-v3.0.md`: CCEFS Master Project Specification (v3.0). Codifies the Quad Synthesis Model (Fowler P-EAA, Gang of Four, Laravel Illuminate DX, Julian Storer JUCE DSP), the 27-package Illuminate mapping, and the 12-domain competencies.
 * `01-ccefs-30-modules-v4.3.md`: CCEFS Track 1 Master 30-Module Curriculum Map (v4.3). Defines the six-stage linear engineering progression from Stage 0 bare-metal userland through Stage 5 open-core release.
 * `02-stage0-foundation-modules-v4.3.md`: CCEFS Stage 0 Deep-Dive: Sealing the Hermetic Bare-Metal Userland (v4.3). Establishes implementation requirements for Modules 0.1 through 0.5.
@@ -117,6 +121,7 @@ The authoritative bibliography for ClauseOS is categorized across the four tiers
 * `docs/ccefs/07-clauseos-document-tree-synchronization-plan.md`: ClauseOS Document Tree Synchronization & Drift Remediation Plan. Formulates the 3-batch surgical remediation roadmap.
 
 ### Tier 3: Canonical Architecture Decision Records
+
 * `ADR 0001`: Hermetic State Confinement and Canonical Directory Hierarchy.
 * `ADR 0002`: Two-Tier Toolchain Orchestration (Mise + Renv), amended to Three-Tier Substrate.
 * `ADR 0003`: Dynamic Multi-Vendor Hardware Acceleration Matrix.
@@ -132,6 +137,7 @@ The authoritative bibliography for ClauseOS is categorized across the four tiers
 * `ADR 0013`: Curated Domain SLMs vs. Saturated Generalist Models (The Contained Cup Architecture).
 
 ### Tier 4: Subordinate Systems Research & Engineering Foundations
+
 * Compilers and Orchestrators (`k01`–`k04`): Thorsten Ball, *Writing An Interpreter In Go* (`k01`), *The Lost Chapter: A Macro System For Monkey* (`k02`), *Writing A Compiler In Go* (`k03`); Tim Boring, *Build an Orchestrator in Go* (`k04`).
 * Architecture and Patterns (`a00`–`a07`): Martin Fowler, *Patterns of Enterprise Application Architecture* (`a06`); Erich Gamma et al., *Design Patterns: Elements of Reusable Object-Oriented Software* (`a02`/`a07`); Taylor Otwell, *Laravel Architecture & Design Patterns* (`a05`).
 * AI Engineering Foundations (`e01`–`e06`): *AI Engineering From Scratch (AIEFS)*, Volumes 1 through 6.
@@ -147,6 +153,7 @@ The authoritative bibliography for ClauseOS is categorized across the four tiers
 To preserve operational trust and support continuous automated verification, the following technical defects and specification drift items are formally disclosed.
 
 ### Active Implementation Defects in Codebase Bundle
+
 The physical repository contains eight verified implementation defects that must be remedied prior to entering Stage 1 active compilation:
 
 1. Defect `DEF-01`: Runtime Startup Failure in `env.nu`. The script `scripts/cli/nu/config/env.nu` attempts to parse a non-existent legacy `.env` file and indexes retired `WIN_*` environment variables, producing errors during clean bootloader initialization.
@@ -159,9 +166,10 @@ The physical repository contains eight verified implementation defects that must
 8. Defect `DEF-08`: Scoop Shims PATH Omission. The bootloader `cx.ps1` and environment manifest `20-toolchains.toml` fail to expose `$env:SCOOP\shims` on session `$env:PATH`, rendering Scoop CLI packages unreachable in the default shell.
 
 ### Acknowledged Specification Drift
-Curriculum specifications `00-PROJECT-SPECIFICATION-v3.0.md`, `01-ccefs-30-modules-v4.3.md`, and `03-stage1-2-compiler-orchestrator-v4.3.md` continue to describe building the `seaxc` compiler from scratch in Rust with custom Pratt parsers and stack-based bytecode VMs. 
 
-This design was formally superseded by the consensus documented in `docs/ccefs/06-clause-cxc-gleam-refactoring-multi-target-blueprint.md` and transcript `d48-gleam-to-clause-forking`, which mandates forking `gleam-lang/gleam` inside `packages/clause/` to emit the `cxc` binary with multi-target emitters (`--target rust`, `--target beam`, `--target client`). 
+Curriculum specifications `00-PROJECT-SPECIFICATION-v3.0.md`, `01-ccefs-30-modules-v4.3.md`, and `03-stage1-2-compiler-orchestrator-v4.3.md` continue to describe building the `seaxc` compiler from scratch in Rust with custom Pratt parsers and stack-based bytecode VMs.
+
+This design was formally superseded by the consensus documented in `docs/ccefs/06-clause-cxc-gleam-refactoring-multi-target-blueprint.md` and transcript `d48-gleam-to-clause-forking`, which mandates forking `gleam-lang/gleam` inside `packages/clause/` to emit the `cxc` binary with multi-target emitters (`--target rust`, `--target beam`, `--target client`).
 
 This drift is scheduled for systematic reconciliation under Batch 2 of `docs/ccefs/07-clauseos-document-tree-synchronization-plan.md`.
 
