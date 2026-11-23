@@ -1,6 +1,6 @@
 # Vieo & ClauseOS Security Policy
 
-The **Vieo** (`vieo-ai`) team treats security, hermetic isolation, and cryptographic provenance as foundational invariants of **ClauseOS** (`clause.os` / `cx`), the **Clause (`.cx`)** compiler toolchain (`cxc`), and the **TIGAH** neural/agentic runtime. This document outlines our vulnerability disclosure protocol, supported release baselines, and defensive engineering architecture.
+The **Vieo** (`vieo-ai`) team treats security, hermetic isolation, and cryptographic provenance as foundational invariants of **ClauseOS** (`clause` / `cx`), the **Clause (`.cx`)** compiler toolchain (`cxc`), and the **TIGAH** neural/agentic runtime. This document outlines our vulnerability disclosure protocol, supported release baselines, and defensive engineering architecture.
 
 ## Supported Versions
 
@@ -13,10 +13,10 @@ Security patches and advisories are actively maintained for the current developm
 
 ## Reporting Security Vulnerabilities
 
-If you discover a security vulnerability anywhere in **ClauseOS** (`vieo-ai/clause.os`), first-party `plugins/cx-*` adapters, the **Clause (`cxc`)** compiler, or **TIGAH** runtime components, we appreciate your help disclosing it responsibly:
+If you discover a security vulnerability anywhere in **ClauseOS** (`vieo-ai/clause`), first-party `plugins/cx-*` adapters, the **Clause (`cxc`)** compiler, or **TIGAH** runtime components, we appreciate your help disclosing it responsibly:
 
 1. **Do not** open a public GitHub issue, pull request, or Discord thread disclosing the vulnerability.
-2. Submit a private report via **GitHub Security Advisories** (`https://github.com/vieo-ai/clause.os/security/advisories/new`) or email **[security@vieo.ai](mailto:security@vieo.ai)** containing:
+2. Submit a private report via **GitHub Security Advisories** (`https://github.com/vieo-ai/clause/security/advisories/new`) or email **[security@vieo.ai](mailto:security@vieo.ai)** containing:
    - Affected subsystem, file path, or `cx-*` plugin name (e.g., `cx.ps1`, `cx.sh`, `config/env/*.toml`, `scripts/cli/nu/`, `plugins/cx-*`)
    - A clear technical description of the vulnerability and threat model
    - Deterministic reproduction steps or proof-of-concept inputs
