@@ -39,6 +39,7 @@ CUDA ROCm XPU CPU               CUDA ROCm XPU CPU                  MPS          
 ### Detection & Resolution Implementation
 
 #### 1. NVIDIA CUDA Matrix
+
 - Probes `nvidia-smi` to extract major and minor CUDA driver versions.
 - Dynamically selects matching index repositories:
   - $\text{CUDA} \ge 13.0 \rightarrow \texttt{https://download.pytorch.org/whl/cu130}$
@@ -47,26 +48,32 @@ CUDA ROCm XPU CPU               CUDA ROCm XPU CPU                  MPS          
   - $\text{CUDA} \le 12.4 \rightarrow \texttt{https://download.pytorch.org/whl/cu124}$
 
 #### 2. AMD ROCm Matrix
+
 - **Linux**: Probes `/dev/kfd` and `rocminfo`. Targets index `https://download.pytorch.org/whl/rocm7.2`.
 - **Windows**: Queries `Get-CimInstance Win32_VideoController` for AMD/Radeon devices. Resolves to AMD's multi-architecture distribution mirror `https://stable.repo.amd.com/rocm/whl-next/` with `device-all` extras.
 
 #### 3. Intel Arc / XPU Matrix
+
 - Probes PCI IDs (`lspci`) or `Win32_VideoController` for Intel Arc or Data Center GPU entries.
 - Resolves to `https://download.pytorch.org/whl/xpu`.
 
 #### 4. macOS / Apple Silicon Matrix
+
 - **Apple Silicon (`arm64`)**: Binds native PyPI / CPU-MPS wheels with Metal acceleration. Retains all core wheels and desktop acceleration packages.
 - **Intel Mac (`x86_64`)**: Binds CPU fallback wheels and applies a build-safe requirement filter to strip unsupported packages (e.g., `comfy-angle`), enabling headless validation without resolution crashes.
 
 #### 5. Graceful CPU Fallback
+
 - When no compatible discrete accelerator is identified, or when driver query timeouts occur, the installer defaults to `https://download.pytorch.org/whl/cpu` with diagnostic logs.
 
 ### Consequences
 
 #### Positive
+
 - Single unified installation recipe runs without modification across all local developer machines, GPU servers, and continuous integration runners.
 - Eliminates manual driver mapping and prevents broken wheel installations.
 - Completely avoids virtualization overhead while preserving direct bare-metal GPU driver communication.
 
 #### Negative
+
 - Hardware probing commands (`nvidia-smi`, `lspci`, `Get-CimInstance`) introduce a minor (sub-second) initialization check during first-time runtime provisioning.
