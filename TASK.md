@@ -88,141 +88,148 @@ This ledger documents the chronological evolution of the system based on git com
 * **`fdfcdacc` – `134373e0`**: Enforced Stage 0 preflight redlines against unmanaged host `mise`/`scoop`/`brew` installations, CI runner path scrubbing, and `CLAUSE_STATUS="online"` nested session boundary validation.
 * **`fe7fabc5` – `2a8cc8b5`**: Mounted `plugins/cx-inferssd` subtree (`vieo-ai/cx-inferssd`, originally `mise-inferssd`), achieved green multi-platform CI builds (`Windows`, `Linux`, `macOS`), and pinned `inferssd = "v0.1.4"` in `.mise.ai.toml`.
 
+### Phase 10: CCEFS Curriculum Formalization, Source Audits & The Gleam Compiler Pivot (Nov 16 – 20, 2026) [`v0.9.0-dev.1`]
+
+* **`5d2d9bd` – `aae107e`**: Updated project ledger with Phase 9 supply-chain milestones; revised `README.md` for `v0.9.0-dev.1` version bump and enhanced orchestration model details.
+* **`181da03` – `1c32679`**: Formally amended `ADR 002` (three-tier substrate), `ADR 004` (modular TOML environment engine), and `ADR 011` (status update and architectural refinements).
+* **`cdfd244` – `1b60551`**: Standardized plugin organization and repository naming from `mise-*` to `cx-*` (`cx-comfyui`, `cx-fastflowlm`, `cx-inferssd`, `cx-lemonade`, `cx-unsloth`, `cx-vscode`) to ensure clean compatibility with upstream Mise.
+* **`8ba0681` – `06c2481`**: Enforced strict repository hygiene and developer privacy, replacing personal credentials in `.gitconfig` with template placeholders and ignoring the entire `.home/` sandbox in `.gitignore`.
+* **`18c318e`**: Implemented the ClauseOS Source Bundle & PDF Exporter (`scripts/cli/nu/commands/bundle.nu`), automating the packing of all tracked repository files, ADRs, and manifests into a consolidated, reproducible snapshot (`cx bundle`).
+* **`f288705` – `ff20149`**: Formalized the foundational CCEFS 30-Module Master Curriculum Specification suite in `docs/ccefs/`:
+  * `00-PROJECT-SPECIFICATION-v3.0.md` (Quad Synthesis Model, 27-package Illuminate mapping, and 12-domain competencies).
+  * `01-ccefs-30-modules-v4.3.md` (The complete 6-stage syllabus from Stage 0 bare-metal userland through Stage 5 open-core release).
+  * `02-stage0-foundation-modules-v4.3.md` (Stage 0 deep-dive on `.home/` confinement and toolchain supply chain).
+  * `03-stage1-2-compiler-orchestrator-v4.3.md` (Stages 1 & 2 deep-dive on compiler construction and distributed orchestration).
+  * `04-vieo-ai-curriculum-portal.md` (The 4-track portal architecture linking Track 1 CCEFS with the AIEFS Encyclopedia).
+* **`7fa82f1`**: Executed comprehensive forensic audit across all 177 tracked files, publishing `05-source-bundle-audit-report.md` isolating the seven internal code, test, and documentation defects.
+* **`ce34294`**: Added `.ground` content-addressed VFS directory to `.gitignore` to prevent tracking of runtime-generated virtual filesystem blobs.
+* **`4ba1a51`**: **The Gleam Compiler Pivot:** Authored `docs/ccefs/06-clause-cxc-gleam-refactoring-multi-target-blueprint.md`, establishing the landmark consensus to fork `gleam-lang/gleam` inside `packages/clause/` (`cxc`) with Monkey-X multi-target emitters (`--target rust`, `--target beam`, `--target client`), direct `@external(rust, ...)` crate linking, and the Nine Canonical Operational Pillars.
+* **`1698aef`**: Authored `docs/ccefs/07-clauseos-document-tree-synchronization-plan.md`, establishing the non-destructive 3-batch surgical remediation roadmap.
+* **`7028e06` & `61970fb`**: Mounted `plugins/cx-multipass` Git subtree (`vieo-ai/cx-multipass @ fdf3db8`) for cross-platform Ubuntu instance provisioning.
+
+### Phase 11: Research Governance Framework, Namespace Audits & Totality Reconciliation (Nov 20 – 22, 2026)
+
+* **`4b20313` – `3693926`**: Designed and published the seven-stage research governance architecture series in `docs/ccefs/`:
+  * `08-frame-stage-research-brief-clauseos.md` (`4b20313`): Core architectural decisions, falsifiable research questions, scope boundaries, and readiness gating.
+  * `09-gather-stage-research-protocol-clauseos.md` (`3b4f750`): Search architecture, controlled vocabulary rings, 5-stratum routing, and 14 primary seed sources.
+  * `10-triage-stage-corpus-governance-clauseos.md` (`57dff79`): 5-tier SSOT authority appraisal, deduplication clusters, and 199-source active corpus charter.
+  * `11-extract-stage-evidence-matrix-clauseos.md` (`536892e`): Structured CES-10 extraction schema, authoritative source cards, and 26 passage anchors.
+  * `12-synthesize-stage-cross-reconciliation-clauseos.md` (`e110335`): Cross-system insight matrix, contradiction register, gap map, and authoritative claim ledger.
+  * `13-verify-stage-audit-and-reconciliation-clauseos.md` (`64c59e8`): Verification gauntlet, numerical bounds, Quad Synthesis compliance, and repair specifications.
+  * `14-cite-stage-verification-library-clauseos.md` (`3693926`): Cryptographic version provenance, physical locator mapping, claim-to-citation fit audit, and release record.
+* **`83130c3` – `d120f06`**: Refined titles, standardized classifications, and added constitutional metadata preambles across governance specifications 08 through 14.
+* **`c4f101b`**: Removed unused legacy `material` documentation directory and streamlined `mkdocs.yml` navigation structure.
+* **`47a42ca`**: Published `15-investigation-report-cx-pkg-refactor-clauseos.md`, conducting a forensic audit of the `cx pkg` namespace relocation and diagnosing the delegation regression in `commands/pkg/add.nu`.
+* **`3ec4542`**: Published `16-documentation-audit-and-alignment-clauseos.md`, evaluating all 13 ADRs, root ledgers, and curriculum specifications against the current project scope.
+* **`941fc14`**: Published `17-totality-project-evaluation-clauseos.md`, reconciling the entire repository history across all 204 Git commits and establishing the definitive 3-step action roadmap.
+
 ---
 
 ## Architectural Decision Records (ADRs)
 
 | ADR | Title | Key Commits / Context | Status |
 | :--- | :--- | :--- | :--- |
-| [ADR 0001](docs/adr/0001-hermetic-state-confinement-and-canonical-directory-hierarchy.md) | Hermetic State Confinement and Canonical Directory Hierarchy | `6ddde493`, `872e5387`, `09a4dd3b`, `e59cbc0a` | Accepted |
-| [ADR 0002](docs/adr/0002-two-tier-toolchain-orchestration-mise-and-renv.md) | Two-Tier Toolchain Orchestration (Mise + Renv) | `6a441003`, `38808378`, `5cecce66`, `06f59fe5`, `4134fc86` | Accepted (Amended) |
-| [ADR 0003](docs/adr/0003-dynamic-multi-vendor-hardware-acceleration-matrix.md) | Dynamic Multi-Vendor Hardware Acceleration Matrix | `d42e0b46`, `9db433a1`, `2e8e5150`, `d452e807` | Accepted |
-| [ADR 0004](docs/adr/0004-cross-shell-environment-and-path-delimiter-canonicalization.md) | Cross-Shell Environment and PATH Delimiter Canonicalization | `a9f80ea0`, `26d47ba9`, `501bafdb`, `a0994de6`, `134373e0` | Accepted (Amended) |
-| [ADR 0005](docs/adr/0005-unified-model-storage-hub.md) | Unified Model Storage & Ecosystem Cache Projection | `4e34401e` (`40-ml-hub.toml`), `HF_HOME` Anchoring | Accepted |
-| [ADR 0006](docs/adr/0006-micro-instance-virtualization.md) | Cross-Platform Micro-Instance Virtualization (`cx vm`) | `dbd1af44` (`installer_wsl.ps1`), `41c0f152` (`brew:lima`) | Accepted |
-| [ADR 0007](docs/adr/0007-open-core-and-monetization.md) | Open-Core Substrate vs. Industry Adaptation Commercialization | Base Substrate vs. Enterprise Industry Packs | Accepted |
-| [ADR 0008](docs/adr/0008-virtual-enterprise-agent-hierarchy.md) | Virtual Enterprise Governance, Adversarial Gates & Grounding | Board, Executive, Department Schemas, SSOT Guardrails | Accepted |
-| [ADR 0009](docs/adr/0009-agent-skills-plugins-vscode-harness.md) | VS Code Agent Host, Extensibility Plugins, and Skill Toolsets | Portable VS Code, Plugin & Skill Routers | Accepted |
-| [ADR 0010](docs/adr/0010-beam-orchestrator-nomad-scheduler-maas.md) | Distributed BEAM Backplane, Gleam Orchestration, Nomad Scheduling, and MaaS | BEAM/OTP Core, Nomad Scheduler, Pixiecore, Pulumi | Accepted |
-| [ADR 0011](docs/adr/0011-seax-language-transpiler-agent-directory.md) | Seax Programming Language, Multi-Target Transpiler, and Agent Directory Pattern | Monkey X Transpiler Backend, Rust Compiler, Seax/Air/Jet Split | Accepted (Amended) |
-| [ADR 0012](docs/adr/0012-ring-rust-in-gleam-bridge.md) | RinG (Rust-in-Gleam) Type-Safe Native Integration Bridge | Schema-Driven FFI, Dirty Scheduler Routing, Typed Actors | Accepted |
-| [ADR 0013](docs/adr/0013-curated-domain-slms-vs-saturated-generalists.md) | Curated Domain SLMs vs. Saturated Generalist Models | Contained Task-Specific SLMs, Two-View Strategy, Zero-Evasion Weights | Accepted |
+| [ADR 0001](docs/adr/adr_001_hermetic_state_confinement_and_canonical_directory_hierarchy.md) | Hermetic State Confinement and Canonical Directory Hierarchy | `6ddde493`, `872e5387`, `09a4dd3b`, `e59cbc0a` | Accepted |
+| [ADR 0002](docs/adr/adr_002_two_tier_toolchain_orchestration_mise_renv.md) | Two-Tier Toolchain Orchestration (Mise + Renv) | `6a441003`, `38808378`, `5cecce66`, `06f59fe5`, `4134fc86`, `181da03` | Accepted (Amended) |
+| [ADR 0003](docs/adr/adr_003_dynamic_multi_vendor_hardware_acceleration_matrix.md) | Dynamic Multi-Vendor Hardware Acceleration Matrix | `d42e0b46`, `9db433a1`, `2e8e5150`, `d452e807` | Accepted |
+| [ADR 0004](docs/adr/adr_004_cross_shell_environment_and_path_delimiter_canonicalization.md) | Cross-Shell Environment and PATH Delimiter Canonicalization | `a9f80ea0`, `26d47ba9`, `501bafdb`, `a0994de6`, `134373e0`, `86cf83b` | Accepted (Amended) |
+| [ADR 0005](docs/adr/adr_005_unified_model_storage_hub.md) | Unified Model Storage & Ecosystem Cache Projection | `4e34401e` (`40-ml-hub.toml`), `HF_HOME` Anchoring | Accepted |
+| [ADR 0006](docs/adr/adr_006-micro-instance-virtualization.md) | Cross-Platform Micro-Instance Virtualization (`cx vm`) | `dbd1af44` (`installer_wsl.ps1`), `41c0f152` (`brew:lima`), `61970fb` | Accepted (Restored) |
+| [ADR 0007](docs/adr/adr_007-open-core-and-monetization.md) | Open-Core Substrate vs. Industry Adaptation Commercialization | Base Substrate vs. Enterprise Industry Packs, 9 Canonical Pillars | Accepted |
+| [ADR 0008](docs/adr/adr_008-virtual-enterprise-agent-hierarchy.md) | Virtual Enterprise Governance, Adversarial Gates & Grounding | Board, Executive, Department Schemas, SSOT Guardrails | Accepted |
+| [ADR 0009](docs/adr/adr_009-agent-skills-plugins-vscode-harness.md) | VS Code Agent Host, Extensibility Plugins, and Skill Toolsets | Portable VS Code, Plugin & Skill Routers | Accepted |
+| [ADR 0010](docs/adr/adr_010-beam-orchestrator-nomad-scheduler-maas.md) | Distributed BEAM Backplane, Gleam Orchestration, Nomad Scheduling, and MaaS | BEAM/OTP Core, Nomad Scheduler, Pixiecore, Pulumi, catapult addendum | Accepted (Amended) |
+| [ADR 0011](docs/adr/adr_011-clause-language-transpiler-agent-directory.md) | Clause Programming Language, Multi-Target Transpiler, and Agent Directory Pattern | Monkey X Transpiler Backend, packages/clause/ (cxc), 9 Pillars | Accepted (Amended 2026-11-20) |
+| [ADR 0012](docs/adr/adr_012-ring-rust-in-gleam-bridge.md) | RinG (Rust-in-Gleam) Type-Safe Native Integration Bridge | Schema-Driven FFI, Dirty Scheduler Routing, Typed Actors, cxc synthesis | Accepted (Amended) |
+| [ADR 0013](docs/adr/adr_013-curated-domain-slms-vs-saturated-generalists.md) | Curated Domain SLMs vs. Saturated Generalist Models | Contained Task-Specific SLMs, Two-View Strategy, TIGAH branding | Accepted (Amended) |
 
 ---
 
 ## Active Roadmap & Implementation Milestones
 
-### Phase 10: Core Orchestration, Unified AI Storage & Cluster Integration (Current Milestone: `v0.9.0-dev.1`)
+### Active Phase: Document Tree Synchronization & Code Defect Remediation (Current Milestone: `v0.9.0-dev.1`)
 
-* [x] **Bootloader Consolidation & Root Cleanup**:
-  * Consolidated Stage 0 microkernel boot logic directly into `cx.ps1` and `cx.sh` (`0f74e6ec`, `f55f81b9`) and removed standalone root `boot.ps1` (`dafcd966`) and `justfile` (`d41253bb`).
-  * Verified `CLAUSE_PROJECT_ROOT` resolution and 8-pass `config/env/*.toml` ingestion across Windows, Linux, and macOS.
+* [x] **Batch 1: Architecture Decision Records & Root Ledgers Synchronization**:
+  * Restored canonical text of `docs/adr/adr_006-micro-instance-virtualization.md` (`cx vm` WSL2/Lima specification), resolving corruption defect `DEF-02`.
+  * Amended `docs/adr/adr_011-clause-language-transpiler-agent-directory.md` to reflect Clause (`.cx`), `cxc` Gleam compiler fork, and the Nine Canonical Operational Pillars.
+  * Appended dated implementation evolution addenda to `ADR 010`, `ADR 012`, and `ADR 013`.
+  * Updated `README.md` to scrub deleted files (`justfile`, `boot.ps1`), add canonical package trees (`packages/clause`, `clause_jet`, `tigah`), and document the 7-Layer Architecture.
+  * Aligned all `TASK.md` ADR markdown hyperlinks with physical on-disk filenames.
+  * Populated `mkdocs.yml` navigation structure and `llms.txt` context index.
+* [ ] **Batch 3: Physical Code & Configuration Defect Remediation**:
+  * Refactor `scripts/cli/nu/config/env.nu` to consume compiled TOML environment variables exported by `cx.ps1` and `cx.sh`, eliminating legacy `.env` reads (`DEF-01`).
+  * Prepend `$env:SCOOP\shims` to session `$env:PATH` in `cx.ps1` and export `SCOOP_SHIMS` in `config/env/20-toolchains.toml` (`DEF-08`).
+  * Update delegation calls in `scripts/cli/nu/commands/pkg/add.nu` from `scoop` and `brew` to `pkg:scoop` and `pkg:brew`, and add alias fallbacks in `scripts/cli/nu/mod.nu`.
+  * Uncomment `./cx.sh test` and `.\cx.ps1 test` in `.github/workflows/ci.yml` so that GitHub Actions actively runs `run_all.nu` (`DEF-03`).
+  * Update path assertions in `tests/system/test_stage1.nu` to inspect `$MISE_INSTALLS_DIR` instead of legacy `$CLAUSE_APPS_DIR` (`DEF-04`).
+  * Strip literal citation markers from `tests/env/test_env.nu` and `test_env.sh` (`DEF-05`).
+  * Mirror `cx.ps1`'s `_CALLER_CLAUSE_STATUS="online"` session preservation guard inside `cx.sh` (`DEF-06`).
+  * Update `plugins/cx-comfyui/hooks/post_install.lua` to emit `extra_model_paths.yaml` bound to `$HF_HUB_CACHE` (`DEF-07`).
+* [ ] **Batch 2: Supreme Curriculum Specifications Synchronization (`docs/ccefs/00`–`04`)**:
+  * Synchronize `00-PROJECT-SPECIFICATION-v3.0.md` to replace `seaxc` with Clause (`.cx`) / `cxc`, add TIGAH, 9 pillars, and `d` (`d01`–`d99`) discussions prefix.
+  * Synchronize `01-ccefs-30-modules-v4.3.md` Stage 1 (Modules 1–5) to reflect the `packages/clause/` (`cxc`) Gleam compiler fork and Monkey-X backends.
+  * Synchronize `02-stage0-foundation-modules-v4.3.md` Module 0.5 to align `clause-vfs` (`.ground/`) with ClauseOS (`cx`).
+  * Synchronize `03-stage1-2-compiler-orchestrator-v4.3.md` Stage 1 & 2 deep-dives to reflect `packages/clause/crates/*` and `crates/clause-pulumi`.
+  * Synchronize `04-vieo-ai-curriculum-portal.md` Track 2 syllabus to "Build Claude, OpenClaw & Hermes in Clause (`.cx`) & TIGAH".
 
-* [x] **HashiStack Toolchain Hydration**:
-  * Registered `nomad`, `consul`, `vault`, `packer`, `boundary`, and `pulumi` in `.mise.cloud.toml` (`MISE_ENV="paths,ai,cloud"`).
-  * Verified executable shims populate `.home/.local/share/mise/shims` (and `.home/AppData/Local/mise/shims` on Windows) across platforms.
-* [x] **BEAM & Gleam Platform Toolchain**:
-  * Registered `erlang`, `elixir`, `gleam`, and `rebar` in `.mise.ai.toml`, with automated Windows `rebar3.cmd` escript launcher generation in Stage 2.5 of `cx.ps1`.
-  * Validated clean hydration into `MISE_INSTALLS_DIR` and `MISE_SHIMS_DIR`.
-* [ ] **Hermetic Cluster Configuration Anchoring**:
-  * Author `ops/config/nomad.hcl` (bound to `$env:CLAUSE_HOME/.local/share/nomad` with `raw_exec` enabled).
-  * Author `ops/config/consul.hcl` (bound to `$env:CLAUSE_HOME/.local/share/consul` with UI enabled).
-  * Author `ops/config/vault.hcl` (bound to `$env:CLAUSE_HOME/.local/share/vault` with local TCP listener).
-* [x] **Model Hub Environment Unification (`40-ml-hub.toml`)**:
-  * Exported canonical `HF_HOME = "${CLAUSE_CACHE_DIR}/huggingface"`, `HF_HUB_CACHE = "${HF_HOME}/hub"`, and `HF_ASSETS_CACHE = "${HF_HOME}/assets"` across platforms via `config/env/40-ml-hub.toml` (`4e34401e`, `3726286e`).
-* [ ] **ComfyUI Path Bridge & Headless Sanity Testing**:
-  * Update `plugins/cx-comfyui/hooks/post_install.lua` to generate `extra_model_paths.yaml` bound to `$env:HF_HUB_CACHE` (`$env:HF_HOME/hub`).
-  * Implement `tests/system/test_inference.nu` to validate device resolution without invoking interactive shells.
-* [x] **Hermetic Git & SSH Environment Lock**:
-  * Configured Stage 0 confinement of `GIT_CONFIG_GLOBAL` (`${CLAUSE_HOME}/.gitconfig`), `GH_CONFIG_DIR`, and `GIT_SSH_COMMAND` (`ssh -F '${CLAUSE_SSH_CONFIG}'`) in `config/env/10-identity.toml`, `cx.ps1`, and `cx.sh`.
-* [ ] **Interactive Identity CLI Module**:
-  * Author `scripts/cli/nu/commands/identity.nu` (`cx identity {setup, import, new, show}`) for guided SSH keypair creation and host credential import.
+### Phase 12: Clause Language Compiler Core (`cxc`), TIGAH & `clause_jet` Runtimes (Stage 1 Master Track)
 
-### Phase 11: Gleam Distributed Orchestrator, RinG Bridge & MaaS Pipeline
+* [ ] **Compiler Workspace Extraction (`packages/clause/`)**:
+  * Fork `gleam-lang/gleam` core into `packages/clause/crates/{clause-core,clause-cli,clause-lsp,clause-wasm,clause-runtime}`.
+  * Implement `brand.rs` establishing Clause branding, `.cx` extension, `clause.toml` manifest, and `cxc` binary target.
+  * Anchor Cargo build cache to `${CLAUSE_DATA_DIR}/cargo` via `20-toolchains.toml`.
+* [ ] **Nine-Pillar Grammar & Type Checking Extensions**:
+  * Implement Tier 1 top-level declaration keywords (`kernel`, `service_provider`, `infra`, `provider`, `agent`, `gateway`, `trunk`, `bridge`, `dialplan`, `bus`, `rack`, `patchbay`, `split`, `stage`, `mcr`, `headend`, `airgap`, `sortie`).
+  * Add static domain passes: 100% split rights verification, sample-rate matching, and `@airgap` egress checks.
+* [ ] **Monkey-X Multi-Target Codegen Engine**:
+  * Implement `backend/rust.rs` emitting borrow-checker-safe native Rust crates linked to `oximedia`, `nih-plug`, and `crates/clause-pulumi`.
+  * Implement direct crate linking via `@external(rust, ...)` without FFI marshaling overhead.
+  * Implement `backend/erlang.rs` lowering agent and telecom declarations into Erlang/OTP 29 supervision trees for `packages/clause_jet/`.
+  * Implement automatic `tools/ring` DirtyScheduler NIF synthesis for `@external(rust, ...)` calls targeting `--target beam`.
+  * Implement `backend/javascript.rs` emitting client viewports and MVU surfaces for Lustre, Plushie, and Shore.
+* [ ] **Directory-Based Agent Execution Model**:
+  * Implement self-contained agent directory packaging (`agent.cx`, `team/`, `skills/`, `mcp/`, `clause.toml`).
+  * Wire polyglot build commands into the command router (`cx build`, `cx run`).
 
-* [ ] **Gleam Orchestrator Core**:
-  * Initialize `services/orchestrator/` with `gleam.toml` and OTP supervision tree.
-  * Implement root application supervisor managing catalog discovery, workload dispatch, and netboot triggers.
+### Phase 13: Distributed Orchestration, Micro-VMs & Bare-Metal MaaS (Stage 2 Master Track)
 
-* [ ] **RinG (Rust-in-Gleam) Integration Bridge**:
-  * Scaffold `tools/ring/` code generator generating strongly typed Gleam types and matching Rustler FFI structs.
-  * Implement scheduler routing allocating fast calls to immediate NIFs and heavy tasks to `DirtyCpu`/`DirtyIo`.
-  * Wrap native Rust worker instances in typed `gleam_otp` actors.
-* [ ] **Infrastructure Adapters**:
-  * Author Gleam HTTP clients for Nomad job dispatch (`/v1/jobs`), Consul catalog sync, and Vault leased credentials.
-* [ ] **Bare Metal as a Service (Pixiecore & iPXE)**:
-  * Package Pixiecore binary as an embedded boot runner.
-  * Author Gleam event listener coordinating API-driven iPXE boots against Consul machine inventories.
-  * Author Packer templates in `ops/packer/` for memory-resident micro-distros with embedded Stage 0 trampolines.
-* [ ] **Ephemeral Kubernetes (`k3s`) Guest Target**:
-  * Author Nomad job specification to launch ephemeral `k3s` clusters inside micro-instances on demand.
-* [ ] **Pulumi Automation Driver**:
-  * Author `scripts/cli/nu/commands/infra.nu` bridging Pulumi Automation API execution.
+* [ ] **BEAM Cluster Orchestrator (`packages/clause_jet/` & `services/orchestrator/`)**:
+  * Translate Tim Boring's Cube orchestrator into OTP actors: 5-state Task FSM (`Pending` -> `Scheduled` -> `Running` -> `Completed`/`Failed`).
+  * Implement Google Borg E-PVM marginal cost scheduler extended with GPU VRAM/NPU telemetry.
+* [ ] **Hermetic Cluster Daemon Anchoring**:
+  * Author `ops/config/nomad.hcl` bound to `$CLAUSE_HOME/.local/share/nomad` with `raw_exec` enabled.
+  * Author `ops/config/consul.hcl` bound to `$CLAUSE_HOME/.local/share/consul` with UI enabled.
+  * Author `ops/config/vault.hcl` bound to `$CLAUSE_HOME/.local/share/vault` with local TCP listener.
+* [ ] **Cross-Platform Micro-Instance Virtualization (`cx vm`)**:
+  * Build on `installer_wsl.ps1` to manage `.home/AppData/Local/Programs/vms/<name>/ext4.vhdx` with systemd and isolated paths.
+  * Build on Lima bootstrap to manage `$LIMA_HOME` bound to `.home/.local/share/vms/`.
+  * Wire CLI subcommands (`cx vm {launch, exec, shell, list, stop, purge}`).
+* [ ] **Bare Metal as a Service (Pixiecore & Packer)**:
+  * Coordinate API-driven iPXE netboots via Pixiecore against Consul inventories.
+  * Author Packer templates for memory-resident micro-distros with embedded Stage 0 trampolines.
 
-### Phase 12: Seax Language Compiler Core (`seaxc`), Air & Jet Runtimes
+### Phase 14: Transmedia DSP, Carrier Telecom & Virtual Enterprise Swarms (Stages 3–5)
 
-* [ ] **Compiler Scaffolding (Rust)**:
-  * Initialize `compiler/seaxc/` Cargo workspace.
-  * Port Pratt parser and lexer architecture following Thorsten Ball's mechanical compiler construction.
-
-* [ ] **Lexer & Grammar Parser**:
-  * Implement tokenizer supporting Dart-like OOP syntax, transmedia keywords (`audio`, `video`, `midi`, `ndi`, `osc`, `smpte`, `dante`), and infrastructure keywords (`agent`, `actor`, `telcom`, `container`, `process`, `broadcast`).
-* [ ] **Intermediate Representation (Seax IR)**:
-  * Author AST-to-IR lowering resolving actor mailboxes, ownership leases, and buffer lifecycle contracts.
-* [ ] **Multi-Target Emitters (Monkey X Architecture)**:
-  * `emit_beam`: Transpile Seax IR to Core Erlang AST and compile to `.beam` bytecode for the `Air` (`cx air run`) actor runtime (`packages/carrier_jet/`).
-  * `emit_cpp`: Transpile real-time media buffer pipelines into high-performance C++20 / Rust NIF blocks.
-  * `emit_ts`: Transpile agent control dashboards and MCP schemas into TypeScript / Wasm.
-* [ ] **Agent-as-a-Folder Execution Model**:
-  * Author directory packaging engine compiling self-contained agent folders (`agent.cx`, `team/`, `skills/`, `mcp/`, `package.seax`).
-  * Wire CLI build command into Stage 2 router (`cx seax build <dir>`).
-
-### Phase 13: Hermetic Micro-Instance Virtualization (`cx vm`)
-
-* [ ] **Windows Driver (`wsl.exe`)**:
-  * Build on `scripts/cli/pwsh/installers/installer_wsl.ps1` (`dbd1af44`) to implement import/export pipelines targeting `$env:CLAUSE_HOME/AppData/Local/Programs/vms/<name>/ext4.vhdx`.
-  * Inject `/etc/wsl.conf` with `systemd` enabled and Windows path appending disabled.
-
-* [ ] **POSIX Driver (`limactl`)**:
-  * Build on `.mise.cloud.toml`'s `"brew:lima" = "latest"` bootstrap (`41c0f152`) to implement wrapper routing with `$env:LIMA_HOME` bound to `$env:CLAUSE_HOME/.local/share/vms`.
-* [ ] **CLI Module Integration**:
-  * Author `scripts/cli/nu/commands/vm.nu` (`launch`, `exec`, `shell`, `list`, `stop`, `purge`).
-  * Wire `vm` command tree into the Universal Command Router (`cx vm`).
-
-### Phase 14: Virtual Enterprise Agent Hierarchy, Fine-Tuning & VS Code Host
-
-* [ ] **Local Neural Coprocessor Supervisor**:
-  * Implement Nushell module to manage background inference processes for Stage 0 Lemonade / FastFlowLM / InferSSD daemons (`http://127.0.0.1:8000/v1`).
-
-* [ ] **Domain SLM Fine-Tuning Pipeline (Unsloth)**:
-  * Curate golden training datasets composed strictly of repository ADRs, schema files, and test vectors.
-  * Create distillation and quantization scripts to produce focused 1B–7B operational worker models directly into `$HF_HUB_CACHE` (`$HF_HOME/hub`).
-* [ ] **Governance & Closed-World Ground Schemas (`.enterprise/`)**:
-  * Scaffold `.enterprise/board/constitution.toml` with immutable sandbox, closed-world ground checks, and spend boundaries.
-  * Create executive role definitions (`ceo_agent`, `cto_agent`, `cpo_agent`) in `.enterprise/executive/`.
-  * Scaffold operational departments (`engineering`, `security_audit`, `site_reliability`, `documentation_qa`) in `.enterprise/departments/`.
-* [ ] **Nomad Write-Access Worker**:
-  * Create `ops/jobs/repo_agent.nomad.hcl` executing under `raw_exec` with full `$env:CLAUSE_PROJECT_ROOT` write scope and branch isolation.
-* [ ] **Adversarial Gatekeeper & Supervisory Audit**:
-  * Implement supervisory check-mate validation ensuring worker PRs cite valid ADR/Schema keys and return exit code `0` on tests.
-  * Wire Vault lease tokens to only unlock merge capabilities upon green assertion pass.
-* [ ] **Compensation & Ledger Engine**:
-  * Scaffold internal token/credit reward ledger compensating worker agents upon verified task completions and PR merges.
-* [ ] **Skill Toolset Core (`.enterprise/skills/`)**:
-  * Implement execution runner for modular skills (`git-ops`, `code-analysis`, `test-runner`, `adr-writer`).
-* [ ] **Portable VS Code Control Plane**:
-  * Confine user data and extension paths within the `cx-vscode` (`code`) hermetic installation directory.
-  * Wire workspace extensions and telemetry settings to the local coprocessor and Nomad cluster.
+* [ ] **Transmedia DSP & Hardware Buses**:
+  * Wire zero-allocation audio threads (`oximedia`, `nih-plug`) to `bus`, `rack`, and `stem` language primitives.
+  * Ingest live NDI, SDI, SMPTE, Dante, AES67, OSC, and MIDI streams.
+  * Mount Storytold Craft suites (`vendor/craft/*`) via Git subtrees alongside round-trip OTIO/AAF/FCPXML bridges.
+* [ ] **Carrier Softswitch & Media Routing**:
+  * Compile `.cx` `target: beam` topologies to Erlang/OTP 29 running Kazoo Class 5 softswitch and Membrane live OTT pipelines.
+* [ ] **TIGAH Agent Swarms & Virtual Enterprise Governance**:
+  * Scaffold `.enterprise/` (and `.apm/`) board, executive, and departmental hierarchies.
+  * Train contained 1B–7B domain SLMs via Unsloth into `$HF_HUB_CACHE` with zero-evasion weights.
+  * Enforce adversarial gatekeeper validation (`cx test` exit `0`) unlocking dynamic Vault Git merge tokens.
 
 ### Phase 15: Release Promotion & Commercial Fork
 
 * [ ] **Substrate Audit**: Full pass of `run_all.nu` hermeticity and orchestration tests on Windows, Linux, and macOS runners.
 * [ ] **Version Promotion**: Promote `.clause.toml` from `v0.9.0-dev.1` to `1.0.0` and cut `v1.0.0` git tag (stripping `-dev` / milestone markers).
-* [ ] **Publish Open Core**: Ship the unconstrained Apache 2.0 substrate.
-* [ ] **Fork Commercial Track**: Initialize the enterprise repository for industry-specific compliance packs and connectors.
+* [ ] **Publish Open Core**: Ship the unconstrained Apache 2.0 / MIT substrate.
+* [ ] **Fork Commercial Track**: Initialize the enterprise repository for industry-specific compliance packs and connectors (`ADR 0007`).
 
 ---
 
 ## Immediate Implementation Step
 
-With the project ledger validated against `git-log_2.txt` and `clause-code.pdf` through `v0.8.0-dev.10` and bumped to `v0.9.0-dev.1`, the immediate next action is completing the remaining **Phase 10** deliverables: authoring the `$env:CLAUSE_HOME`-confined HCL configurations (`ops/config/nomad.hcl`, `ops/config/consul.hcl`, `ops/config/vault.hcl`), wiring ComfyUI's `extra_model_paths.yaml` bridge inside `plugins/cx-comfyui`, and authoring `scripts/cli/nu/commands/identity.nu`.
+With the project ledger synchronized with `11-git-history` (Commits `559d454d` through `941fc14`) and aligned with the `v0.9.0-dev.1` source bundle, the immediate action is executing **Batch 3 Code Defect Remediation** (`env.nu` TOML hydration, Scoop shims in PATH, `add.nu` delegation fix, and uncommenting CI tests) to flip the governance gate to **FULL PASS** and unblock **Phase 12 (packages/clause/ cxc compiler construction)**.
