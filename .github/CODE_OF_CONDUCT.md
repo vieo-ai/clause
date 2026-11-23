@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-We, as members, contributors, and maintainers of the **Vieo** (`vieo-ai`) and **ClauseOS** (`clause.os` / `cx`) ecosystem, pledge to make participation in our repositories, curriculum portals (`vieo.ai`), and community channels a harassment-free experience for everyone—regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
+We, as members, contributors, and maintainers of the **Vieo** (`vieo-ai`) and **ClauseOS** (`clause` / `cx`) ecosystem, pledge to make participation in our repositories, curriculum portals (`vieo.ai`), and community channels a harassment-free experience for everyone—regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
 
 We pledge to act and interact in ways that sustain an open, welcoming, sovereign, and disciplined engineering community.
 
@@ -33,7 +33,7 @@ Maintainers have the right and responsibility to remove, edit, or reject comment
 
 ## Scope
 
-This Code of Conduct applies across all **Vieo** and **ClauseOS** community spaces—including `vieo-ai/clause.os`, first-party `cx-*` plugin repositories, `vieo.ai` curriculum channels, Discord servers, and issue trackers—and also applies when an individual is officially representing the project or community in public spaces (such as using an official `@vieo.ai` address, posting via an official account, or acting as an appointed representative at online or offline events).
+This Code of Conduct applies across all **Vieo** and **ClauseOS** community spaces—including `vieo-ai/clause`, first-party `cx-*` plugin repositories, `vieo.ai` curriculum channels, Discord servers, and issue trackers—and also applies when an individual is officially representing the project or community in public spaces (such as using an official `@vieo.ai` address, posting via an official account, or acting as an appointed representative at online or offline events).
 
 ## Enforcement & Reporting
 
