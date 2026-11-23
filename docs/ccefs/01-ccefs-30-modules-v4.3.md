@@ -17,7 +17,7 @@
 
 ## The 4-Track Vieo.ai Curriculum Architecture
 
-```
+```text
 ====================================================================================================
                                     VIEO.AI LEARNING ARCHITECTURE
                    Reference Implementation: ClauseOS Monorepo (100% OSS: MIT/Apache-2.0)
@@ -50,6 +50,7 @@
 ## Language Presentation & Porting Hierarchy (ClauseOS DX Standard)
 
 Every lesson, code walkthrough, and interactive verification gate across **vieo.ai** follows a strict language-first presentation order:
+
 1. **Default Primary Language — Seax (`.cx` / `.seax`):** Expressive Dart-flavored syntax where agent loops, schema repair (`expose -> Schema`), capability gates (`needs` / `platform`), pipelines, and real-time media/telecom streams are **first-class language keywords and framework primitives**, not third-party library glue.
 2. **Systems Tier 2 — Rust (`cargo` / `crates/*`):** Zero-cost abstractions, compiler internals (`seaxc`), `Ractor`/`Spawned` OTP actors, `seax-vfs` content-addressed storage, and zero-allocation SIMD/DSP kernels (`oximedia`, `nih-plug`, `Craft`).
 3. **Polyglot Target Parity (`seaxc --target ...` & ClauseOS Polyglot Router):** Code examples and runtime targets extend seamlessly to **BEAM/Gleam** (`air`), **TypeScript/Wasm**, **Python** (`uv` + Unsloth/PyTorch), **C++20**, **Go**, **Zig**, **Nushell**, and **PowerShell**.
@@ -59,6 +60,7 @@ Every lesson, code walkthrough, and interactive verification gate across **vieo.
 ## Track 1: CCEFS — The Master Track (Building ClauseOS From Scratch, 30 Modules)
 
 ### Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)
+
 *(Deep-dive specification in `docs/ccefs/02-stage0-foundation-modules-v4.3.md`)*
 
 *Goal: Turn an empty folder on a bare host OS into ClauseOS's self-bootstrapping, zero-leak `.home/` sandbox where every compiler, runtime, and model lives hermetically—with zero host OS contamination.*
@@ -75,6 +77,7 @@ Every lesson, code walkthrough, and interactive verification gate across **vieo.
   * Building the SHA-256 content-addressed blob vault + atomic `os.rename` Markdown/JSONL state layer inside `.home/` (`crates/seax-vfs` in Rust + Seax bindings), anchored to the **AIEFS Encyclopedia (`Vol. 1–6`)**. `[e01–e06, ADR-0005, ADR-0008]` *(Encyclopedia Ref: AIEFS Vol. 1 Phase 00.09 Data Management)*
 
 ### Stage 1: Building the Seax (`.cx`) Language & Multi-Target Compiler Inside `.home/` (Modules 1–5)
+
 *(Deep-dive specification in `docs/ccefs/03-stage1-2-compiler-orchestrator-v4.3.md`)*
 
 *Goal: Build `seaxc` from scratch in Rust so Seax itself—not an external framework—natively unifies Claude Code, OpenClaw, Hermes, actors, and transmedia primitives inside `$CLAUSE_BIN_DIR`.*
@@ -91,6 +94,7 @@ Every lesson, code walkthrough, and interactive verification gate across **vieo.
   * Lowering verified Seax IR (`[c05]`) to: (1) **`--target rust`** (borrow-checker-safe `Arc<T>`/`Bytes` code wired to `Ractor`/`Spawned` OTP actors + native media crates), (2) **`--target beam`** (`Core Erlang` / `.beam` bytecode for the `Air` runtime & `Glimr` interop), and (3) **`--target client`** (`TypeScript`/`Wasm` + `flutter_rust_bridge`), compiling `seaxc`, `air`, and `jet` directly into `$CLAUSE_BIN_DIR`. `[c02, c05, ADR-0011]`
 
 ### Stage 2: Distributed Orchestrator, Micro-VMs & Native Pulumi IaC (Modules 6–10)
+
 *(Deep-dive specification in `docs/ccefs/03-stage1-2-compiler-orchestrator-v4.3.md`)*
 
 *Goal: Build ClauseOS's cluster orchestrator and infrastructure thrust engine (`Jet`) from scratch in Rust + Seax so programs schedule workloads across local silicon, micro-VMs, bare metal, and cloud clusters.*
