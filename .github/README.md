@@ -12,7 +12,6 @@
 [![Isolation](https://img.shields.io/badge/Confinement-Zero--Contamination%20Bare--Metal-orange?style=for-the-badge&logo=buffer&logoColor=white)](#)
 [![Hardware Acceleration](https://img.shields.io/badge/Hardware-CUDA%20%7C%20ROCm%20%7C%20XPU%20%7C%20MPS-purple?style=for-the-badge&logo=nvidia&logoColor=white)](#)
 [![Virtual Enterprise](https://img.shields.io/badge/Agents-Autonomous%20Virtual%20Enterprise-indigo?style=for-the-badge&logo=anthropic&logoColor=white)](#)
-
 <p align="center">
   <a href="#-overview">Overview</a> •
   <a href="#-core-architectural-pillars">Architectural Pillars</a> •
@@ -38,7 +37,7 @@
 > **ClauseOS is currently in rapid, heavy active development (`v0.9.0-dev.1`).**
 >
 > * The foundational hermetic substrate, modular `config/env/*.toml` environment engine, layered `MISE_ENV` overlays, `cx pkg:*` polyglot package control plane, dynamic GPU auto-detection, and all six first-party `plugins/cx-*` AI/dev toolchains (`v0.8.0-dev.10`) are fully operational and passing 100% green CI/CD across Windows, Linux, and macOS.
-> * Advanced higher-order subsystems—including complete HashiStack daemon topologies (`nomad`, `consul`, `vault`, `packer`, `boundary`), the BEAM/Gleam distributed orchestrator, Pixiecore bare-metal provisioning (MaaS), the `cx vm` hypervisor bridge, Clause (`.cx`) / `cxc` compiler toolchains, and the `.enterprise/` multi-agent organization schemas—are actively being stabilized and wired into the command plane.
+> * Advanced higher-order subsystems—including complete HashiStack daemon topologies (`nomad`, `consul`, `vault`, `packer`, `boundary`), the BEAM/Gleam distributed orchestrator, Pixiecore bare-metal provisioning (MaaS), the `cx vm` hypervisor bridge, Clause (`.cx`) / `cxc` compiler toolchains, and the `.apm/` multi-agent organization schemas—are actively being stabilized and wired into the command plane.
 > * Certain declared commands, modules, and configurations may evolve or undergo refactoring between milestone snapshots. Please refer to [TASK.md](../TASK.md) and the [ADRs](../docs/adr/) for active tracking.
 
 ---
@@ -130,8 +129,7 @@ ClauseOS maps userland binaries and services directly into functional OS system 
 | **Neural Coprocessors** | Lemonade / FastFlowLM / InferSSD | `.home/.../mise/installs/{lemonade,fastflowlm,inferssd}/` | Embedded local LLM inference daemons & background agents |
 | **Window Manager / UI** | Portable VS Code (`cx-vscode`) | `.home/.../mise/installs/code/` | Primary graphical cockpit & agent host harness |
 | **Distributed Backplane** | Erlang (BEAM) / Gleam | `.home/.../mise/installs/erlang` | Fault-tolerant distributed actor subsystem & orchestrator core |
-| **Transmedia Language** | Clause (`cxc`) / `clause_jet` | `packages/clause/` $
-rightarrow$ `${CLAUSE_BIN_DIR}/cxc` | Multi-target carrier language compiler (`cxc`), BEAM actor runtime (`clause_jet`) & infra engine (`catapult`) |
+| **Transmedia Language** | Clause (`cxc`) / `clause_jet` | `packages/clause/` $rightarrow$ `${CLAUSE_BIN_DIR}/cxc` | Multi-target carrier language compiler (`cxc`), BEAM actor runtime (`clause_jet`) & infra engine (`catapult`) |
 | **Native Bridge** | RinG (Rust-in-Gleam) | `tools/ring/` | Type-safe code generator & dirty-scheduler FFI bridge |
 | **Infra Kernel** | Pulumi CLI & `clause-pulumi` | `crates/clause-pulumi/` | Multi-cloud resource orchestration & programmatic Automation API |
 | **Workload Scheduler** | HashiCorp Nomad | `.home/.../bin/nomad` | Distributed job & container orchestrator (`raw_exec`) |
@@ -149,7 +147,12 @@ ClauseOS maps platform-specific conventions directly into the `.home/` sandbox:
 
 ```text
 CLAUSE_PROJECT_ROOT/
-├── .enterprise/                          # Virtual Enterprise Configuration Root
+├── .apm/                                 # Agent Package Manager (Virtual Enterprise SSOT, agents, skills, plugins)
+│   ├── apm.yml                           # Workspace package manifest
+│   ├── agents/                           # Department heads & role orchestrators (*.agent.md)
+│   ├── skills/                           # Procedural skills (<name>/SKILL.md)
+│   ├── instructions/                     # Normative contracts (*.clause.md) & system directives
+│   └── plugins/                          # Tool definitions & MCP bridges
 │   ├── board/                            # Board of Directors & constraints (constitution.toml)
 │   ├── executive/                        # C-Suite agent schemas (CEO, CTO, CPO)
 │   ├── departments/                      # Operational departments (Engineering, Security, SRE, QA)
@@ -275,24 +278,35 @@ cx vm purge k3s-node
 
 ---
 
-## 🤖 Autonomous Virtual Enterprise
+## 🤖 Autonomous Virtual Enterprise & Agent Package Manager (`.apm`)
 
-ClauseOS includes an enterprise agent harness designed to run autonomous developer and operational teams directly inside the workspace:
+ClauseOS models autonomous companies and multi-agent systems as deterministic, contract-driven packages managed via **APM (Agent Package Manager)** anchored inside `.apm/`:
 
 ```text
-.enterprise/
-├── board/                              # Governance & constraints (constitution.toml)
-├── executive/
-│   ├── ceo_agent                       # Strategic roadmap & issue dispatching
-│   ├── cto_agent                       # Architectural integrity, ADR enforcement, code audits
-│   └── cpo_agent                       # Feature delivery & developer UX tracking
-├── departments/
-│   ├── engineering/                    # Full repo write access (feature branches, test suites)
-│   ├── security_audit/                 # Static analysis, dependency audits, secret scanning
-│   ├── site_reliability/               # Nomad workload monitoring & Consul mesh health
-│   └── documentation_qa/               # ADR authoring & documentation sync
-└── skills/                             # Modular CLI toolsets (git-ops, test-runner, adr-writer)
+.apm/
+├── apm.yml                             # Master workspace manifest (dependencies, permissions, hooks)
+├── agents/                             # Department heads & orchestrators (*.agent.md)
+│   ├── board-of-intent.agent.md        # Governance, immutable constraints & constitution
+│   ├── ceo.agent.md                    # Strategic roadmap & milestone task dispatching
+│   ├── cto.agent.md                    # Architectural integrity & ADR enforcement
+│   ├── engineering.agent.md            # Implementation, refactoring & test suites
+│   └── secops.agent.md                 # Security audits, sandbox boundaries & secret protection
+├── skills/                             # Modular procedural capabilities
+│   ├── git-ops/SKILL.md                # Feature branch management & git worktrees
+│   ├── test-runner/SKILL.md            # Offline test execution (cx test)
+│   └── adr-writer/SKILL.md             # ADR authoring & documentation sync
+├── plugins/                            # Tool definitions, MCP bridges & Lua integrations
+├── instructions/                       # Normative contracts (*.clause.md) & system directives
+└── hidden-subagents/                   # Specialized departmental worker agents
 ```
+
+### Deterministic Cross-Harness Projections (`apm build`)
+
+Rather than manually maintaining duplicated prompts across disparate developer tools, `.apm/` acts as the single source of truth. Executing `apm build` (or `cx apm build`) deterministically projects `.apm/` definitions into specific agent harness environments:
+
+* **`.claude/`**: Generates `CLAUDE.md`, `.claude/skills/`, `.claude/agents/`, and `settings.json` (with hook bus and permission bindings).
+* **`.agents/` & `AGENTS.md`**: Projects portable, harness-agnostic agent directives for OpenCode, Codex, and OpenClaw.
+* **`.vscode/`**: Emits Copilot workspace agent prompts and tool definitions.
 
 * **Write-Access Guardrails:** Agents run via Nomad `raw_exec` tasks with credentials leased through Vault. Code modifications occur on isolated feature branches and require green passes from `cx test` before pull requests are finalized.
 * **Portable Cockpit:** Portable VS Code runs natively within the profile, bound directly to the local coprocessor (`http://localhost:8000/v1`) for local code intelligence.
@@ -420,7 +434,6 @@ ClauseOS strictly adheres to an unconstrained, developer-first open-core model:
   * Dynamic 5-way GPU auto-detection and cross-platform virtualization (`cx vm`).
   * Clause (`.cx`) / `cxc` compiler toolchain and folder-based agent development model.
   * Base Virtual Enterprise agent harness, skill runner, and portable editor cockpit.
-  
 * **Commercial Tier (Industry Adaptation & Enterprise Blueprints):**
   * **Regulated Industry Packs:** Pre-configured Virtual Enterprise cartridges for HIPAA Healthcare, FINRA/SEC FinTech, and Defense air-gapped environments.
   * **Enterprise Compliance & Governance:** Cryptographic audit trails, Open Policy Agent (OPA) agent guardrails, and automated board-level risk controls.
