@@ -1,6 +1,6 @@
 # Contributing to ClauseOS
 
-Welcome to **ClauseOS** (`clause.os` / `cx`), the bare-metal hermetic operating substrate and carrier-class transmedia & AI orchestration platform stewarded by **Vieo** (`vieo-ai`). We appreciate your interest in contributing to our open-source ecosystem! This document outlines the operational discipline, testing gates, and contribution workflow for the repository.
+Welcome to **ClauseOS** (`clause` / `cx`), the bare-metal hermetic operating substrate and carrier-class transmedia & AI orchestration platform stewarded by **Vieo** (`vieo-ai`). We appreciate your interest in contributing to our open-source ecosystem! This document outlines the operational discipline, testing gates, and contribution workflow for the repository.
 
 ## Code of Conduct
 
@@ -13,17 +13,17 @@ There are many ways to contribute to ClauseOS and the broader Vieo stack:
 - Reporting substrate bugs, path-leak edge cases, or cross-platform regressions (Windows NT, Linux, macOS)
 - Building or hardening first-party runtime adapters in `plugins/cx-*` (Lua Mise adapters confined to `.home/`)
 - Implementing polyglot CLI commands in `scripts/cli/{nu,ts,py,pwsh,posix}/commands/`
-- Advancing the **Clause (`.cx`)** compiler (`clausec`), **TIGAH** runtime, or **CCEFS** curriculum modules (`docs/ccefs/`)
+- Advancing the **Clause (`.cx`)** compiler (`cxc`), **TIGAH** runtime, or **CCEFS** curriculum modules (`docs/ccefs/`)
 - Improving architectural documentation, ADRs (`docs/adr/`), and deterministic verification suites (`tests/`)
 
 ## Getting Started & Hermetic Workbench Setup
 
 ClauseOS enforces a **zero-leak bare-metal sandbox (`.home/`)**. Never install dependencies globally onto your host OS or rely on host `$PATH` leakage.
 
-1. Fork the repository (`vieo-ai/clause.os`) and clone your fork locally.
+1. Fork the repository (`vieo-ai/clause`) and clone your fork locally.
 2. Enter the hermetic ClauseOS workbench using the Stage 0 microkernel bootloader for your platform:
-   - **Windows:** `.\start.bat` or `.\start.ps1` (invokes `cx.ps1`)
-   - **Linux / macOS:** `chmod +x start.sh && ./start.sh` (invokes `cx.sh`)
+   - **Windows:** `.\cx.bat` or `.\cx.ps1`
+   - **Linux / macOS:** `chmod +x cx.sh && ./cx.sh`
 3. Stage 0 will automatically hydrate `.home/` (`.local/bin/`, `nu`, `mise`, overlays from `config/env/*.toml`, and `MISE_ENV="paths,ai,cloud"`) and drop you into the isolated Nushell workbench (`[ClauseOS]`).
 4. Create a new branch for your contribution following the conventions below.
 5. Make your changes adhering to our architectural standards (zero host-OS leakage, SSOT `config/env/*.toml` symbol expansion, and non-destructive spec editing).
