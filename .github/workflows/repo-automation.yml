@@ -1,100 +1,100 @@
-name: ClauseOS Repo Automation
+name: Repository Automation
 
 on:
-  issues:
-    types: [opened]
-  pull_request_target:
-    types: [opened]
   push:
     branches:
       - main
-  schedule:
-    # Run daily at 08:00 UTC for stale issue/PR hygiene
-    - cron: '0 8 * * *'
+    paths:
+      - '.github/workflows/repo-automation.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
   issues: write
-  pull-requests: write
 
 jobs:
-  # 1. First-Time Issue & PR Welcome (Replaces behaviorbot/new-issue-welcome & new-pr-welcome)
-  welcome-first-time-contributors:
-    name: Welcome First-Time Contributors
-    if: github.event_name == 'issues' || github.event_name == 'pull_request_target'
+  synchronize:
+    name: Synchronize repository settings and labels
     runs-on: ubuntu-latest
+
     steps:
-      - name: Post Welcome Comment
-        uses: actions/first-interaction@v1
+      - name: Apply repository settings and labels
+        uses: actions/github-script@v7
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: |
-            Welcome to **Vieo / ClauseOS** (`vieo-ai/clause.os`), and thank you for opening your first issue!
-            To help maintainers and Virtual Enterprise agents triage and reproduce this deterministically, please ensure you have included:
-            - Your target platform (`Windows`, `Linux`, or `macOS`) and hardware backend if applicable (e.g., `Strix Halo / ROCm`, `XDNA2 NPU`, `CUDA`, `Metal`)
-            - Output from `clause doctor` or `clause test` (`tests/system/run_all.nu`)
-            - Any relevant `config/env/*.toml` overlay or `plugins/cx-*` adapter context
+          script: |
+            const { owner, repo } = context.repo;
 
-            Please also review our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md).
-          pr-message: |
-            Thank you for opening your first pull request to **ClauseOS** (`vieo-ai/clause.os`)!
-            Before review, please verify that your PR meets our repository invariants:
-            - **PR Title:** Uses Conventional Commits (`feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`) for deterministic SemVer (`v0.9.0-dev.x`) release notes
-            - **Zero-Leak Confinement:** All state, caches, and toolchains remain strictly confined inside `.home/` and resolve through `config/env/*.toml`
-            - **Verification Gates:** Both `clause test` (`tests/system/run_all.nu`) and `pwsh tests/env/run_tests.ps1` pass cleanly across target platforms
+            await github.request('PATCH /repos/{owner}/{repo}', {
+              owner,
+              repo,
+              name: 'clause.os',
+              description: 'ClauseOS (cx): Bare-metal hermetic operating substrate, Clause (.cx) carrier language, and TIGAH autonomous AI & transmedia orchestration platform.',
+              homepage: 'https://vieo.ai',
+              has_issues: true,
+              has_wiki: false,
+              has_downloads: true,
+              allow_squash_merge: true,
+              allow_merge_commit: false,
+              allow_rebase_merge: false
+            });
 
-            See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
+            await github.request('PUT /repos/{owner}/{repo}/topics', {
+              owner,
+              repo,
+              names: ['clauseos', 'clause', 'hermetic-os', 'beam', 'rust', 'nushell', 'mise', 'nomad', 'consul', 'vault', 'tigah', 'transmedia', 'ai-agents', 'vieo'],
+              mediaType: { previews: ['mercy'] }
+            });
 
-  # 2. Automated @todo / TODO(clause) / FIXME(clause) Issue Sync (Replaces jasonetco/todo)
-  todo-to-issue:
-    name: Sync Code Markers to Issues
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+            const labels = [
+              ['Status: Backlog', 'd4c5f9', 'Defined and prioritized in roadmap or CCEFS curriculum, not yet started.'],
+              ['Status: Ready', '0e8a16', 'Fully specified with clear verification gate criteria and ready for execution.'],
+              ['Status: In Progress', '006b75', 'Actively being implemented by a maintainer or Virtual Enterprise agent.'],
+              ['Status: In Review', 'cfd3d7', 'PR open and awaiting maintainer review and offline cx test CI verification.'],
+              ['Status: Done', '84b6eb', 'Verified against all deterministic gates and merged into main.'],
+              ['Status: Blocked', 'cc317c', 'Blocked by upstream toolchain release, hardware target, or dependency issue.'],
+              ['Status: Duplicate', 'EB862D', 'Duplicate of an existing issue or defect ledger entry.'],
+              ['Status: Invalid', 'faef50', 'Out of scope or invalid report.'],
+              ["Status: Won't fix", 'C8D9E6', 'Working as intended per ClauseOS hermeticity or architectural invariants.'],
+              ['Priority: Critical', 'b60205', 'Blocks Stage 0/1 boot, breaks .home/ sandbox confinement, or halts release gate.'],
+              ['Priority: High', 'd93f0b', 'High-impact defect or milestone deliverable for the active v0.9.0-dev.x runway.'],
+              ['Priority: Medium', 'fbca04', 'Standard priority enhancement or non-blocking defect.'],
+              ['Priority: Low', '0e8a16', 'Nice-to-have polish, cleanup, or deferred optimization.'],
+              ['Severity: Blocker', '660000', 'Completely prevents bootstrapping, compilation, or test gate execution.'],
+              ['Severity: Major', 'FF0000', 'Core subsystem regression or host-OS environment leak.'],
+              ['Severity: Minor', 'ff9900', 'Partial degradation with a deterministic workaround.'],
+              ['Severity: Trivial', '336600', 'Cosmetic, typo, or minor DX friction.'],
+              ['Area: Substrate & Boot', '6600ff', 'Stage 0 microkernel bootloaders (cx.bat/cx.ps1/cx.sh), .home/ confinement, and config/env/*.toml SSOT.'],
+              ['Area: Compiler (cxc)', '5319e7', 'Clause (.cx) language frontend, AST/macros, and multi-target emitters (--target rust, beam, client) in packages/clause/.'],
+              ['Area: BEAM & Orchestrator', '7057ff', 'Erlang/OTP 29 backplane, packages/clause_jet/, RinG dirty-scheduler FFI (tools/ring/), and HashiStack (Nomad/Consul/Vault).'],
+              ['Area: Infra & MaaS', '0052cc', 'Native Rust Pulumi IaC (crates/clause-pulumi/), Pixiecore + Packer iPXE bare-metal MaaS, and cx vm micro-VMs (WSL2/Lima).'],
+              ['Area: TIGAH & AI', '1d76db', 'Local neural coprocessors (Lemonade, FastFlowLM, InferSSD, Unsloth, ComfyUI), $HF_HOME hub, and contained 1B-7B SLMs.'],
+              ['Area: Virtual Enterprise', '0e8a16', '.enterprise/ governance, .apm/ agent packaging, MCP/A2A protocols, and VS Code / Claude / Codex harness compilation.'],
+              ['Area: Transmedia & Telecom', '884488', 'Zero-alloc audio/video DSP (oximedia, nih-plug, Craft), Kazoo/Kamailio SIP switching, Membrane/CasparCG playout, and C2PA/DDEX.'],
+              ['Area: Plugins & Toolchains', '006b75', 'First-party Lua Mise adapters (plugins/cx-*), sterilized Scoop (# clause-scoop-patches: 1), confined Brew, and .mise.*.toml overlays.'],
+              ['Area: CLI & DX', 'f5d0a9', 'Polyglot Nushell command router (scripts/cli/nu/), portable VS Code cockpit (cx-vscode), and Flight Deck UIs (Lustre/Shore/O2K).'],
+              ['Area: Security', 'b58e00', 'Zero-leak sandbox hardening, Vault dynamic leases, OS MAC sandboxes (Landlock/Seatbelt), and supply-chain integrity.'],
+              ['Area: CI-CD & Tests', 'f9d0c4', 'Deterministic offline verification gates (cx test, tests/system/run_all.nu, tests/env/run_tests.ps1) and GitHub Actions.'],
+              ['Area: Docs & Curriculum', 'd876e3', 'Architecture Decision Records (docs/adr/), Track 1 CCEFS modules (docs/ccefs/), and vieo.ai documentation.'],
+              ['Size: XL', '006600', 'Multi-module architectural milestone or full subsystem vertical slice.'],
+              ['Size: L', '339933', 'Significant feature or cross-platform substrate implementation.'],
+              ['Size: M', '66cc66', 'Self-contained module, CLI command, or cx-* plugin update.'],
+              ['Size: S', '99ff99', 'Focused bug fix, test assertion, or config overlay update.'],
+              ['Size: XS', 'ccffcc', 'Trivial patch, version pin bump, or documentation fix.'],
+              ['Upstream / 3rd Party', 'e88707', 'Issue originates in an upstream dependency (Mise, Nushell, Gleam, Erlang/OTP, Scoop, Homebrew, ROCm/CUDA).'],
+              ['Target: Windows', 'AEB1C2', 'Specific to Windows 10/11 (x64), PowerShell 7 Stage 0/1, Patched Scoop, or WSL2 micro-VMs.'],
+              ['Target: Linux', 'AEB1C2', 'Specific to Linux (x64/arm64 gnu/musl), POSIX Stage 0/1, Landlock/Bubblewrap, or bare-metal MaaS.'],
+              ['Target: macOS', 'AEB1C2', 'Specific to macOS (Apple Silicon/Intel), confined Homebrew, Seatbelt, or Lima micro-VMs.'],
+              ['Target: Hardware / NPU-GPU', 'AEB1C2', 'Specific to hardware acceleration backends (AMD Strix Halo / ROCm, XDNA2 NPU, NVIDIA CUDA, Apple Metal, Vulkan).']
+            ];
 
-      - name: Convert TODO Markers to Backlog Issues
-        uses: alstr/todo-to-issue-action@v5
-        with:
-          REPO: ${{ github.repository }}
-          BEFORE: ${{ github.event.before }}
-          SHA: ${{ github.sha }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LABEL: '"Status: Backlog"'
-          IDENTIFIERS: '[{"name": "@todo", "labels": ["Status: Backlog"]}, {"name": "TODO(clause)", "labels": ["Status: Backlog"]}, {"name": "FIXME(clause)", "labels": ["Status: Backlog", "Priority: High"]}]'
-          AUTO_P: true
-          CLOSE_ISSUES: true
-
-  # 3. Stale Issue & PR Hygiene (Replaces probot/stale)
-  stale-hygiene:
-    name: Stale Issue & PR Hygiene
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Mark & Close Stale Items
-        uses: actions/stale@v9
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          days-before-issue-stale: 45
-          days-before-pr-stale: 45
-          days-before-issue-close: 14
-          days-before-pr-close: 14
-          stale-issue-label: 'Status: Backlog'
-          stale-pr-label: 'Status: Backlog'
-          exempt-issue-labels: 'Priority: Critical,Severity: Blocker,Status: In Progress,Status: Blocked,Area: Docs & Curriculum'
-          exempt-pr-labels: 'Priority: Critical,Severity: Blocker,Status: In Progress,Status: Blocked,Area: Docs & Curriculum'
-          stale-issue-message: >
-            This issue has had no activity for 45 days. If it is still relevant to the active
-            ClauseOS (`v0.9.0-dev.x`) runway, please comment with an update or reproduction log;
-            otherwise it will close automatically in 14 days.
-          stale-pr-message: >
-            This pull request has had no activity for 45 days. Please rebase against `main` and
-            confirm `clause test` passes, or comment with a status update; otherwise it will close
-            automatically in 14 days.
-          close-issue-message: >
-            Closing due to inactivity. Feel free to reopen or file a fresh issue with updated
-            `clause doctor` diagnostics if this persists.
-          close-pr-message: >
-            Closing pull request due to inactivity. Feel free to reopen when ready for review.
+            for (const [name, color, description] of labels) {
+              try {
+                await github.rest.issues.updateLabel({ owner, repo, name, color: color.toLowerCase(), description });
+              } catch (error) {
+                if (error.status === 404) {
+                  await github.rest.issues.createLabel({ owner, repo, name, color: color.toLowerCase(), description });
+                } else {
+                  throw error;
+                }
+              }
+            }
