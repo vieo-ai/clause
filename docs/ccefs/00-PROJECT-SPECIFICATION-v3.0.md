@@ -3,6 +3,7 @@
 ## **1. Project Overview, Mission & Philosophy**
 
 ### **1.1 Document Control & Mission**
+
 * **Project Name:** **CCEFS** (*Carrier-Class Engineering From Scratch*), built upon the **ClauseOS (`clause.os` / `cx`)** Hermetic Microkernel Substrate and the **Seax (`.cx` / `.seax`)** Transmedia & Agent Carrier Language (developed by **Vieo**; formerly prototyped under the *Vieo Tigah* agent harness specification v2.1).
 * **Centerpiece Thesis:** *"The code is the product, not the end results."* **ClauseOS (`clause.os` / `cx`) IS the living reference implementation** of **Track 1 (CCEFS — The Master Track)**. Following Track 1 from Module 0.1 through Module 25 constructs **ClauseOS itself** from an empty folder—a 100% open-source (MIT / Apache-2.0), forkable, programmable transmedia & cloud software factory sealed inside `.home/`.
 * **Reading Order (`docs/ccefs/`):**
@@ -13,16 +14,20 @@
   * `04-vieo-ai-curriculum-portal.md` — Vieo.ai Portal & 4-Track Architecture (`CCEFS`, `Claude/OpenClaw/Hermes in Seax`, `AIEFS Encyclopedia`, `Bonus Track`).
 
 ### **1.2 Enterprise Positioning & Commercial Model (100% Open-Core + Industry Adaptation)**
+
 * **Unconstrained 100% Open-Source Substrate (MIT / Apache-2.0):** Complete bare-metal hermetic runtime (`.home/` confinement), multi-node clustering (`Nomad`, `Consul`, `Vault`, `Boundary`), cloud bursting (`Pulumi` / revived `pulumi-gestalt`), BEAM/Rust orchestration, dynamic 5-way GPU acceleration, Seax compiler toolchain (`seaxc`), pure-Rust transmedia codecs (`Craft`/`oximedia`/`nih-plug`), and the base Virtual Enterprise harness (`ADR 0007`).
 * **Commercial Tier (Bespoke Industry Adaptation & Enterprise Cartridges):** Regulated industry Virtual Enterprise packs (HIPAA Healthcare, FINRA/SEC FinTech, Air-Gapped Defense), cryptographic audit & Open Policy Agent (OPA) guardrail engines, certified edge hardware appliances, and legacy enterprise connectors (SAP, Oracle, Epic).
 
 ### **1.3 Design Philosophy & Ergonomic Standards ("The Laravel of AI & Transmedia")**
+
 To guarantee world-class Developer Experience (DX) and carrier-grade real-time durability, CCEFS and Seax synthesize the design ideals of **Taylor Otwell (Laravel)**, **Jules Storer (JUCE)**, **Mark Sibley (Monkey X)**, and **Thorsten Ball / Tim Boring**:
+
 * **Expressive & Fluent Syntax (Developer Happiness Metric):** Code must read like clear, self-documenting prose—supporting fluent method chaining, Dart-inspired cascades (`..`), convention-over-configuration defaults, and zero-ceremony agent/pipeline declarations.
 * **Elimination of Boilerplate:** Low-level plumbing (memory ownership, dirty-scheduler thread routing, stream framing, MCP/A2A JSON-RPC envelopes, webhook HMAC verification) is encapsulated behind clean, typed facades.
 * **Unified Mental Model Across Targets:** Whether compiling Seax (`.cx`) to native Rust (`Ractor`/`Spawned` OTP actors + `Craft`/`oximedia`/`nih-plug` + revived `pulumi-gestalt`), BEAM (`Core Erlang` / `Glimr`), TypeScript/Wasm, or driving polyglot CLI commands via Nushell, the architectural primitives remain identical.
 
 ### **1.4 Master Architecture Directive: The Quad Synthesis Model**
+
 All system specifications, compiler passes, and runtime modules generated for **CCEFS** **MUST** strictly adhere to the **Quad Architecture Model**:
 
 1. **Macro Architecture (Fowler’s P-EAA Baseline):**
@@ -47,6 +52,7 @@ All system specifications, compiler passes, and runtime modules generated for **
 > `P-EAA System Boundaries + GoF Mechanics + Laravel Ergonomics + JUCE Real-Time Discipline`
 
 ## **1.5 Core Architectural Primitives & 27-Package Illuminate Mapping**
+
 CCEFS maps all **27 Laravel Illuminate architecture components** directly onto **ClauseOS + Seax + Ractor/BEAM** primitives:
 
 | # | Illuminate Package | CCEFS / Seax Primitive | ClauseOS Substrate & Implementation Mapping |
@@ -82,6 +88,7 @@ CCEFS maps all **27 Laravel Illuminate architecture components** directly onto *
 ## **2. Foundation Evolution & Compilation Strategy (v2.1 $\rightarrow$ v3.0)**
 
 ### **2.1 What Changed From v2.1 to v3.0**
+
 * **v2.1 (*Vieo Tigah*):** Modeled the agent harness as 19 standalone target language implementations built in isolation without an underlying hermetic OS substrate, unified model cache, or carrier language compiler.
 * **v3.0 (*ClauseOS + Seax + CCEFS*):**
   1. **Grounded on the ClauseOS Hermetic Microkernel (`v0.9.0-dev.1`):** All toolchains, Python/AI virtual environments, HashiStack daemons, BEAM/Rust runtimes, and `$HF_HOME` model caches are hermetically confined inside `${CLAUSE_PROJECT_ROOT}/.home/`.
@@ -89,6 +96,7 @@ CCEFS maps all **27 Laravel Illuminate architecture components** directly onto *
   3. **Craft Ecosystem Absorption (`storytold/craft-*`):** Native transmedia desktop applications (`SoundCraft`, `FilmCraft`, `PhotoCraft`, `EffectCraft`, `WordCraft`, `GridCraft`, `CADCraft`, `craft-ai-mcp`) are integrated via pinned `git subtree --squash` mounts and controlled via MCP/IPC and shared Rust media crates (`ADR 0012`).
 
 ### **2.2 Target Stack Hierarchy (Primary Compiled Targets + Polyglot Parity)**
+
 * **Default Primary Language — Seax (`.cx` / `.seax`):** Native keywords for agents (`agent`, `skill`, `tool`, `memory`, `compact`, `gateway`, `channel`, `heartbeat`), transmedia (`audio`, `video`, `midi`, `ndi`, `osc`, `smpte`, `dante`, `dsp`), carriers (`actor`, `pipeline`, `telcom`, `broadcast`, `infra`), and capability gates (`needs`, `platform`, `provide`, `expose -> Schema`).
 * **Primary Native Systems & Runtime Engine (Rust — Tier 2):** `compiler/seaxc/`, `Ractor`/`Spawned` OTP supervision, `oximedia`/`nih-plug`, `vendor/craft/*`, `crates/clause-pulumi/` (revived `pulumi-gestalt`), `seax-vfs` (Content-Addressed VFS).
 * **Distributed Actor & Web Backplane (BEAM / Gleam / Elixir):** `services/orchestrator/`, `packages/carrier_jet/`, `packages/clause_cli/`, `Glimr`, `Lustre`, `Shore`, and `RinG` (`tools/ring/`).
@@ -96,6 +104,7 @@ CCEFS maps all **27 Laravel Illuminate architecture components** directly onto *
 * **Full 19-Language Polyglot Parity Matrix:** Preserved from v2.1 across Tier 1 (POSIX sh, PowerShell, Lua/LuaJIT, QuickJS, Nim, Tcl/Expect), Tier 2 (Python, TypeScript/Bun, Rust, C++20, Go, Zig), and Tier 3 (Dart/Flutter, PHP/Laravel, Elixir/BEAM, Ruby, Swift, Kotlin, C#/.NET Orleans) via Monkey X multi-target codegen and ClauseOS polyglot command routing.
 
 ## **3. Source Inventory & Cross-Referencing Matrix (128+ Primary Sources)**
+
 All source materials in the master research repository retain their canonical prefix taxonomy (`04-resource-legend`) and are extended with the **Compiler & Orchestrator Core (`c` prefix)** and **ClauseOS Foundation (`f` prefix)**:
 
 * **`f` — ClauseOS Hermetic Substrate & ADRs (16+ Sources):** `README.md`, `TASK.md`, `ADR 0001`–`0013`, `cx.ps1`/`cx.sh`, `config/env/*.toml`, and `cx bundle` source snapshots.
@@ -116,16 +125,20 @@ All source materials in the master research repository retain their canonical pr
 ## **4. Curriculum Construction Rules, Constraints & Pedagogy**
 
 ### **4.1 Rule A: Exhaustive Feature Preservation**
+
 Every mechanism across the ClauseOS substrate (`f`), compiler/orchestrator books (`c`), AIEFS (*AI Engineering From Scratch*, `e`), and the 22 Claude Code / OpenClaw studies (`r01`–`r22`) MUST be explicitly woven into the unified **CCEFS** curriculum. Where two implementations conflict, adopt the higher-rigor pattern (e.g., compile-time capability tokens + Rust/BEAM supervision over ad-hoc shell scripts).
 
 ### **4.2 Rule B: Mandatory 4-Part Chapter/Module Structure**
+
 Every chapter/module generated for **CCEFS** MUST follow this strict four-part structure:
+
 1. **Part 1: Measurable Engineering & Learning Outcomes (SLOs) + Architectural Invariants**
 2. **Part 2: Mechanics, Illuminate/Quad Mapping & Expressive Seax/Rust API Contracts**
 3. **Part 3: Step-by-Step Implementation & Verification Gate (`cargo test --offline` / `cx test`)**
 4. **Part 4: Ground-Truth Source Attribution & Citations (`[f*]`, `[c*]`, `[a*]`, `[b*]`, `[e*]`, `[l*]`, `[r*]`, `[s*]`, `[t*]`)**
 
 ### **4.3 Rule C: Progressive Scaffolding (Bottom-Up Systems Construction)**
+
 The curriculum builds strictly linearly from bare metal upward—no module may rely on an unbuilt lower layer:  
 `Stage 0: Hermetic Userland (.home/) → Stage 1: Seax Language & Compiler (seaxc inside .home/) → Stage 2: Distributed Orchestrator & Pulumi IaC → Stage 3: Transmedia & Telecom Switchboard → Stage 4: Seax-Native Agent Harness (Claude Code + OpenClaw + Hermes) → Stage 5: Autonomous Virtual Enterprise & Open-Core Release`
 
@@ -134,6 +147,7 @@ The curriculum builds strictly linearly from bare metal upward—no module may r
 CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 0.1–0.5, detailed in `02-stage0-foundation-modules-v4.3.md`)** with **25 Systems, Compiler, Transmedia, Agent, and Enterprise Modules (Stages 1–5: Modules 1–25, with Stages 1–2 detailed in `03-stage1-2-compiler-orchestrator-v4.3.md`)**:
 
 ### **Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)**
+
 * **Module 0.1:** Zero-Leak Profile Confinement & Stage 0 Trampolines (`cx.bat`, `cx.ps1`, `cx.sh`, `config/env/*.toml`) `[f01, ADR-0001, ADR-0004]`
 * **Module 0.2:** Three-Tier Toolchain Supply Chain (`Mise` Overlays, `plugins/cx-*` Lua Subtrees, Patched `Scoop`/`Brew`, `toml_pin.nu`) `[f02, ADR-0002]`
 * **Module 0.3:** Dynamic 5-Way Hardware Acceleration Matrix & Unified `$HF_HOME` Model Hub `[f03, ADR-0003, ADR-0005]`
@@ -141,6 +155,7 @@ CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 
 * **Module 0.5:** Content-Addressed Workspace (`seax-vfs`) & AIEFS (*AI Engineering From Scratch*, Vol. 1–6) Mathematical Spine `[e01–e06, ADR-0005, ADR-0008]`
 
 ### **Stage 1: Building the Seax (`.cx`) Language & Multi-Target Compiler Inside `.home/` (Modules 1–5)**
+
 * **Module 1:** Dart-Flavored Lexer & Token Spans (`crates/seax-token`, `crates/seax-lexer` — Ball Ch. 1) `[c01, c04, ADR-0011]`
 * **Module 2:** Pratt Expression Parser, Recursive-Descent Blocks & "Agent is a Directory" (`crates/seax-ast`, `crates/seax-parser` — Ball Ch. 2) `[c01, c04, ADR-0011]`
 * **Module 3:** Syntactic AST Macros & Multi-File Contract/Capability Checker (`crates/seax-macro`, `crates/seax-checker` — Ball *Lost Chapter* + Jet AST Guards) `[c01, c01-lost, c04, ADR-0011]`
@@ -148,6 +163,7 @@ CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 
 * **Module 5:** Monkey-X (`transcc`) Multi-Target Emitters (`--target rust`, `--target beam`, `--target client`) & Self-Hosting `seaxc`/`air`/`jet` in `$CLAUSE_BIN_DIR` `[c02, c05, ADR-0011]`
 
 ### **Stage 2: Distributed Orchestrator, Micro-VMs & Native Pulumi IaC (Modules 6–10)**
+
 * **Module 6:** Orchestrator Core: `Task → Worker → Manager → Scheduler` (`Ractor`/`Spawned` OTP actors — Tim Boring Ch. 1–9) `[c03, ADR-0010]`
 * **Module 7:** Borg E-PVM Resource-Aware Scheduler & Persistent `Store` (`TaskStore` / `EventStore` + GPU scoring — Tim Boring Ch. 10–12) `[c03, ADR-0003, ADR-0010]`
 * **Module 8:** HashiStack Control Plane (`Nomad`, `Consul`, `Vault`) & Cross-Platform Micro-VMs (`cx vm` WSL2 / Lima) `[ADR-0006, ADR-0010]`
@@ -155,6 +171,7 @@ CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 
 * **Module 10:** Native `infra` Keyword & Revived `pulumi-gestalt` (`crates/clause-pulumi` / `Jet` cloud bursting) `[c06, ADR-0010, ADR-0011]`
 
 ### **Stage 3: Real-Time Transmedia Engine, RinG Bridge & Telecom Switchboard (Modules 11–15)**
+
 * **Module 11:** `RinG` (Rust-in-Gleam) Type-Safe FFI & Dirty-Scheduler Isolation (`DirtyCpu` / `DirtyIo`) `[ADR-0012]`
 * **Module 12:** Zero-Allocation Audio/Video DSP (`dsp`, `audio`, `video`, `oximedia`, `nih-plug`) `[a00, ADR-0011, ADR-0012]`
 * **Module 13:** Hardware Control Buses (`midi`, `ndi`, `osc`, `smpte`, `dante`, `AES67`) `[ADR-0011, ADR-0012]`
@@ -162,6 +179,7 @@ CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 
 * **Module 15:** BEAM Carrier Backplane: `Membrane` Media Router & `Kazoo` Class 5 Softswitch `[l04, ADR-0010, ADR-0011]`
 
 ### **Stage 4: Seax-Native Agent Framework (`Claude Code` + `OpenClaw` + `Hermes`, Modules 16–20)**
+
 * **Module 16:** `AsyncGenerator` Agent Kernel, `<thinking>` Channels, 3-Layer Retry Onion & `jet_sap` Schema Repair *(Harness Modules 1 & 6)* `[b01, c04, l04, r01–r22, a05]`
 * **Module 17:** Self-Describing `tool` Registry, `mtime` Guards, `ArchitectTool`/ToT Planning, SSRF `web_fetch` & Speculative Parallel Batching *(Harness Modules 2 & 12)* `[r14–r22, b06, b13, b14, b16]`
 * **Module 18:** Multi-Gate Permission Pipeline, 2-Stage YOLO Classifier, Hook Bus (`PreToolUse`/`PostToolUse`) & Kernel Sandboxes *(Harness Modules 4 & 5)* `[r14–r22, a02, t06, ADR-0011, ADR-0013]`
@@ -169,6 +187,7 @@ CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 
 * **Module 20:** Multi-Channel `gateway` (`OpenClaw` + `Hermes`), `heartbeat` Cron, Persistent Task DAGs & `MCP`/`A2A` Universal Bridges *(Harness Modules 14, 15, 16, 17, 23)* `[c03, r11, r22, s00–s02]`
 
 ### **Stage 5: Autonomous Virtual Enterprise, Domain SLMs & Open-Core Release (Modules 21–25)**
+
 * **Module 21:** Contained Domain SLM Distillation & Local Coprocessor Fleet (`Unsloth` + `Lemonade`/`InferSSD`) `[e02, e04, ADR-0005, ADR-0013]`
 * **Module 22:** `.enterprise/` Virtual Corporation Hierarchy & Closed-World `.ground` Governance *(Harness Modules 18, 19, 20)* `[r15, r18, ADR-0008]`
 * **Module 23:** Git Worktree Swarm Isolation, Bare-Git Scrubbing, Protocol Handshakes (`plan_approval`/`shutdown`), Adversarial Gatekeeper & Vault Merge Leases *(Harness Modules 21 & 22)* `[r15, r22, t00, t01, t05, ADR-0008, ADR-0010]`
@@ -176,7 +195,9 @@ CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 
 * **Module 25:** 100% Open-Source Release Engine & Commercial Industry Cartridges (`v1.0.0`) *(Harness Module 24)* `[f01, b01, ADR-0007]`
 
 ## **6. Acceptance Criteria & Audit Verification Pass**
+
 Before any CCEFS chapter/module is marked `Completed`:
+
 1. **Substrate Confinement:** Zero host filesystem/registry writes; all state, compilers (`seaxc`/`air`/`jet`), and caches verified inside `.home/` (`cx test`).
 2. **Ground-Truth Citation Integrity:** Every architectural claim and code contract cites valid `[f*]`, `[c*]`, `[a*]`, `[b*]`, `[e*]`, `[l*]`, `[r*]`, `[s*]`, or `[t*]` sources.
 3. **Quad & Real-Time Compliance:** Adheres to Fowler P-EAA boundaries, GoF mechanics, Otwell fluent DX, and JUCE zero-allocation hot-path rules.
