@@ -1,12 +1,15 @@
 # ADR 010: Distributed BEAM Backplane, Gleam Orchestration, Nomad Scheduling, and Bare-Metal Provisioning
 
 ## Status
+
 Accepted
 
 ## Context
+
 ClauseOS requires an infrastructure and compute substrate capable of delivering Bare Metal as a Service (MaaS), dynamic cluster orchestration, and resilient workload supervision without the massive control-plane footprint, etcd fragility, and operational overhead of bare-metal Kubernetes.
 
 ## Decision
+
 Establish the infrastructure hierarchy around a decentralized, fault-tolerant backplane where Kubernetes is demoted from a platform orchestrator to an ephemeral tenant workload:
 
 1. **BEAM Backplane & Gleam Orchestrator**:
@@ -27,7 +30,15 @@ Establish the infrastructure hierarchy around a decentralized, fault-tolerant ba
    * Replace static HCL Terraform workflows with the **Pulumi Automation API**, driving physical networking, cloud-burst nodes, and service DNS programmatically via code.
 
 ## Consequences
+
 * **Positive**: Complete bare-metal control from initial power-on (IPMI/PXE) to distributed AI agent execution.
 * **Positive**: Extremely low control-plane footprint compared to platforms like CozyStack or Typhoon.
 * **Positive**: Kubernetes is isolated to guest application needs rather than governing system infrastructure.
 * **Negative**: Requires authoring and maintaining Gleam/OTP HTTP adapters for Nomad, Consul, and Vault.
+
+## Implementation Evolution & Addendum (2026-11-20)
+
+Following the Gleam compiler fork (`cxc`) and multi-target transpilation consensus in `docs/ccefs/06` and transcript `d48`:
+
+1. **Clause Infrastructure Lowering**: The declarative `infra` language keyword lowers directly to native Rust dependency graphs via `crates/clause-pulumi` (`catapult`) under `--target rust`.
+2. **Actor Control Plane (`clause_jet`)**: Telecommunications signaling, agent supervision, and Nomad job dispatching lower to Erlang/OTP 29 releases under `packages/clause_jet/` using `--target beam`.
