@@ -17,6 +17,7 @@ The ClauseOS engineering initiative is governed by a strict two-tier Supreme Sin
 2. **Tier 2 (Architectural & Curriculum Specifications):** The formal specifications in `docs/ccefs/00-PROJECT-SPECIFICATION-v3.0.md` through `04-vieo-ai-curriculum-portal.md`, together with the canonical ADR ledger (`adr_001` through `adr_013`), govern systemic design rules, track syllabi, and architectural invariants.
 
 To maintain engineering discipline and prevent architectural drift, the system operational identity and scope are anchored to five core pillars:
+
 * **Parent Steward:** **Vieo** (`vieo-ai`) operates as the sovereign enterprise steward and commercial custodian.
 * **Operating Substrate:** **ClauseOS** (`clause.os` / `cx`) provides the bare-metal, zero-leak hermetic userland (`.home/` jail, 8-pass iterative TOML SSOT engine, and `cx pkg:*` package control plane).
 * **Programming Language & Compiler:** **Clause** (`.cx`), compiled via the **`cxc`** CLI binary constructed by forking `gleam-lang/gleam` inside `packages/clause/` with Mark Sibley Monkey-X multi-target emitters (`--target rust`, `--target beam`, `--target client`).
@@ -51,11 +52,14 @@ The 13 Architecture Decision Records tracked in `06-clauseos-source-bundle.md` r
 ### 2.1 Critical ADR Defect Isolation
 
 #### ADR 0006 Corruption Analysis (`DEF-02`)
+
 In `06-clauseos-source-bundle.md`, `docs/adr/adr_006-micro-instance-virtualization.md` opens with `# ADR 006: Host, Container, and Micro-VM Isolation Boundaries`, but lines 8 through 115 replicate the problem statement, decision drivers, and directory trees of ADR 005 verbatim.
 The canonical architecture for `cx vm`—governing ephemeral WSL2 instances on Windows NT and Lima instances on macOS, managed via `scripts/cli/nu/commands/vm.nu`, providing bare-metal GPU passthrough and isolated container scheduling—has been completely overwritten in the tracked repository.
 
 #### ADR 0011 Specification Drift Analysis
+
 `docs/adr/adr_011-seax-language-transpiler-agent-directory.md` was drafted during early prototyping and reflects the following obsolete assumptions:
+
 1. **Outdated Language Name:** Uses `Seax` (`.seax` manifests) instead of **Clause** (`.cx` / `clause.toml`).
 2. **Outdated Compiler Location:** Directs builds to `compiler/seaxc/` instead of `packages/clause/`.
 3. **Retired Runtime Bifurcation:** Splits runtime execution into `Air` (`cx air run` in `packages/carrier_jet/`) and `Jet` (`cx jet up`), which was formally retired in transcript `d48` and `docs/ccefs/06-blueprint` in favor of `cxc` multi-target compilation and `packages/clause_jet/`.
@@ -63,6 +67,7 @@ The canonical architecture for `cx vm`—governing ephemeral WSL2 instances on W
 5. **Missing 9 Canonical Pillars:** Does not define top-level keyword restrictions or standard library namespace partitioning.
 
 #### Cross-File ADR Hyperlink Breakages
+
 The repository manifests an internal naming inconsistency across markdown files. Files on disk use underscores and prefixes (`adr_001_...md`, `adr_004_...md`, `adr_006-...md`), whereas `README.md` and `TASK.md` link to these records using a four-digit numeric convention (`0001-...md`, `0004-...md`, `0006-...md`). Every internal link between the root documentation and the ADR directory is currently broken.
 
 ---
@@ -74,13 +79,17 @@ The root documentation files serve as the primary entrypoint for human operators
 ### 3.1 `README.md` Forensic Analysis
 
 #### Dead Artifacts Listed in Directory Tree
+
 The repository tree in `README.md` lists several files that were permanently deleted in earlier Git commits:
+
 * **`justfile`:** Listed as the root task orchestrator. Deleted in commit `d41253bb` when all build, test, and package commands were migrated into the `cx` Nushell router.
 * **`scripts/core/boot.ps1`:** Listed as the Windows microkernel entrypoint. Deleted in commit `dafcd966` when Stage 0 trampolines were consolidated into root `cx.ps1` and `cx.sh`.
 * **`env.ps1` and `env.sh`:** Listed under `config/shell/`. Deleted in commit `900356ce` when the modular TOML SSOT engine (`config/env/*.toml`) was introduced.
 
 #### Omitted Canonical Subsystems
+
 The directory tree in `README.md` fails to display seven core structural directories present in the project architecture:
+
 1. `config/env/`: The five modular TOML configuration files (`00-core.toml` through `40-ml-hub.toml`).
 2. `packages/clause/`: The `cxc` compiler fork crate.
 3. `packages/clause_jet/`: The Erlang/OTP agent mission control runtime.
@@ -90,6 +99,7 @@ The directory tree in `README.md` fails to display seven core structural directo
 7. `plugins/cx-*`: The first-party Lua toolchain plugins (`cx-lemonade`, `cx-fastflowlm`, `cx-vscode`, `cx-unsloth`, `cx-comfyui`, `cx-inferssd`).
 
 #### Branding and Workflow Divergence
+
 * **Language Branding:** Refers to the language as `Seax` rather than **Clause (`.cx`)**.
 * **Missing Hierarchy:** Lacks the governing corporate hierarchy: **Vieo** $\\rightarrow$ **ClauseOS** $\\rightarrow$ **TIGAH** $\\rightarrow$ **Clause**.
 * **Missing Architecture Stack:** Lacks the 7-Layer unified topology diagram established in `d04` and `d25`.
@@ -99,14 +109,19 @@ The directory tree in `README.md` fails to display seven core structural directo
 ### 3.2 `TASK.md` Forensic Analysis
 
 #### Milestone Header Drift
+
 The document header states:
+
 ```markdown
 ## Current Milestone: v0.1.5-dev (Substrate Stabilization)
 ```
+
 In reality, the repository completed milestones `v0.8.0-dev.1` through `v0.8.0-dev.10` and advanced to **`v0.9.0-dev.1 (Platform Integration & Orchestration)`**, as confirmed by Git commit history (`11-git-history`) and the live source bundle metadata.
 
 #### Omission of Completed Phase 9 (Supply Chain Milestones)
+
 `TASK.md` jumps from Phase 8 (*Package Management & Renv Isolation*) directly to Phase 10 (*BEAM Backplane & Orchestrator Integration*). It omits the completed engineering work of Phase 9 (executed between October 29 and November 15, 2026):
+
 * Implementation of the 5 modular TOML environment manifests (`config/env/*.toml`).
 * Implementation of the 8-pass iterative `${VAR}` symbol compiler in `cx.ps1` and `cx.sh`.
 * Establishment of the layered `MISE_ENV` overlays (`paths,ai,cloud`) and `CLAUSE_STATUS="online"` subshell preflight guard.
@@ -115,6 +130,7 @@ In reality, the repository completed milestones `v0.8.0-dev.1` through `v0.8.0-d
 * Extraction of AI coprocessors into first-party Lua subtrees under `plugins/cx-*`.
 
 #### Stale Milestone Titles in Active Backlog
+
 * **Phase 12 Title:** Titled *"Seax Language Compiler Core (`seaxc`), Air & Jet Runtimes"*, targeting `compiler/seaxc/` and `packages/carrier_jet/`. Must be retitled to *"Clause Language Compiler (`cxc`), TIGAH & `clause_jet` Runtimes"* targeting `packages/clause/` and `packages/clause_jet/`.
 * **Unsynchronized Phase 10 Checkboxes:** Items already committed in `06` remain marked as pending `[ ]`:
   * `HashiStack & BEAM Toolchain Hydration`: Pinned in `.mise.ai.toml` and `.mise.cloud.toml` (Erlang 29.1.2, Elixir 1.20.4, Gleam 1.19.2, Nomad 1.9.3, Consul 1.20.1, Vault 1.18.2).
@@ -127,23 +143,28 @@ In reality, the repository completed milestones `v0.8.0-dev.1` through `v0.8.0-d
 The five foundational specifications in `docs/ccefs/` define the Track 1 curriculum and architectural blueprint. All five documents exhibit specification drift regarding compiler construction.
 
 ### 4.1 Master Project Specification (`00-PROJECT-SPECIFICATION-v3.0.md`)
+
 * **Section 1.1 Language Scope:** Continues to designate the default language as `Seax` compiled via `seaxc` in `compiler/seaxc/`. Must be updated to **Clause (`.cx`)** compiled via `cxc` in `packages/clause/`.
 * **Section 1.2 Runtime Division:** References the obsolete `Air` and `Jet` split instead of the unified `cxc` compiler and `clause_jet` OTP runtime.
 * **Section 1.3 Missing Pillars:** Lacks formal codification of the **Nine Canonical Operational Pillars** from `ADR 0007`.
 * **Section 3.0 Source Legend Inventory:** Catalogs 128 sources across letter prefixes `f`, `c`, `a`, `b`, `e`, `l`, `r`, `s`, `t`, but completely omits the **`d` (`d01`–`d99`)** engineering design transcripts. Because these transcripts document the consensus for the Gleam compiler fork (`d48`), micro-instance passthrough (`d13`), and converged media consolidation (`d40`), their omission leaves key decisions untraceable in the legend.
 
 ### 4.2 30-Module Curriculum Map (`01-ccefs-30-modules-v4.3.md`)
+
 * **Stage 1 (Modules 1–5):** Prescribes constructing the compiler toolchain from scratch in Rust (`crates/seax-lexer`, `crates/seax-parser`, `crates/seax-macro`, `crates/seax-vm`, `crates/seax-trans`). This directly contradicts `docs/ccefs/06-blueprint` and transcript `d48`, which mandate forking `gleam-lang/gleam` inside `packages/clause/` (`cxc`) to inherit Hindley-Milner typing and language server protocols.
 * **Stage 2 (Module 10):** Refers to `Jet` compiling native infrastructure declarations, rather than the revived `pulumi-gestalt` engine in `crates/clause-pulumi` (`catapult`).
 
 ### 4.3 Stage 0 Deep-Dive Specification (`02-stage0-foundation-modules-v4.3.md`)
+
 * **Module 0.1 & 0.2:** Accurately captures Stage 0 trampolines, TOML compilation, and in-place Scoop patching.
 * **Module 0.5 (Virtual Filesystem):** Refers to `crates/seax-vfs` and `seax` primitives. Must be synchronized to `crates/clause-vfs`, `.ground/`, and `ClauseOS` (`cx`).
 
 ### 4.4 Stages 1 & 2 Deep-Dive Specification (`03-stage1-2-compiler-orchestrator-v4.3.md`)
+
 * **Modules 1 through 5:** Extensive technical specifications dedicated to hand-writing a Pratt parser, AST macro expander, and stack VM from scratch. Must be refactored into the Gleam compiler fork architecture: Logos scanner modifications, AST lower passes, Hindley-Milner type checking, and Monkey-X pluggable backend code generation (`Target::Rust`, `Target::Beam`, `Target::Client`).
 
 ### 4.5 4-Track Curriculum Portal Blueprint (`04-vieo-ai-curriculum-portal.md`)
+
 * **Track 2 Title & Syllabus:** Titled *"Track 2: Build Claude, OpenClaw & Hermes in Seax"*. Must be updated to *"Track 2: Build Claude, OpenClaw & Hermes in Clause (.cx) & TIGAH"*, re-anchoring all lesson references to `packages/clause/` and `packages/clause_jet/`.
 
 ---
