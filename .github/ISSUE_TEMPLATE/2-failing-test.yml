@@ -1,0 +1,129 @@
+name: "💉 Failing Test"
+description: "Report failing tests or CI jobs."
+title: "[Test] "
+labels: ["Type: Test"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # **💉 Failing Test**
+        Use this form to report failing tests or CI jobs.
+
+  - type: dropdown
+    id: package-name
+    attributes:
+      label: Select package
+      description: Select package where test is failing
+      options:
+        - Auth
+        - Auth_OAuth2
+        - Auth_Twitter
+        - OAuth2
+        - Broadcasting
+        - Bus
+        - Cache
+        - Client
+        - Collections
+        - Concurrency
+        - Conditionable
+        - Config
+        - Console
+        - Container
+        - Contracts
+        - Cookie
+        - Database
+        - DBO
+        - RethinkDB
+        - Encryption
+        - Events
+        - Filesystem
+        - Foundation
+        - Hashing
+        - Log
+        - Macroable
+        - Mail
+        - CORS
+        - Proxy
+        - Security
+        - User_Agent
+        - Mirrors
+        - Modals
+        - Notifications
+        - Pagination
+        - Pipeline
+        - Process
+        - Production
+        - Queue
+        - Reload
+        - Routing
+        - Serialize
+        - File_Service
+        - Mongo
+        - Redis
+        - Sembast
+        - Session
+        - Support
+        - Testing
+        - Translation
+        - SEO
+        - Shelf
+        - Static
+        - Sync
+        - Validation
+        - Blade
+        - Html
+        - Jael
+        - Jinja
+        - Mark
+        - Websocket
+    validations:
+      required: true
+
+  - type: input
+    id: failing-tests
+    attributes:
+      label: Which jobs/test(s) are failing
+      description: Specify the CI jobs or tests that are failing.
+      placeholder: e.g., `test_authentication`, `build_pipeline`
+
+  - type: textarea
+    id: reason-for-failure
+    attributes:
+      label: Reason for failure/description
+      description: Try to describe why the test is failing or what might be missing to make it pass.
+      placeholder: Provide details about the failure.
+
+  - type: dropdown
+    id: is-regression
+    attributes:
+      label: Is this a regression?
+      description: Did this behavior used to work in a previous version?
+      options:
+        - "Yes"
+        - "No"
+        - Not Sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: media-proof
+    attributes:
+      label: Media proof
+      description: If applicable, add screenshots or videos to help explain your problem.
+      placeholder: Provide a link to media or describe media attachments.
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context or additional information about the problem.
+      placeholder: Provide any additional details here.
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        **Please Note:**
+        - Ensure you’ve searched open and closed issues before submitting.
+        - Review our Rules of Conduct in `.github/CODE_OF_CONDUCT.md`.
