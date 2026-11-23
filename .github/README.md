@@ -39,7 +39,7 @@
 >
 > * The foundational hermetic substrate, modular `config/env/*.toml` environment engine, layered `MISE_ENV` overlays, `cx pkg:*` polyglot package control plane, dynamic GPU auto-detection, and all six first-party `plugins/cx-*` AI/dev toolchains (`v0.8.0-dev.10`) are fully operational and passing 100% green CI/CD across Windows, Linux, and macOS.
 > * Advanced higher-order subsystems—including complete HashiStack daemon topologies (`nomad`, `consul`, `vault`, `packer`, `boundary`), the BEAM/Gleam distributed orchestrator, Pixiecore bare-metal provisioning (MaaS), the `cx vm` hypervisor bridge, Clause (`.cx`) / `cxc` compiler toolchains, and the `.enterprise/` multi-agent organization schemas—are actively being stabilized and wired into the command plane.
-> * Certain declared commands, modules, and configurations may evolve or undergo refactoring between milestone snapshots. Please refer to [TASK.md](TASK.md) and the [ADRs](docs/adr/) for active tracking.
+> * Certain declared commands, modules, and configurations may evolve or undergo refactoring between milestone snapshots. Please refer to [TASK.md](../TASK.md) and the [ADRs](../docs/adr/) for active tracking.
 
 ---
 
