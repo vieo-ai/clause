@@ -27,7 +27,7 @@ jobs:
             await github.request('PATCH /repos/{owner}/{repo}', {
               owner,
               repo,
-              name: 'clause.os',
+              name: 'clause',
               description: 'ClauseOS (cx): Bare-metal hermetic operating substrate, Clause (.cx) carrier language, and TIGAH autonomous AI & transmedia orchestration platform.',
               homepage: 'https://vieo.ai',
               has_issues: true,
