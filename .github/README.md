@@ -432,7 +432,7 @@ ClauseOS strictly adheres to an unconstrained, developer-first open-core model:
 
 Key architectural decisions are documented under `docs/adr/`:
 
-* [**ADR 0001**: Hermetic State Confinement and Canonical Directory Hierarchy](docs/adr/adr_001_hermetic_state_confinement_and_canonical_directory_hierarchy.md)
+* [**ADR 0001**: Hermetic State Confinement and Canonical Directory Hierarchy](./docs/adr/adr_001_hermetic_state_confinement_and_canonical_directory_hierarchy.md)
 
 * [**ADR 0002**: Two-Tier Toolchain Orchestration (`mise` and `renv`)](docs/adr/adr_002_two_tier_toolchain_orchestration_mise_renv.md)
 
