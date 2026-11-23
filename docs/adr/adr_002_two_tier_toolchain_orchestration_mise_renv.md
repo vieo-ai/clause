@@ -9,6 +9,7 @@
 A microkernel operating system environment requires a consistent set of base command-line tools (such as `uv`, `just`, `git`, `nu`), alongside heavy, specialized runtime stacks (such as PyTorch, CUDA, Unsloth, and ComfyUI).
 
 Managing heavy AI engines inside a single global tool manager like `mise` introduces critical bottlenecks:
+
 1. Mise locks tools globally across the project workspace, causing dependency and Python version collisions between applications requiring distinct PyTorch wheels or ABI versions.
 2. Large Python AI ecosystems must not pollute the base developer shell with transitive packages.
 3. Pre-Mise bootstrap tools (the bootloader toolchain) must be initialized before Mise runs, while application-level virtual environment recipes require Mise tools (specifically `uv`) to be already present and active.
@@ -40,6 +41,7 @@ Chosen Option: **Split the pipeline into a strict two-tier architecture (mise ba
 ```
 
 ### Technical Separation Rules
+
 1. **`scripts/cli/pwsh/installers/`**:
    * Executes during **Stage 1** (Pre-Mise).
    * Contains self-contained bootstrap scripts (`installer_mise.ps1`, `installer_just.ps1`, etc.).
@@ -53,11 +55,13 @@ Chosen Option: **Split the pipeline into a strict two-tier architecture (mise ba
 ## Consequences
 
 ### Positive
+
 * Complete decoupling of base development tools from heavy AI dependencies.
 * Zero risk of Unsloth and ComfyUI package version conflicts.
 * Fast execution path: Idempotency checks bypass runtime provisioning in milliseconds once the environment hash is satisfied.
 
 ### Negative
+
 * Disk space usage increases due to separate virtual environments for each AI application stack.
 
 ---
@@ -67,6 +71,7 @@ Chosen Option: **Split the pipeline into a strict two-tier architecture (mise ba
 Following Stage 0/1 stabilization (`v0.8.0-dev.1` – `v0.8.0-dev.10`), the Stage 3 `scripts/cli/pwsh/renv/` recipes (`unsloth`, `comfyui`, `vscode`) and local neural coprocessors (`lemonade`, `fastflowlm`, `inferssd`) were promoted into **first-party cross-platform Lua runtime plugins** maintained under `plugins/cx-*` (`vieo-ai/cx-*`) as git subtrees (`cx plugin add|pull|push`).
 
 This expanded the toolchain into a **Three-Tier Hermetic Orchestration Model**:
+
 1. **Tier 1 — Stage 0/1 Microkernel Bootstrap (`.clause.toml` & `config/env/*.toml`)**: Self-contained installers in `scripts/cli/pwsh/installers/` and `scripts/cli/posix/installers/` pre-seed `pwsh`, `nu`, `mise`, `uv`, and hermetically confined `scoop` / `brew` directly into `$CLAUSE_BIN_DIR` / `$CLAUSE_APPS_DIR`.
 2. **Tier 2 — Declarative Layered Mise Overlays & ClauseOS Plugins (`.mise*.toml` + `plugins/cx-*`)**: Core runtimes, HashiStack, BEAM/Gleam, and AI engines (`unsloth`, `comfyui`, `code`, `lemonade`, `fastflowlm`, `inferssd`) are provisioned via layered `MISE_ENV="paths,ai,cloud"` manifests with isolated per-application virtual environments inside `$MISE_DATA_DIR/installs/`.
 3. **Tier 3 — Confined OS Package Adapters (`cx pkg:*`)**: General-purpose utilities are installed through `cx pkg:add`, `cx pkg:scoop` (backed by `installer_scoop.ps1`'s in-place core patches to `lib/core.ps1`, `lib/shortcuts.ps1`, `lib/system.ps1`, and `libexec/scoop-import.ps1` plus `environment.ps1` registry PATH snapshot guards), and `cx pkg:brew`, with `toml_pin.nu` automatically pinning resolved versions into `.mise*.toml`.
