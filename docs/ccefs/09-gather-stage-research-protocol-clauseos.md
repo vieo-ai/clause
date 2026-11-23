@@ -40,18 +40,23 @@ To enforce evidential integrity and prevent informal discussions from supersedin
 The routing architecture guarantees that live codebase files and verified audit reports always maintain supreme precedence over design proposals, academic papers, and historical transcripts.
 
 ### Stratum 0: Ground-Truth Codebase Physical Store
+
 This stratum encompasses the tracked source files in the primary repository snapshot. It represents the physical reality of what currently executes across shell bootloaders, configuration manifests, engine wrappers, and native code modules. All factual claims regarding current system capabilities must be grounded in this layer first. In the event of a conflict between Stratum 0 and any subsequent stratum, Stratum 0 wins unconditionally.
 
 ### Stratum 1: Verified Audit Defect Ledger and Forensic Notes
+
 This stratum contains the authoritative defect catalogs, source audits, and physical environment notes. It documents confirmed runtime exceptions, path resolution omissions, configuration drift, and test failures. Stratum 1 provides the empirical basis for defect isolation and repair planning, serving as a forensic overlay directly on the physical codebase.
 
 ### Stratum 2: Supreme Architectural and Curriculum Specifications
+
 This stratum includes the master project specification, the thirty-module curriculum syllabus, the deep-dive module architectures, the compiler multi-target blueprint, and the canonical architecture decision records. These documents define the authoritative design rules, structural invariants, and pedagogical sequences that govern the evolution of the project.
 
 ### Stratum 3: Curated Systems Research and Technical Standards
+
 This stratum comprises peer-reviewed engineering texts, language reference manuals, compiler construction handbooks, formal network protocols, digital signal processing standards, and security whitepapers. It supplies the formal mechanics, algorithms, and design patterns referenced by the curriculum.
 
 ### Stratum 4: Engineering Design Transcripts and Evolution Logs
+
 This stratum contains conversational transcripts, design deliberations, and historical rationale recorded during development. These materials document the background reasoning and alternatives evaluated during system evolution, but they remain non-normative and cannot override specifications or physical code.
 
 ## 3. Structured Search Queries and Retrieval Logic
@@ -61,25 +66,33 @@ To satisfy the four secondary research questions defined in the Frame Stage, que
 The queries isolate exact syntax, variable names, and error signatures across the repository files.
 
 ### Query Set 1: Hermetic Confinement and Package Path Shims
+
 This query targets the mechanism by which the package manager substrate isolates binary installations and exposes executable shims to the environment without contaminating host registries.
+
 ```text
 ("installer_scoop.ps1" OR "pkg/scoop.nu") AND ("# clause-scoop-patches: 1" OR "Set-EnvVar") AND ("shims" OR "CLAUSE_BIN_DIR") AND ("n01-scoop-path-audit")
 ```
 
 ### Query Set 2: Toolchain Isolation and Build Artifact Redirection
+
 This query investigates whether build toolchains, specifically the Rust compiler and Cargo package manager, redirect compilation caches and home directories into the hermetic jail.
+
 ```text
 ("20-toolchains.toml" OR "config/env") AND ("CARGO_HOME" OR "RUSTUP_HOME") AND ("CLAUSE_DATA_DIR" OR "host pollution") AND ("packages/clause" OR "cxc")
 ```
 
 ### Query Set 3: Multi-Target Compiler Backends and Dual-Plane Execution
+
 This query probes the architectural division between native Rust compilation for digital signal processing and Erlang/OTP compilation for distributed actor supervision.
+
 ```text
 ("packages/clause" OR "cxc" OR "seaxc") AND ("--target rust" OR "transcc" OR "backend/rust.rs") AND ("--target beam" OR "packages/clause_jet") AND ("@external(rust" OR "tools/ring")
 ```
 
 ### Query Set 4: Domain Purity and Canonical Lexicon Boundaries
+
 This query verifies whether the compiler standard library syntax strictly adheres to the approved operational pillars or contains generic commercial vertical drift.
+
 ```text
 ("ADR 0007" OR "06-clause-cxc-gleam-refactoring-multi-target-blueprint.md") AND ("9 canonical" OR "pillars") AND ("commercial cartridges" OR "anti-keywords" OR "bakery" OR "healthcare")
 ```
@@ -103,7 +116,7 @@ Each seed source is mapped to its evidentiary stratum, functional domain, and te
 | S-09 | Native Bridge Integration Record (`docs/adr/adr_012...`) | Stratum 2 | Systems FFI | Specifies type-safe native integration between Rust libraries and the BEAM runtime. |
 | S-10 | Parser Construction Foundation (`k01-writing-an-interpreter-in-go.pdf`) | Stratum 3 | Compiler Design | Provides the theoretical basis for Pratt parsing and AST macro expansion. |
 | S-11 | Bytecode Machine Foundation (`k03-writing-a-compiler-in-go.pdf`) | Stratum 3 | Virtual Machines | Governs symbol resolution, stack machines, and bytecode emission. |
-| S-12 | Distributed Orchestration Foundation (`k04-build-an-orchestrator-in-go.pdf`)| Stratum 3 | Distributed Systems | Informs task finite-state machines and worker node scheduling. |
+| S-12 | Distributed Orchestration Foundation (`k04-build-an-orchestrator-in-go.pdf`) | Stratum 3 | Distributed Systems | Informs task finite-state machines and worker node scheduling. |
 | S-13 | Agent Harness Foundations (`r01` through `r22`) | Stratum 3 | AI Harnesses | Details context compaction, subagent dispatch, and tool-call loops. |
 | S-14 | Forensic Path Audit Note (`n01-scoop-path-audit`) | Stratum 1 | Substrate Audit | Identifies the physical omission of Scoop executable shims from the shell PATH. |
 
@@ -114,13 +127,17 @@ The validity of the architecture depends upon unbroken citation chains linking t
 The dependency graph below maps the relationships connecting low-level userland confinement to high-level multi-target compilation and distributed execution.
 
 ### Upstream Foundations
+
 The compiler architecture derives its type inference and structural scanner from the Gleam compiler core, which provides a production-tested Hindley-Milner type system. Syntactic macro systems and recursive descent parsing patterns trace directly to Thorsten Ball's interpreter and compiler engineering methodologies. Task orchestration models build upon Tim Boring's distributed worker state machines.
 
 ### Primary Architectural Synthesis
+
 The Gleam compiler fork, housed within the clause package, serves as the unifying synthesis layer. It ingests source files written in Clause and performs front-end semantic validation, symbol resolution, and type checking. Syntax extensions capture the nine operational pillars, providing structured language primitives for infrastructure, telecom, media, and autonomous agents.
 
 ### Downstream Execution Targets
+
 Compilation branches into three discrete runtime targets:
+
 1. Native Systems Data Plane: Compiled via `--target rust`, lowering high-throughput digital signal processing, lock-free ring buffers, audio plugins, and native cloud graphs directly into Cargo crates.
 2. Distributed Control Plane: Compiled via `--target beam`, lowering signaling state machines, softswitch routing, telecom trunking, and autonomous agent supervision into Erlang/OTP release packages.
 3. Client Presentation Tier: Compiled via `--target client`, lowering visual surfaces, flight decks, and master control interfaces into web, desktop, and terminal runtimes.
@@ -156,12 +173,15 @@ To validate saturation, deliberate falsification probes were executed against th
 | Domain Purity and Canonical Pillars | Saturated | Redline Enforced | Architecture decision records and blueprints explicitly exclude generic commercial verticals. |
 
 ### Falsification Probe 1: Upstream Maintenance Tax on Compiler Fork
+
 The hypothesis that forking the Gleam compiler creates an unsustainable upstream maintenance burden was subjected to adversarial scrutiny. Review of the implementation blueprint demonstrates that the fork isolates all custom extensions into dedicated AST lower modules, brand identifiers, and backend emitters. Core type checker files and parser spans remain aligned with upstream patterns, allowing the compiler to cleanly ingest upstream language updates and Hex ecosystem packages. The hypothesis of an unmanageable maintenance burden is falsified.
 
 ### Falsification Probe 2: Scheduler Starvation from Native DSP Buffers
+
 The hypothesis that executing digital signal processing within a dual-plane architecture risks starving the Erlang actor scheduler was evaluated against real-time performance bounds. Evidence from the architecture decision records demonstrates that heavy media processing never executes within standard BEAM reduction loops. High-throughput audio buffers compile directly to native Rust via the studio pillar, communicating with actors exclusively through dirty-scheduler native interface functions or isolated distribution nodes. The hypothesis of scheduler starvation is falsified.
 
 ### Falsification Probe 3: Registry Leakage from Windows Package Management
+
 The hypothesis that package manager operations inevitably write state to the Windows NT registry was tested against physical installation scripts. Examination of the package installation routines confirms that environment variable setters and shortcut creators are explicitly stubbed with no-op functions. Package installations write exclusively to the isolated project directory. The hypothesis of inevitable registry leakage is falsified, confirming that the remaining issue is purely one of path visibility.
 
 ## 8. Preserved Protocol Status
