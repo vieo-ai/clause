@@ -59,7 +59,7 @@ Local artificial intelligence coprocessors are anchored to the unified Hugging F
 
 The project architecture is structured around the Quad Synthesis Model, integrating four established software engineering paradigms. Each subsystem in the repository is evaluated against its corresponding design pillar:
 
-```
+```text
 +-----------------------------------------------------------------------------+
 |                          QUAD SYNTHESIS COMPLIANCE                          |
 +----------------------+-----------------------------+------------------------+
@@ -99,7 +99,7 @@ Adversarial stress-testing of the in-place package patching mechanism confirmed 
 
 The independent verification gauntlet tested the live codebase against the seven defects identified in the source bundle audit report and the additional package shim path defect. Every failure condition was isolated, and explicit surgical repair code was constructed.
 
-```
+```text
 ===============================================================================
                      INDEPENDENT CHALLENGE GAUNTLET AUDIT
 ===============================================================================
@@ -195,7 +195,7 @@ The POSIX bootloader must record and export active session status variables to p
 
 ## Formal Verification Gate Decision
 
-```
+```text
 ===============================================================================
                     VERIFY-STAGE GATE DECISION: CONDITIONAL PASS
 ===============================================================================
