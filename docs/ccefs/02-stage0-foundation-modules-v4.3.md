@@ -6,9 +6,10 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 
 ---
 
-### **Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)**
+## **Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)**
 
-#### **Module 0.1: Zero-Leak Profile Confinement & Stage 0 Trampolines**
+### **Module 0.1: Zero-Leak Profile Confinement & Stage 0 Trampolines**
+
 * **ClauseOS Base**: `cx.bat`, `cx.ps1`, `cx.sh`, `config/env/00-core.toml`–`40-ml-hub.toml` (`[f01]`, `ADR 0001`, `ADR 0004`) | **Orchestrator Equivalent**: `[c03]` Ch. 12 (`Cobra` CLI entrypoints & environment isolation) | **Agent Harness Equivalent**: `r14` Ep. 12 (Startup Fast-Path & Trust Boundary), `r15` Ch. 2 (Under-300ms Bootstrap Pipeline), `r16` Ch. 2–3 (7-Dimension Config Merge & MDM), `r19` Ch. 5 (6-Layer Config Priority Chain)
 * **Shared Concept**: Starting from an empty folder on a bare host OS, establishing a zero-leak process sandbox and single-source-of-truth (SSOT) environment compiler before any toolchain binary, compiler, or LLM agent executes—guaranteeing that deleting `.home/` completely resets the machine with zero host OS residue.
 * **ClauseOS Substrate Mechanics (`[f01]`, `ADR 0001`, `ADR 0004`)**:
@@ -30,6 +31,7 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 ---
 
 #### **Module 0.2: Three-Tier Toolchain Supply Chain (`Mise` Overlays, Lua Subtrees & Patched `Scoop`/`Brew`)**
+
 * **ClauseOS Base**: `.clause.toml`, `.mise.toml`, `.mise.{paths,ai,cloud}.toml`, `plugins/cx-*`, `installer_scoop.ps1`, `installer_brew.sh`, `toml_pin.nu` (`[f02]`, `ADR 0002`) | **Orchestrator Equivalent**: `[c03]` Appendix A (Deterministic dependency pinning) | **Agent Harness Equivalent**: `r14` Ep. 4 (Declarative Plugin Reconciliation), `r16` Ch. 21 (Plugin Extension Surfaces), `r22` Ch. 29.5 (Environment `requires` Pre-Filtering)
 * **Shared Concept**: Decoupling base CLI tools, heavy multi-language/AI runtimes, and general OS utilities into three isolated tiers inside `.home/` so Rust/Cargo, BEAM/Gleam, Python wheels, and package managers never collide or mutate host state.
 * **ClauseOS Supply-Chain Mechanics (`[f02]`, `ADR 0002`)**:
@@ -51,6 +53,7 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 ---
 
 #### **Module 0.3: Dynamic 5-Way Hardware Acceleration Matrix & Unified `$HF_HOME` Model Hub**
+
 * **ClauseOS Base**: `config/env/40-ml-hub.toml`, `plugins/cx-{unsloth,comfyui,lemonade,fastflowlm,inferssd}` (`[f03]`, `ADR 0003`, `ADR 0005`, `ADR 0013`) | **Orchestrator Equivalent**: `[c03]` Ch. 6 & 10 (Hardware resource telemetry & capability-aware placement) | **Agent Harness Equivalent**: `b14` Ch. 9–10 (Inference Engines `vLLM`/`LitServe` & Model Gateways), `b19` Ch. 3 & 8 (Hardware Acceleration & Edge Coprocessors)
 * **Shared Concept**: Runtime GPU/NPU/SSD hardware probing paired with a single zero-duplication model weights hub (`$HF_HOME`) serving local OpenAI-compatible neural coprocessors (`1B–7B` contained domain SLMs) without requiring host GPU driver installs.
 * **ClauseOS Hardware & Model Hub Mechanics (`[f03]`, `ADR 0003`, `ADR 0005`, `ADR 0013`)**:
@@ -70,6 +73,7 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 ---
 
 #### **Module 0.4: Hermetic Identity Lock & Automated Verification Harness (`cx identity`, `cx test`)**
+
 * **ClauseOS Base**: `config/env/10-identity.toml`, `scripts/cli/nu/commands/identity.nu`, `tests/system/{run_all.nu,test_stage0.nu,test_stage1.nu,test_hermeticity.nu}` (`[f04]`, `ADR 0001`, `ADR 0004`) | **Orchestrator Equivalent**: `[c03]` Ch. 1.9.5 & Ch. 12 (Security isolation & CLI health verification) | **Agent Harness Equivalent**: `r16` Ch. 30 (`Doctor.tsx` Self-Check Dashboard), `r22` Ch. 32.4 (`openclaw security audit`)
 * **Shared Concept**: Sealing cryptographic Git/SSH credentials inside `.home/.ssh` and `.home/.gitconfig` while running an automated cross-platform verification harness (`cx test`) that proves zero host pollution before any compiler or agent code is built.
 * **ClauseOS Identity & Verification Mechanics (`[f04]`, `ADR 0001`, `ADR 0004`)**:
@@ -89,6 +93,7 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 ---
 
 #### **Module 0.5: AIEFS (*AI Engineering From Scratch*) & Content-Addressed Workspace (`seax-vfs`)**
+
 * **AIEFS & ClauseOS Base**: *AIEFS (AI Engineering From Scratch)* (`[e01]`–`[e06]`: Vol. 1 Foundations, Vol. 2 Deep Learning, Vol. 3 Language, Vol. 4 LLMs, Vol. 5 Agents, Vol. 6 Production), `ADR 0005` (Unified Model Storage), `ADR 0008` (Closed-World `.ground` & Virtual Enterprise Directory), `ADR 0011` ("Agent is a Directory") | **Agent Harness Equivalent**: `r14` Ep. 9–10 (JSONL Sidechains & `memdir`), `r15` Ch. 11 & 18 (Bet 2: File-Based Memory Over Databases), `r18` Secret #8 (Plain Markdown Memory), `r22` Ch. 28 & 32.5 (Files as Immutable Truth & Git-Versioned Workspaces)
 * **Shared Concept**: Grounding every compiler, runtime, and agent layer in first-principles AI engineering (*AI Engineering From Scratch* `[e01]`–`[e06]`) while treating the `.home/` filesystem itself as the primary semantic, content-addressed, and transactional state substrate—eliminating fragile external vector-DB daemons while providing cryptographic provenance, semantic path mounting, and atomic snapshot rollbacks.
 * **AIEFS (*AI Engineering From Scratch*) & Filesystem Substrate Mechanics (`[e01]`–`[e06]`, `ADR 0005`, `ADR 0008`, `ADR 0011`)**:
