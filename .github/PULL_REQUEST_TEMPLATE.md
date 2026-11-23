@@ -1,11 +1,11 @@
-## Summary
+# Summary
 
 <!-- Provide a concise summary of what changed and why. -->
 <!-- Ensure the PR title follows Conventional Commits: feat:, fix:, refactor:, docs:, test:, chore: -->
 
-- 
+-
 
-### Related Issues
+## Related Issues
 
 <!-- Link any issues resolved by this PR using closing keywords (e.g., Fixes #123, Closes #456). -->
 
@@ -18,6 +18,7 @@
 <!-- Check all that apply -->
 
 **Subsystems:**
+
 - [ ] Stage 0 / 1 Substrate & Boot (`cx.bat`, `cx.ps1`, `cx.sh`, `config/env/*.toml`, `.clause.toml`)
 - [ ] Polyglot CLI & Nushell Control Plane (`scripts/cli/nu/`, `scripts/cli/{pwsh,posix}/`)
 - [ ] First-Party Mise Plugins (`plugins/cx-*`, `.mise.*.toml`)
@@ -28,6 +29,7 @@
 - [ ] CI/CD & Verification Suites (`tests/`, `.github/`)
 
 **Target Platforms:**
+
 - [ ] Windows (`x64` / PowerShell 7 / Patched Scoop / WSL2)
 - [ ] Linux (`x64` / `arm64` / POSIX / Landlock / Bubblewrap)
 - [ ] macOS (`Apple Silicon` / `Intel` / Confined Brew / Seatbelt / Lima)
@@ -51,4 +53,4 @@
 
 <!-- Paste relevant `clause doctor` / `clause test` output, benchmark metrics, or architectural notes. -->
 
-- 
+-
