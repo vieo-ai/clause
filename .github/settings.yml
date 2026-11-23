@@ -21,23 +21,23 @@ repository:
 # Labels: define labels for Issues, Pull Requests, and Virtual Enterprise (.enterprise/) routing
 labels:
   # --- Workflow & Triage Status ---
-  - name: 'Status: Backlog'
+  - name: Status: Backlog
     color: d4c5f9
     description: Defined and prioritized in roadmap or CCEFS curriculum, not yet started.
 
-  - name: 'Status: Ready'
+  - name: Status: Ready
     color: 0e8a16
     description: Fully specified with clear verification gate criteria and ready for execution.
 
-  - name: 'Status: In Progress'
+  - name: Status: In Progress
     color: 006b75
     description: Actively being implemented by a maintainer or Virtual Enterprise agent.
 
-  - name: 'Status: In Review'
+  - name: Status: In Review
     color: cfd3d7
     description: PR open and awaiting maintainer review and offline cx test CI verification.
 
-  - name: 'Status: Done'
+  - name: Status: Done
     color: 84b6eb
     description: Verified against all deterministic gates and merged into main.
 
