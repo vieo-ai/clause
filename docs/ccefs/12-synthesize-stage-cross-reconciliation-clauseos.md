@@ -25,13 +25,13 @@ The evidence base across the 199 selected sources converges into four primary ar
 
 ### 2.1 The Four Architectural Super-Themes
 
-*   **Super-Theme 1: Zero-Leak Hermetic Substrate and Userland Confinement**  
+* **Super-Theme 1: Zero-Leak Hermetic Substrate and Userland Confinement**  
     Spanning military networking, hermetic systems, and SecOps, this theme addresses total host isolation. It mandates that no binaries, registry keys, cache folders, or environment variables leak into the host operating system. All runtime state is confined to the project-relative `.home/` directory through bootloader trampolines, declarative environment compilation, and in-place package sterilization.
-*   **Super-Theme 2: Quad Synthesis and Component Ergonomics**  
+* **Super-Theme 2: Quad Synthesis and Component Ergonomics**  
     Bridging enterprise architecture, carrier switching, audio DSP, and language engineering, this theme unifies four disparate software disciplines into an ergonomic developer experience. It blends Fowler's enterprise boundaries and unit of work, Gang of Four structural patterns, Laravel Illuminate service provider dependency injection, and Julian Storer's real-time zero-allocation memory discipline on real-time audio threads.
-*   **Super-Theme 3: Dual-Plane Multi-Target Compiler and Distributed Backplanes**  
+* **Super-Theme 3: Dual-Plane Multi-Target Compiler and Distributed Backplanes**  
     Spanning telecommunications, broadcast video, IPTV streaming, and compiler construction, this theme resolves the tension between massive fault-tolerant concurrency and compute-heavy media processing. It establishes a dual-plane execution model where the Clause compiler, forked from Gleam inside `packages/clause/` to produce the `cxc` binary, decouples language constructs into native Rust for zero-cost DSP pipelines and Erlang/OTP BEAM actors for distributed signaling and telecom routing.
-*   **Super-Theme 4: Contained Domain Neural Coprocessors and Tactical Harnesses**  
+* **Super-Theme 4: Contained Domain Neural Coprocessors and Tactical Harnesses**  
     Encompassing artificial intelligence engineering, local neural coprocessors, and autonomous virtual enterprise orchestration, this theme implements the Contained Cup architecture. It rejects saturated frontier models for deterministic tool execution, utilizing local 1B to 7B domain Small Language Models rooted in a unified Hugging Face cache to execute bounded tasks with binary verification gates.
 
 The following matrix maps these super-themes to their governing documents, operational domains, and concrete repository subsystems:
@@ -51,14 +51,14 @@ An exhaustive evaluation of the 199 sources reveals where the corpus maintains c
 
 ### 3.1 Areas of Full Corpus Consensus
 
-*   **Host OS Sterilization:** All specifications, architecture decision records, and shell bootloaders agree that host pollution is unacceptable. Environment variables such as `HOME`, `USERPROFILE`, `XDG_DATA_HOME`, `XDG_CONFIG_HOME`, `XDG_CACHE_HOME`, and `XDG_STATE_HOME` must redirect strictly into `.home/`. Host package managers must never write to Windows registry keys or system-level paths.
-*   **File-Based Provenance over Vector Databases:** Across the agent harness literature and architectural ADRs, there is unanimous agreement that plain Markdown contracts and content-addressed SHA-256 storage blobs provide superior operational determinism compared to external vector stores. Disposable search indexes (such as SQLite WAL and FTS5) may be derived from Markdown files, but must never serve as primary state.
-*   **Strict Carrier Domain Purity:** All documents touching system scope agree that the language standard library must remain dedicated to carrier, media, systems, and tactical operations. Generic commercial business verticals are banned from core compiler crates.
+* **Host OS Sterilization:** All specifications, architecture decision records, and shell bootloaders agree that host pollution is unacceptable. Environment variables such as `HOME`, `USERPROFILE`, `XDG_DATA_HOME`, `XDG_CONFIG_HOME`, `XDG_CACHE_HOME`, and `XDG_STATE_HOME` must redirect strictly into `.home/`. Host package managers must never write to Windows registry keys or system-level paths.
+* **File-Based Provenance over Vector Databases:** Across the agent harness literature and architectural ADRs, there is unanimous agreement that plain Markdown contracts and content-addressed SHA-256 storage blobs provide superior operational determinism compared to external vector stores. Disposable search indexes (such as SQLite WAL and FTS5) may be derived from Markdown files, but must never serve as primary state.
+* **Strict Carrier Domain Purity:** All documents touching system scope agree that the language standard library must remain dedicated to carrier, media, systems, and tactical operations. Generic commercial business verticals are banned from core compiler crates.
 
 ### 3.2 Areas of Specification Divergence and Architectural Evolution
 
-*   **Compiler Toolchain (Greenfield Rust vs. Gleam Fork):** Curriculum specifications `01-ccefs-30-modules-v4.3.md` and `03-stage1-2-compiler-orchestrator-v4.3.md` prescribe constructing `seaxc` completely from scratch in Rust, implementing a custom lexer, Pratt parser, macro expander, and bytecode stack VM. Conversely, the authoritative blueprint in `docs/ccefs/06-clause-cxc-gleam-refactoring-multi-target-blueprint.md` and engineering transcript `d48-gleam-to-clause-forking` establish that the compiler is constructed by forking `gleam-lang/gleam` inside `packages/clause/`. This fork provides the complete Hindley-Milner type inference engine and Language Server Protocol support out of the box, augmenting it with Monkey-X multi-target emitters (`Target::Rust`, `Target::Beam`, `Target::Client`). The specifications in `01` and `03` represent stale design drift requiring synchronization.
-*   **Runtime Consolidation (Air/Jet Split vs. Unified `clause_jet`):** Early specifications in `00-PROJECT-SPECIFICATION-v3.0.md` describe a bifurcated runtime split between an `Air` execution engine and a `Jet` actor system. Transcript `d48` and the document synchronization plan in `docs/ccefs/07-clauseos-document-tree-synchronization-plan.md` confirm that this split was retired in favor of a unified architecture: `cxc` handles all multi-target compilation, while `packages/clause_jet/` handles distributed Erlang/OTP agent supervision.
+* **Compiler Toolchain (Greenfield Rust vs. Gleam Fork):** Curriculum specifications `01-ccefs-30-modules-v4.3.md` and `03-stage1-2-compiler-orchestrator-v4.3.md` prescribe constructing `seaxc` completely from scratch in Rust, implementing a custom lexer, Pratt parser, macro expander, and bytecode stack VM. Conversely, the authoritative blueprint in `docs/ccefs/06-clause-cxc-gleam-refactoring-multi-target-blueprint.md` and engineering transcript `d48-gleam-to-clause-forking` establish that the compiler is constructed by forking `gleam-lang/gleam` inside `packages/clause/`. This fork provides the complete Hindley-Milner type inference engine and Language Server Protocol support out of the box, augmenting it with Monkey-X multi-target emitters (`Target::Rust`, `Target::Beam`, `Target::Client`). The specifications in `01` and `03` represent stale design drift requiring synchronization.
+* **Runtime Consolidation (Air/Jet Split vs. Unified `clause_jet`):** Early specifications in `00-PROJECT-SPECIFICATION-v3.0.md` describe a bifurcated runtime split between an `Air` execution engine and a `Jet` actor system. Transcript `d48` and the document synchronization plan in `docs/ccefs/07-clauseos-document-tree-synchronization-plan.md` confirm that this split was retired in favor of a unified architecture: `cxc` handles all multi-target compilation, while `packages/clause_jet/` handles distributed Erlang/OTP agent supervision.
 
 The table below contrasts the theoretical specifications against the physical codebase implementation across core subsystems:
 
@@ -92,18 +92,18 @@ Historical design transcripts and evolutionary specifications introduced varying
 
 The development of ClauseOS from initial commit through the current frame stage reflects rapid architectural hardening:
 
-*   **October 19, 2026 (Commit `559d454`):** Initial repository scaffolding establishing the Stage 0 microkernel bootloaders (`cx.ps1`, `cx.sh`, `cx.bat`) and creating the `.home/` userland isolation boundary.
-*   **October 28, 2026:** Formulation of Architecture Decision Records 001 through 005, codifying directory layout, toolchain tiers, hardware GPU detection, and cross-shell path handling.
-*   **October 31, 2026 (Commit `87d49f5`):** Introduction of the modular Git subtree plug-in architecture, enabling decoupled development of language, agent, and AI submodules.
-*   **November 2, 2026:** Integration of local neural coprocessor subtrees, embedding Lemonade, FastFlowLM, ComfyUI, and Unsloth into the workspace.
-*   **November 10, 2026 (Commit `a0994de`):** Overhaul of the environment substrate, replacing static shell scripts with the five modular TOML configuration files (`00-core.toml` through `40-ml-hub.toml`) and the 8-pass iterative symbol compiler.
-*   **November 14, 2026 (Commit `4134fc8`):** Hardening of package manager isolation, establishing the in-place Scoop patching routine (`installer_scoop.ps1`) and the Nushell package pin validator (`toml_pin.nu`).
-*   **November 17, 2026 (Commit `033359a`):** Formalization of the CCEFS Track 1 30-module curriculum specifications across versions 4.3 of documents `01`, `02`, and `03`.
-*   **November 18, 2026 (Commit `7fa82f1`):** Execution of the comprehensive codebase audit in `05-source-bundle-audit-report.md`, isolating seven critical internal defects across environment parsing, tests, and documentation.
-*   **November 20, 2026 (Commit `4ba1a51`):** Formulation of the Gleam compiler refactoring blueprint in `docs/ccefs/06`, establishing the multi-target transpiler architecture and the nine canonical pillars.
-*   **November 20, 2026 (Commit `1698aef`):** Delivery of the document synchronization plan in `docs/ccefs/07`, categorizing all documentation drift into three surgical remediation batches.
-*   **November 21, 2026 (Commit `23:46:47 -07:00`):** Generation of the live source bundle snapshot in `06-clauseos-source-bundle.md` (version `0.9.0-dev.1`), capturing 195 tracked files.
-*   **November 22, 2026:** Completion of the Frame, Gather, Triage, and Extract research phases, leading directly to the current Synthesize-stage reconciliation matrix.
+* **October 19, 2026 (Commit `559d454`):** Initial repository scaffolding establishing the Stage 0 microkernel bootloaders (`cx.ps1`, `cx.sh`, `cx.bat`) and creating the `.home/` userland isolation boundary.
+* **October 28, 2026:** Formulation of Architecture Decision Records 001 through 005, codifying directory layout, toolchain tiers, hardware GPU detection, and cross-shell path handling.
+* **October 31, 2026 (Commit `87d49f5`):** Introduction of the modular Git subtree plug-in architecture, enabling decoupled development of language, agent, and AI submodules.
+* **November 2, 2026:** Integration of local neural coprocessor subtrees, embedding Lemonade, FastFlowLM, ComfyUI, and Unsloth into the workspace.
+* **November 10, 2026 (Commit `a0994de`):** Overhaul of the environment substrate, replacing static shell scripts with the five modular TOML configuration files (`00-core.toml` through `40-ml-hub.toml`) and the 8-pass iterative symbol compiler.
+* **November 14, 2026 (Commit `4134fc8`):** Hardening of package manager isolation, establishing the in-place Scoop patching routine (`installer_scoop.ps1`) and the Nushell package pin validator (`toml_pin.nu`).
+* **November 17, 2026 (Commit `033359a`):** Formalization of the CCEFS Track 1 30-module curriculum specifications across versions 4.3 of documents `01`, `02`, and `03`.
+* **November 18, 2026 (Commit `7fa82f1`):** Execution of the comprehensive codebase audit in `05-source-bundle-audit-report.md`, isolating seven critical internal defects across environment parsing, tests, and documentation.
+* **November 20, 2026 (Commit `4ba1a51`):** Formulation of the Gleam compiler refactoring blueprint in `docs/ccefs/06`, establishing the multi-target transpiler architecture and the nine canonical pillars.
+* **November 20, 2026 (Commit `1698aef`):** Delivery of the document synchronization plan in `docs/ccefs/07`, categorizing all documentation drift into three surgical remediation batches.
+* **November 21, 2026 (Commit `23:46:47 -07:00`):** Generation of the live source bundle snapshot in `06-clauseos-source-bundle.md` (version `0.9.0-dev.1`), capturing 195 tracked files.
+* **November 22, 2026:** Completion of the Frame, Gather, Triage, and Extract research phases, leading directly to the current Synthesize-stage reconciliation matrix.
 
 ---
 
@@ -150,13 +150,13 @@ The ClauseOS architecture establishes three impermeable gating firewalls to prot
 
 To maintain engineering discipline, four deliberate falsification probes were executed against core system claims:
 
-*   **Falsification Probe 1: Can applications installed via Scoop be executed under the live `06` bundle?**  
+* **Falsification Probe 1: Can applications installed via Scoop be executed under the live `06` bundle?**  
     *Verdict: Falsified and Broken.* Audit note `n01-scoop-path-audit` proves that while `installer_scoop.ps1` successfully neutralizes registry modifications by overriding `Set-EnvVar` with an empty function, neither `cx.ps1` nor `config/env/20-toolchains.toml` exposes `$env:SCOOP\shims` on session `PATH`. Furthermore, `scripts/cli/nu/commands/pkg/scoop.nu` only parses manifest `env_add_path` properties and ignores the primary `bin` field. Consequently, over 95% of Scoop packages (such as `ripgrep`, `jq`, and `ffmpeg`) cannot be located or executed by the shell.
-*   **Falsification Probe 2: Is the offline continuous integration gate actively defending repository invariants?**  
+* **Falsification Probe 2: Is the offline continuous integration gate actively defending repository invariants?**  
     *Verdict: Falsified and Inactive.* Inspection of `.github/workflows/ci.yml` in source bundle `06` reveals that lines 74 and 84—which execute `./cx.sh test` on POSIX runners and `.\cx.ps1 test` on Windows runners—are commented out. GitHub Actions currently reports green status without executing `tests/system/run_all.nu`, allowing regressions to enter the main branch unnoticed.
-*   **Falsification Probe 3: Does `scripts/cli/nu/config/env.nu` successfully initialize the shell environment?**  
+* **Falsification Probe 3: Does `scripts/cli/nu/config/env.nu` successfully initialize the shell environment?**  
     *Verdict: Falsified and Broken.* Forensic audit `05-source-bundle-audit-report.md` confirms that `env.nu` attempts to parse a non-existent `.env` file on line 13 and indexes obsolete `WIN_*` keys that were retired when the modular TOML architecture was introduced. This produces runtime error messages upon every clean boot of Nushell.
-*   **Falsification Probe 4: Does forking the Gleam compiler introduce an unmanageable upstream synchronization burden?**  
+* **Falsification Probe 4: Does forking the Gleam compiler introduce an unmanageable upstream synchronization burden?**  
     *Verdict: Falsified and Disproven.* Transcript `d48-gleam-to-clause-forking` and blueprint `docs/ccefs/06` confirm that all custom Clause compiler enhancements are strictly isolated into dedicated modules (`clause_ast.rs`, `clause_parse.rs`, `clause_lower.rs`, `backend/rust.rs`). Upstream Rust crates retain their canonical names (`gleam-core`, `gleam-cli`), branding is centralized in `compiler-core/src/brand.rs`, and standard `.gleam` modules compile without syntax errors. Upstream enhancements can be rebased via standard Git subtree or cherry-pick operations.
 
 ---
