@@ -1,14 +1,18 @@
 # CCEFS Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5 — v4.3)
 
+> **Document Status:** Supreme Architectural Specification (Tier 2 SSOT)  
+> **Parent Steward:** Vieo (`vieo-ai`)  
+> **Substrate:** ClauseOS (`clause` / `cx`)  
+> **Default Language:** Clause (`.cx`) | **Compiler CLI:** `cxc` (`packages/clause/`)  
 > **Reading Order (`docs/ccefs/`):** `00-PROJECT-SPECIFICATION-v3.0.md` $\rightarrow$ `01-ccefs-30-modules-v4.3.md` $\rightarrow$ **`02-stage0-foundation-modules-v4.3.md` *(Stage 0)*** $\rightarrow$ `03-stage1-2-compiler-orchestrator-v4.3.md` *(Stages 1–2)* $\rightarrow$ `04-vieo-ai-curriculum-portal.md` *(4-Track Portal)*
 
-The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** and **AIEFS (*AI Engineering From Scratch*, `[e01]`–`[e06]`)** form the non-negotiable bare-metal userland sandbox (`.home/`) inside which **Stage 1 (Seax Language & Compiler `seaxc` — Modules 1–5)**, **Stage 2 (Distributed Orchestrator & Pulumi IaC — Modules 6–10)**, **Stage 3 (Real-Time Transmedia & Telecom Switchboard — Modules 11–15)**, **Stage 4 (Seax-Native Agent Harness — Modules 16–20)**, and **Stage 5 (Autonomous Virtual Enterprise & Open-Core Release — Modules 21–25)** are built and executed.
+The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** and **AIEFS (*AI Engineering From Scratch*, `[e01]`–`[e06]`)** form the non-negotiable bare-metal userland sandbox (`.home/`) inside which **Stage 1 (Clause Language & Compiler `cxc` — Modules 1–5)**, **Stage 2 (Distributed Orchestrator & Pulumi IaC — Modules 6–10)**, **Stage 3 (Real-Time Transmedia & Telecom Switchboard — Modules 11–15)**, **Stage 4 (Clause-Native Agent Harness — Modules 16–20)**, and **Stage 5 (Autonomous Virtual Enterprise & Open-Core Release — Modules 21–25)** are built and executed.
 
 ---
 
-## **Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)**
+## Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)
 
-### **Module 0.1: Zero-Leak Profile Confinement & Stage 0 Trampolines**
+### Module 0.1: Zero-Leak Profile Confinement & Stage 0 Trampolines
 
 * **ClauseOS Base**: `cx.bat`, `cx.ps1`, `cx.sh`, `config/env/00-core.toml`–`40-ml-hub.toml` (`[f01]`, `ADR 0001`, `ADR 0004`) | **Orchestrator Equivalent**: `[c03]` Ch. 12 (`Cobra` CLI entrypoints & environment isolation) | **Agent Harness Equivalent**: `r14` Ep. 12 (Startup Fast-Path & Trust Boundary), `r15` Ch. 2 (Under-300ms Bootstrap Pipeline), `r16` Ch. 2–3 (7-Dimension Config Merge & MDM), `r19` Ch. 5 (6-Layer Config Priority Chain)
 * **Shared Concept**: Starting from an empty folder on a bare host OS, establishing a zero-leak process sandbox and single-source-of-truth (SSOT) environment compiler before any toolchain binary, compiler, or LLM agent executes—guaranteeing that deleting `.home/` completely resets the machine with zero host OS residue.
@@ -30,7 +34,7 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 
 ---
 
-#### **Module 0.2: Three-Tier Toolchain Supply Chain (`Mise` Overlays, Lua Subtrees & Patched `Scoop`/`Brew`)**
+### Module 0.2: Three-Tier Toolchain Supply Chain (`Mise` Overlays, Lua Subtrees & Patched `Scoop`/`Brew`)
 
 * **ClauseOS Base**: `.clause.toml`, `.mise.toml`, `.mise.{paths,ai,cloud}.toml`, `plugins/cx-*`, `installer_scoop.ps1`, `installer_brew.sh`, `toml_pin.nu` (`[f02]`, `ADR 0002`) | **Orchestrator Equivalent**: `[c03]` Appendix A (Deterministic dependency pinning) | **Agent Harness Equivalent**: `r14` Ep. 4 (Declarative Plugin Reconciliation), `r16` Ch. 21 (Plugin Extension Surfaces), `r22` Ch. 29.5 (Environment `requires` Pre-Filtering)
 * **Shared Concept**: Decoupling base CLI tools, heavy multi-language/AI runtimes, and general OS utilities into three isolated tiers inside `.home/` so Rust/Cargo, BEAM/Gleam, Python wheels, and package managers never collide or mutate host state.
@@ -52,7 +56,7 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 
 ---
 
-#### **Module 0.3: Dynamic 5-Way Hardware Acceleration Matrix & Unified `$HF_HOME` Model Hub**
+### Module 0.3: Dynamic 5-Way Hardware Acceleration Matrix & Unified `$HF_HOME` Model Hub
 
 * **ClauseOS Base**: `config/env/40-ml-hub.toml`, `plugins/cx-{unsloth,comfyui,lemonade,fastflowlm,inferssd}` (`[f03]`, `ADR 0003`, `ADR 0005`, `ADR 0013`) | **Orchestrator Equivalent**: `[c03]` Ch. 6 & 10 (Hardware resource telemetry & capability-aware placement) | **Agent Harness Equivalent**: `b14` Ch. 9–10 (Inference Engines `vLLM`/`LitServe` & Model Gateways), `b19` Ch. 3 & 8 (Hardware Acceleration & Edge Coprocessors)
 * **Shared Concept**: Runtime GPU/NPU/SSD hardware probing paired with a single zero-duplication model weights hub (`$HF_HOME`) serving local OpenAI-compatible neural coprocessors (`1B–7B` contained domain SLMs) without requiring host GPU driver installs.
@@ -72,7 +76,7 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 
 ---
 
-#### **Module 0.4: Hermetic Identity Lock & Automated Verification Harness (`cx identity`, `cx test`)**
+### Module 0.4: Hermetic Identity Lock & Automated Verification Harness (`cx identity`, `cx test`)
 
 * **ClauseOS Base**: `config/env/10-identity.toml`, `scripts/cli/nu/commands/identity.nu`, `tests/system/{run_all.nu,test_stage0.nu,test_stage1.nu,test_hermeticity.nu}` (`[f04]`, `ADR 0001`, `ADR 0004`) | **Orchestrator Equivalent**: `[c03]` Ch. 1.9.5 & Ch. 12 (Security isolation & CLI health verification) | **Agent Harness Equivalent**: `r16` Ch. 30 (`Doctor.tsx` Self-Check Dashboard), `r22` Ch. 32.4 (`openclaw security audit`)
 * **Shared Concept**: Sealing cryptographic Git/SSH credentials inside `.home/.ssh` and `.home/.gitconfig` while running an automated cross-platform verification harness (`cx test`) that proves zero host pollution before any compiler or agent code is built.
@@ -92,14 +96,14 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 
 ---
 
-#### **Module 0.5: AIEFS (*AI Engineering From Scratch*) & Content-Addressed Workspace (`seax-vfs`)**
+### Module 0.5: AIEFS (*AI Engineering From Scratch*) & Content-Addressed Workspace (`clause-vfs`)
 
 * **AIEFS & ClauseOS Base**: *AIEFS (AI Engineering From Scratch)* (`[e01]`–`[e06]`: Vol. 1 Foundations, Vol. 2 Deep Learning, Vol. 3 Language, Vol. 4 LLMs, Vol. 5 Agents, Vol. 6 Production), `ADR 0005` (Unified Model Storage), `ADR 0008` (Closed-World `.ground` & Virtual Enterprise Directory), `ADR 0011` ("Agent is a Directory") | **Agent Harness Equivalent**: `r14` Ep. 9–10 (JSONL Sidechains & `memdir`), `r15` Ch. 11 & 18 (Bet 2: File-Based Memory Over Databases), `r18` Secret #8 (Plain Markdown Memory), `r22` Ch. 28 & 32.5 (Files as Immutable Truth & Git-Versioned Workspaces)
 * **Shared Concept**: Grounding every compiler, runtime, and agent layer in first-principles AI engineering (*AI Engineering From Scratch* `[e01]`–`[e06]`) while treating the `.home/` filesystem itself as the primary semantic, content-addressed, and transactional state substrate—eliminating fragile external vector-DB daemons while providing cryptographic provenance, semantic path mounting, and atomic snapshot rollbacks.
 * **AIEFS (*AI Engineering From Scratch*) & Filesystem Substrate Mechanics (`[e01]`–`[e06]`, `ADR 0005`, `ADR 0008`, `ADR 0011`)**:
   1. **First-Principles AI Engineering Stack (`[e01]`–`[e06]`):** Establishes the complete mathematical and engineering spine from *AI Engineering From Scratch*—foundations & tensor mechanics (`[e01]`), neural architectures & training loops (`[e02]`), tokenization & sequence modeling (`[e03]`), transformer LLM internals & inference optimization (`[e04]`), agentic control loops & tool grounding (`[e05]`), and production evaluation, observability, & deployment (`[e06]`).
-  2. **Content-Addressed Immutable Asset & Blob Vault (`crates/seax-vfs`):** Stores media stems, rendered frames, model weights, and intermediate tool outputs (>30KB disk spills) by SHA-256 content digest inside `.home/`, enabling zero-copy deduplication and instant deterministic cache hits across agents and Craft editors.
-  3. **Filesystem-as-Topology ("Agent is a File, Folder is a Department"):** Maps directory structure directly to runtime supervision and capability boundaries (`agent.cx`, `team/`, `skills/`, `mcp/`, `plugins/`, `package.seax`), allowing operators to inspect, diff, and version-control entire agent organizations with standard `git` and POSIX/Nushell tools.
+  2. **Content-Addressed Immutable Asset & Blob Vault (`.ground/` / `clause-vfs`):** Stores media stems, rendered frames, model weights, and intermediate tool outputs (>30KB disk spills) by SHA-256 content digest inside `.home/`, enabling zero-copy deduplication and instant deterministic cache hits across agents and Craft editors.
+  3. **Filesystem-as-Topology ("Agent is a Directory, Folder is a Department"):** Maps directory structure directly to runtime supervision and capability boundaries (`agent.cx`, `team/`, `skills/`, `mcp/`, `plugins/`, root `apm.yml`, `clause.toml`), allowing operators to inspect, diff, and version-control entire agent organizations with standard `git` and POSIX/Nushell tools.
   4. **Semantic Mounts & Dual-Index Derived Caches:** Keeps human-readable Markdown (`MEMORY.md`, `CLAUDE.md`, `constitution.toml`, daily logs) and JSONL transcripts as the **immutable source of truth**, while maintaining rebuildable SQLite WAL + FTS5 + embedding indexes as disposable derived caches (`r22` Ch. 28).
   5. **Atomic Two-Step Commit & Snapshot Rollback (`os.rename` + Git Checkpoints):** All state mutations write to `.tmp` files and commit via atomic `os.rename`, paired with per-subgoal Git worktree checkpoints so failed agent runs roll back cleanly without corrupting shared workspace state.
 * **Laravel Component Adoption & Target Primitives**:
@@ -109,7 +113,7 @@ The foundation tracks in **ClauseOS (`[f01]`–`[f04]`, `ADR 0001`–`0013`)** a
 * **Quad Model Mechanics**:
   * **Fowler / Clean Arch**: Unit of Work (atomic `.tmp` $\rightarrow$ `os.rename` transactional commits), Repository (unified VFS interface over local disk and content-addressed blobs).
   * **GoF**: Flyweight (content-addressed SHA-256 blob sharing across multiple agents and timelines), Memento (deterministic filesystem & Git worktree snapshots), Composite (recursive directory-as-department supervision tree).
-  * **Otwell**: Files-as-Source-of-Truth (`MEMORY.md`, `package.seax`), Zero-Ceremony Directory Conventions.
+  * **Otwell**: Files-as-Source-of-Truth (`MEMORY.md`, root `apm.yml`, `clause.toml`), Zero-Ceremony Directory Conventions.
   * **Storer / Systems Discipline**: Immutable Blob Addressing (zero-copy sharing of large audio/video buffers and model checkpoints), Derived-Cache Rebuildability.
 
-> **Next Stage:** With the `.home/` bare-metal userland sealed (`Modules 0.1–0.5`), proceed to **`03-stage1-2-compiler-orchestrator-v4.3.md`** to build the **Seax (`.cx`)** compiler (`Stage 1: Modules 1–5`) and **Distributed Orchestrator + Pulumi IaC** (`Stage 2: Modules 6–10`).
+> **Next Stage:** With the `.home/` bare-metal userland sealed (`Modules 0.1–0.5`), proceed to **`03-stage1-2-compiler-orchestrator-v4.3.md`** to build the **Clause (`.cx`)** compiler via the `cxc` Gleam fork (`Stage 1: Modules 1–5`) and **Distributed Orchestrator + Native Pulumi IaC** (`Stage 2: Modules 6–10`).
