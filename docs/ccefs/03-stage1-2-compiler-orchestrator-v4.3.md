@@ -1,42 +1,46 @@
-# CCEFS Stages 1 & 2: Seax Compiler (`seaxc`), Distributed Orchestrator & Pulumi IaC (Modules 1–10 — v4.3)
+# CCEFS Stages 1 & 2: Clause Compiler (`cxc`), Distributed Orchestrator & Native Pulumi IaC (Modules 1–10 — v4.3)
 
+> **Document Status:** Supreme Architectural Specification (Tier 2 SSOT)  
+> **Parent Steward:** Vieo (`vieo-ai`)  
+> **Substrate:** ClauseOS (`clause` / `cx`)  
+> **Default Language:** Clause (`.cx`) | **Compiler CLI:** `cxc` (`packages/clause/`)  
+> **Control Plane:** `clause_jet` (`packages/clause_jet/` on Erlang/OTP 29)  
 > **Reading Order (`docs/ccefs/`):** `00-PROJECT-SPECIFICATION-v3.0.md` $\rightarrow$ `01-ccefs-30-modules-v4.3.md` $\rightarrow$ `02-stage0-foundation-modules-v4.3.md` *(Stage 0)* $\rightarrow$ **`03-stage1-2-compiler-orchestrator-v4.3.md` *(Stages 1–2)*** $\rightarrow$ `04-vieo-ai-curriculum-portal.md` *(4-Track Portal)*
 
-With the bare-metal userland sealed inside `.home/` (`Stage 0: Modules 0.1–0.5`), **Stage 1 (Modules 1–5)** constructs the **Seax (`seaxc`, `.cx`)** compiler and embedded bytecode VM inside `$CLAUSE_BIN_DIR`, and **Stage 2 (Modules 6–10)** constructs ClauseOS's distributed cluster orchestrator (`Task → Worker → Manager → Scheduler`), HashiStack control plane, bare-metal MaaS netbooter, and native `pulumi-gestalt` infrastructure engine.
+With the bare-metal userland sealed inside `.home/` (`Stage 0: Modules 0.1–0.5`), **Stage 1 (Modules 1–5)** constructs the **Clause (`.cx`)** compiler via the **`cxc`** Gleam compiler fork inside `${CLAUSE_BIN_DIR}`, and **Stage 2 (Modules 6–10)** constructs ClauseOS's distributed cluster orchestrator (`Task → Worker → Manager → Scheduler`), HashiStack control plane, bare-metal MaaS netbooter, and native `crates/clause-pulumi` infrastructure engine.
 
 ---
 
-## **Stage 1: Building the Seax (`.cx`) Language & Multi-Target Compiler Inside `.home/` (Modules 1–5)**
+## **Stage 1: Building the Clause (`.cx`) Language & `cxc` Multi-Target Compiler Inside `.home/` (Modules 1–5)**
 
-* **Thorsten Ball Base**: *Writing An Interpreter In Go* (`[c01]`, Ch. 1–4: Lexer, Pratt Parser, AST, Evaluator, Objects, `HashKey`), *The Lost Chapter: A Macro System For Monkey* (`[c01-lost]`, Ch. 5: `quote`, `unquote`, `ast.Modify`, `DefineMacros`, `ExpandMacros`), *Writing A Compiler In Go* (`[c02]`, Ch. 1–10: Bytecode `code.Make`/`ReadOperands`, Stack VM, Jump Back-Patching `changeOperand`, `SymbolTable` scopes [`Global`, `Local`, `Builtin`, `Free`, `Function`], Call `Frame`s, `OpClosure` & `OpCurrentClosure`)
-* **Transpiler & Ecosystem Base**: Mark Sibley's *Monkey X (`transcc`)* (`[c05]`), `i2y/jet` (`[c04]` `agent`/`actor`/`needs`/`platform`/`jet_sap`), and revived `andrzejressel/pulumi-gestalt` (`[c06]` `crates/clause-pulumi/`) (`ADR 0011`, `ADR 0012`)
-* **Shared Concept**: Building the **Seax (`seaxc`, `.cx`)** compiler in Rust using Thorsten Ball's exact textbook pipeline—extended with syntactic AST macros (`[c01-lost]`), Jet's capability/schema contracts (`[c04]`), and Mark Sibley's Monkey X (`transcc`) multi-target code generation (`[c05]`)—so one Dart-flavored source file compiles directly to **Pure Rust (`Ractor`/`Spawned` OTP actors + `Craft`/`oximedia`/`nih-plug` + revived `pulumi-gestalt`)**, **BEAM (`Core Erlang` / `Glimr` interop)**, and **Client (`TypeScript`/`Wasm` / `Flutter`)**.
+* **Gleam Fork Base**: `gleam-lang/gleam` compiler-core in Rust (`packages/clause/crates/*`), `i2y/jet` (`[c04]`), Thorsten Ball (`[c01]`, `[c01-lost]`, `[c02]`), Mark Sibley's *Monkey X (`transcc`)* (`[c05]`), and revived `andrzejressel/pulumi-gestalt` (`[c06]` `crates/clause-pulumi/`) (`ADR 0011`, `ADR 0012`)
+* **Transpiler & Ecosystem Base**: Mark Sibley's *Monkey X (`transcc`)* multi-target codegen (`Target::Rust`, `Target::Beam`, `Target::Client`), direct `@external(rust, ...)` crate linking, and automatic `tools/ring` DirtyScheduler FFI synthesis (`ADR 0012`).
+* **Shared Concept**: Constructing the **Clause (`.cx`)** compiler and toolchain by forking `gleam-lang/gleam` inside `packages/clause/` (`cxc`), preserving 100% of Gleam's Hindley-Milner type inference, algebraic data types, and pipe operator (`|>`), while adding Logos tokenization for Tier 1 declaration keywords, static domain verification passes, and Monkey-X multi-target emitters (`--target rust`, `--target beam`, `--target client`) so one `.cx` file compiles directly to **Pure Native Rust (`oximedia` / `nih-plug` / `Craft` / `crates/clause-pulumi`)**, **BEAM (`packages/clause_jet` on Erlang/OTP 29 with automated `tools/ring` NIF synthesis)**, and **Client (`Lustre` / `Plushie` / `Shore` / `O2K`)**.
 
 ### **Module Breakdown (Modules 1–5)**
 
-* **Module 1 — Single-Pass Lexer & Token Spans (`crates/seax-token`, `crates/seax-lexer` — `[c01]` Ch. 1):**
-  * Zero-copy `&str` scanner with `position`/`readPosition`/`peekChar` tracking line/column spans, tokenizing Dart-style C-family syntax (`{ }`, `( )`, `[ ]`, `..` cascades, `->`, `async`/`await`, `schema`, `switch`) alongside first-class **agent/harness keywords** (`agent`, `skill`, `tool`, `memory`, `compact`, `gateway`, `channel`, `heartbeat`), **transmedia keywords** (`audio`, `video`, `midi`, `ndi`, `osc`, `smpte`, `dante`, `dsp`), **carrier keywords** (`actor`, `pipeline`, `telcom`, `broadcast`, `infra`), and **capability keywords** (`needs`, `platform`, `provide`, `expose`).
-* **Module 2 — Pratt Expression & Recursive-Descent Block Parser (`crates/seax-ast`, `crates/seax-parser` — `[c01]` Ch. 2):**
-  * Top-Down Operator Precedence parser mapping `prefixParseFn` (`nud`) and `infixParseFn` (`led`) across binding power levels (`LOWEST` $\rightarrow$ `EQUALS` $\rightarrow$ `LESSGREATER` $\rightarrow$ `SUM` $\rightarrow$ `PRODUCT` $\rightarrow$ `PREFIX` $\rightarrow$ `CASCADE` `..` $\rightarrow$ `CALL` $\rightarrow$ `INDEX`), paired with recursive-descent declarations (`AgentDecl`, `ActorDecl`, `ToolDecl`, `GatewayDecl`, `PipelineDecl`, `DspDecl`, `InfraDecl`, `SchemaDecl`, `PlatformDecl`) and non-halting error recovery (`expectPeek` / `peekError`).
-* **Module 3 — Syntactic AST Macro Expansion & Multi-File Contract/Capability Checker (`crates/seax-macro`, `crates/seax-checker` — `[c01]` Ch. 3 + `[c01-lost]` Ch. 5 + `[c04]`):**
-  * Implements code-as-data `quote` / `unquote` and generic recursive AST rewriting (`ast.Modify(node, ModifierFunc)`), extracting compile-time `macro` definitions (`DefineMacros`) and expanding DSL/platform macros (`ExpandMacros`, e.g., `#if TARGET == "rust"` vs `"beam"`) before walking all parsed project ASTs (including "Agent is a Directory" manifests `agent.cx`, `team/`, `skills/`, `mcp/`, `package.seax`) to enforce `expose ... -> Schema` contracts, exhaustive `switch` arms, `oximedia`/`nih-plug` audio/video sample-rate & channel contracts, and compile-time `needs` / `platform` hermetic capability isolation.
-* **Module 4 — Recursive Symbol Table, Closure Capture & Embedded Bytecode VM (`crates/seax-symbol`, `crates/seax-vm` — `[c02]` Ch. 1–10):**
-  * Resolves bindings across `GlobalScope`, `LocalScope`, `BuiltinScope`, `FreeScope` (capturing free variables for closures), and `FunctionScope` (self-referencing recursive closures via `OpCurrentClosure`), using single-pass jump back-patching (`changeOperand`) and stack-frame base pointers (`Frame`) for Seax's fast embedded bytecode REPL/scripting VM (`seax eval`) alongside the lowered multi-target IR.
-* **Module 5 — Monkey X (`transcc`) Multi-Target Emitters & Self-Hosting in `.home/` (`crates/seax-codegen`, `seax-cli` — `[c05]` + `[c06]` + `ADR 0011`):**
-  * **`--target rust` (Primary Native Engine):** Emits borrow-checker-safe Rust (`Arc<T>` / `bytes::Bytes` uniform value representation) lowering `agent`/`actor`/`pipeline` onto **Ractor / Spawned** OTP supervision trees, `dsp` blocks onto zero-allocation **`oximedia` / `nih-plug`** threads and **`vendor/craft/*`** subtrees, and `infra` blocks onto **revived `pulumi-gestalt`** (`crates/clause-pulumi/`) for native YAML-free infrastructure provisioning.
-  * **`--target beam` (Distributed Mesh & Glimr Interop):** Emits Core Erlang / `.beam` bytecode (and speaks native Erlang Distribution `erl_dist` / `Joerl`) for multi-node BEAM clusters and Gleam (`Glimr`) services.
-  * **`--target client` (Touch Glass & Field Mobile):** Emits TypeScript / WebAssembly and `flutter_rust_bridge` bindings for browser consoles and iOS/Android companion apps, installing `seaxc`, `air`, and `jet` into `$CLAUSE_BIN_DIR`.
+* **Module 1 — Upstream-Clean Gleam Core Extraction & Branding Constants (`packages/clause/crates/*`, `brand.rs` — `[c01]`, `[c04]`, `d48`, `ADR 0011`):**
+  * Extracts `compiler-core`, `compiler-cli`, `language-server`, and `compiler-wasm` into `packages/clause/crates/{clause-core,clause-cli,clause-lsp,clause-wasm,clause-runtime}`, implementing `brand.rs` defining `LANG_NAME = "Clause"`, `BIN_NAME = "cxc"`, `FILE_EXT = "cx"`, `MANIFEST_FILE = "clause.toml"`, and `ARTEFACT_DIR = "_clause_artefacts"`, while anchoring Cargo and Rustup caches to `${CLAUSE_DATA_DIR}/cargo` and `${CLAUSE_DATA_DIR}/rustup` via `config/env/20-toolchains.toml` to guarantee zero host directory pollution during compiler builds.
+* **Module 2 — Nine-Pillar Grammar Extensions & AST Token Spans (`clause-core/src/parse/` — `[c01]` Ch. 2, `[c04]`, `d48`, `ADR 0011`):**
+  * Table-driven Logos scanner and Pratt/recursive-descent parser recognizing Tier 1 top-level declarative block keywords (`kernel`, `service_provider`, `infra`, `provider`, `agent`, `gateway`, `trunk`, `bridge`, `dialplan`, `bus`, `rack`, `patchbay`, `split`, `stage`, `mcr`, `headend`, `airgap`, `sortie`) alongside Tier 2 contextual clauses (`@hangar`, `@airgap`, `@needs`, `@squawk`, `bridge`, `expose -> Schema`), preserving full span tracking and AST error recovery for directory-packaged agents (`agent.cx`, `team/`, `skills/`, `mcp/`, root `apm.yml`, `clause.toml`).
+* **Module 3 — Static Domain Verification Passes (`clause-core/src/analyse/` — `[c01]` Ch. 3, `[c01-lost]` Ch. 5, `[c04]`, `ADR 0007`, `ADR 0011`):**
+  * Augments Hindley-Milner type inference with domain-specific static passes: enforcing 100% split rights verification (`split TrackRights` summing to 100.0% + ISRC/IPI before `master.bounce`), audio bus/rack sample-rate and channel parity, `@airgap(emcon: LocalOnly)` static egress isolation, and compile-time `@needs`/`platform` capability checking (`Landlock`/`Seatbelt`) before code generation runs.
+* **Module 4 — Monkey-X Multi-Target Codegen: `--target rust` (`clause-core/src/backend/rust.rs`, `clause-runtime` — `[c02]`, `[c05]`, `d48`, `ADR 0011`):**
+  * Lowers type-checked ASTs into borrow-checker-safe native Rust crates (`Arc<T>` / `bytes::Bytes` uniform value representation): compiles `bus`/`rack` onto zero-allocation `oximedia` and `nih-plug` (CLAP/VST3) audio threads, `infra` onto `crates/clause-pulumi`, and handles `@external(rust, "crate::mod", "fn")` direct crate imports with zero heap allocations, zero IPC sockets, and zero FFI serialization overhead.
+* **Module 5 — Monkey-X Multi-Target Codegen: `--target beam` & `--target client` (`backend/erlang.rs`, `backend/javascript.rs`, `clause-cli` — `[c02]`, `[c05]`, `d48`, `ADR 0011`, `ADR 0012`):**
+  * **`--target beam` (Carrier Control Plane):** Lowers `.cx` agent and telecom declarations into Core Erlang / `.beam` bytecode executed by `packages/clause_jet` over Erlang/OTP 29, automatically synthesizing `tools/ring` DirtyScheduler NIF shims for `@external(rust, ...)` functions (`ADR 0012`).
+  * **`--target client` (Touch Glass & Flight Deck):** Emits TypeScript / WebAssembly (`clause-wasm`) powering `Lustre` (Web/SSR), `Plushie` (Native Desktop), `Shore` (TUI), and `O2K` touch glass, dropping `cxc` into `${CLAUSE_BIN_DIR}`.
 
 ### **Laravel Component Adoption & Quad Model (Stage 1)**
 
 * **Laravel Component Adoption & Target Primitives**:
-  * **Target Primitives**: `ISeaxCompiler`, `IMacroExpander`, `ISymbolResolver`, `IMultiTargetCodegen`, `IInfraProvider`
-  * **Created Components**: `reflection` (`SymbolTable` & `seax-checker` AST resolver), `json-schema` (`schema` & `jet_sap` Schema-Aligned Parsing emitter).
-  * **Consumed Components**: `container` (`platform` / `provide` IoC dependency wiring), `auth` (`needs` compile-time capability enforcement), `macroable` (AST macro system), `testing` (`cargo test --offline` compiler/VM golden tests).
+  * **Target Primitives**: `IClauseCompiler`, `IMacroExpander`, `ISymbolResolver`, `IMultiTargetCodegen`, `IInfraProvider`
+  * **Created Components**: `reflection` (`SymbolTable` & `clause-core` AST trait resolver), `json-schema` (`schema` & `jet_sap` Schema-Aligned Parsing emitter).
+  * **Consumed Components**: `container` (`platform` / `provide` IoC dependency wiring), `auth` (`@needs` compile-time capability enforcement), `macroable` (compile-time AST extension system), `testing` (`cargo test --offline` compiler/VM golden tests).
 * **Quad Model Mechanics**:
-  * **Fowler / Clean Arch**: Separated Interface (target-agnostic Seax IR decoupled from `rust`, `beam`, and `client` codegen backends), Plugin (pluggable target emitters and native media crate bindings).
-  * **GoF**: Interpreter / Visitor (recursive AST traversal in `seax-macro`, `seax-checker`, and `seax-codegen`), Builder (incremental bytecode/IR emission with jump back-patching), Strategy (multi-target codegen backends `transcc` style), Composite (nested AST expressions, statements, and lexical `SymbolTable` scopes).
-  * **Otwell**: Dart-Inspired Fluent Cascades (`buffer..deesser()..limiter()..render()`), "The Language Is the Framework" zero-boilerplate `agent`/`tool`/`compact`/`gateway`/`dsp`/`infra` declarations.
+  * **Fowler / Clean Arch**: Separated Interface (target-agnostic Clause IR decoupled from `rust`, `beam`, and `client` codegen backends), Plugin (pluggable target emitters and native media crate bindings).
+  * **GoF**: Interpreter / Visitor (recursive AST traversal in `analyse`, `clause_lower`, and `backend/*`), Builder (incremental bytecode/IR emission with jump back-patching), Strategy (multi-target codegen backends `transcc` style), Composite (nested AST expressions, statements, and lexical scopes).
+  * **Otwell**: Expressive Fluent Chaining (`|>`), "The Language Is the Framework" zero-boilerplate `agent`/`tool`/`compact`/`gateway`/`dsp`/`infra` declarations.
   * **Storer / Systems Discipline**: Uniform Immutable Value Representation (`i64`/`f64`/`bool` Copy types + `Arc<str>`/`bytes::Bytes`/`Arc<Enum>` zero-copy handles in emitted Rust), Zero-Allocation Real-Time Audio/Video DSP Callbacks, and Deterministic Bytecode Disassembly (`Instructions.String()`).
 
 ---
@@ -44,9 +48,9 @@ With the bare-metal userland sealed inside `.home/` (`Stage 0: Modules 0.1–0.5
 ## **Stage 2: Distributed Orchestrator, Micro-VMs & Native Pulumi IaC (Modules 6–10)**
 
 * **Tim Boring Base**: *Build an Orchestrator in Go (From Scratch)* (`[c03]`, Chapters 1–13: `Task`, `TaskEvent`, `Worker`, `Manager`, `Scheduler` [`RoundRobin` & `E-PVM`], `Store` [`InMemory` & `BoltDB`], REST API, Health Checks, `Cobra` CLI)
-* **ClauseOS & Pulumi Base**: `ops/config/{nomad,consul,vault}.hcl`, `cx vm` (WSL2 / Lima), `Pixiecore` + `Packer` MaaS, and revived `andrzejressel/pulumi-gestalt` (`[c06]`, `ADR 0006`, `ADR 0010`, `ADR 0011`)
+* **ClauseOS & Pulumi Base**: `ops/config/{nomad,consul,vault}.hcl`, `cx vm` (WSL2 / Lima), `Pixiecore` + `Packer` MaaS, and revived `andrzejressel/pulumi-gestalt` (`crates/clause-pulumi/`) (`[c06]`, `ADR 0006`, `ADR 0010`, `ADR 0011`)
 * **Agent Harness Equivalent**: `r15` Ch. 10 (7-Type 5-Status Task State Machine), `r20` Ch. 10 (`ResourceAwareOrchestrator`), `b21` Ch. 8 & 10 (DAG Scheduling & Operational Lifecycle)
-* **Shared Concept**: Stripping away black-box container magic by building the five fundamental primitives of every cluster orchestrator (`Task`, `Worker`, `Manager`, `Scheduler`, `Store`) from scratch in Rust (`Ractor`/`Spawned` OTP actors) and wiring them directly to HashiStack (`Nomad`, `Consul`, `Vault`), `cx vm` micro-instances, `Pixiecore`/`Packer` bare-metal netbooting, and native `pulumi-gestalt` cloud bursting.
+* **Shared Concept**: Stripping away black-box container magic by building the five fundamental primitives of every cluster orchestrator (`Task`, `Worker`, `Manager`, `Scheduler`, `Store`) from scratch in Rust (`Ractor`/`Spawned` OTP actors in `clause_jet`) and wiring them directly to HashiStack (`Nomad`, `Consul`, `Vault`), `cx vm` micro-instances, `Pixiecore`/`Packer` bare-metal netbooting, and native `crates/clause-pulumi` cloud bursting.
 
 ### **Module Breakdown (Modules 6–10)**
 
@@ -60,8 +64,8 @@ With the bare-metal userland sealed inside `.home/` (`Stage 0: Modules 0.1–0.5
   * Confines `Nomad` (`raw_exec`), `Consul` (SWIM mesh & DNS), and `Vault` (dynamic secret leases) inside `$CLAUSE_HOME/.local/share/`, and wraps `wsl.exe` / `limactl` under `cx vm` (`launch`, `exec`, `shell`, `list`, `stop`, `purge`) for ephemeral `k3s` and Linux-kernel guests.
 * **Module 9 — Bare Metal as a Service (`Pixiecore` + `Packer` iPXE Netbooting — `ADR 0010`):**
   * Compiles deterministic in-memory golden rootfs images with `Packer` and drives API-controlled DHCP/TFTP/HTTP iPXE netboots via `Pixiecore` against Consul machine inventories.
-* **Module 10 — Native `infra` Keyword & Revived `pulumi-gestalt` (`crates/clause-pulumi` / `Jet` — `[c06]`, `ADR 0010`, `ADR 0011`):**
-  * Adopts and maintains `andrzejressel/pulumi-gestalt` inside the Rust workspace (`crates/clause-pulumi/`) with prominent attribution to Andrzej Ressel so Seax `infra` blocks compile to native, YAML-free Pulumi resource graphs (`clause cloud up` / `clause cloud detach`) for air-gapped cloud bursting.
+* **Module 10 — Native `infra` Keyword & Revived `clause-pulumi` (`crates/clause-pulumi` / `clause_jet` — `[c06]`, `ADR 0010`, `ADR 0011`):**
+  * Adopts and maintains `andrzejressel/pulumi-gestalt` inside the Rust workspace (`crates/clause-pulumi/`) with prominent attribution to Andrzej Ressel so Clause `infra` blocks compile to native, YAML-free Pulumi resource graphs (`cx cloud up` / `cx cloud detach`) for air-gapped cloud bursting.
 
 ### **Laravel Component Adoption & Quad Model (Stage 2)**
 
