@@ -114,7 +114,7 @@ labels:
 
   - name: 'Area: Virtual Enterprise'
     color: 0e8a16
-    description: ".enterprise/ governance, .apm/ agent packaging, MCP/A2A protocols, and VS Code / Claude / Codex harness compilation."
+    description: ".apm/ apm.yml agent packaging, MCP/A2A protocols, and VS Code / Claude / Codex harness compilation."
 
   - name: 'Area: Transmedia & Telecom'
     color: 884488
