@@ -27,6 +27,10 @@ labels:
 
   - name: 'Type: Enhancement'
     color: a2eeef
+    description: "New enhancement or request to an existing feature."
+
+  - name: 'Type: Feature'
+    color: 0075ca
     description: "New feature or request."
 
   - name: 'Type: Good First Issue'
