@@ -4,27 +4,27 @@
 
 ### **1.1 Document Control & Mission**
 
-* **Project Name:** **CCEFS** (*Carrier-Class Engineering From Scratch*), built upon the **ClauseOS (`clause.os` / `cx`)** Hermetic Microkernel Substrate and the **Seax (`.cx` / `.seax`)** Transmedia & Agent Carrier Language (developed by **Vieo**; formerly prototyped under the *Vieo Tigah* agent harness specification v2.1).
-* **Centerpiece Thesis:** *"The code is the product, not the end results."* **ClauseOS (`clause.os` / `cx`) IS the living reference implementation** of **Track 1 (CCEFS — The Master Track)**. Following Track 1 from Module 0.1 through Module 25 constructs **ClauseOS itself** from an empty folder—a 100% open-source (MIT / Apache-2.0), forkable, programmable transmedia & cloud software factory sealed inside `.home/`.
+* **Project Name:** **CCEFS** (*Carrier-Class Engineering From Scratch*), built upon the **ClauseOS (`clause` / `cx`)** Hermetic Microkernel Substrate and the **Clause (`.cx`)** Transmedia, Systems & Agentic Carrier Language (developed by **Vieo**; formerly prototyped under the *Vieo Tigah* agent harness specification v2.1).
+* **Centerpiece Thesis:** *"The code is the product, not the end results."* **ClauseOS (`clause` / `cx`) IS the living reference implementation** of **Track 1 (CCEFS — The Master Track)**. Following Track 1 from Module 0.1 through Module 25 constructs **ClauseOS itself** from an empty folder—a 100% open-source (MIT / Apache-2.0), forkable, programmable transmedia & cloud software factory sealed inside `.home/`.
 * **Reading Order (`docs/ccefs/`):**
   * `00-PROJECT-SPECIFICATION-v3.0.md` — Architectural vision, Quad Model, 27-package Illuminate mapping, and rules.
   * `01-ccefs-30-modules-v4.3.md` — Track 1 Master 30-Module Curriculum Map (`Stage 0` $\rightarrow$ `Stage 5`).
-  * `02-stage0-foundation-modules-v4.3.md` — Stage 0 Deep-Dive (`Modules 0.1–0.5`: Sealing `.home/`).
-  * `03-stage1-2-compiler-orchestrator-v4.3.md` — Stage 1 & Stage 2 Deep-Dive (`Modules 1–10`: Seax Compiler & Distributed Orchestrator).
-  * `04-vieo-ai-curriculum-portal.md` — Vieo.ai Portal & 4-Track Architecture (`CCEFS`, `Claude/OpenClaw/Hermes in Seax`, `AIEFS Encyclopedia`, `Bonus Track`).
+  * `02-stage0-foundation-modules-v4.3.md` — Stage 0 Deep-Dive (`Modules 0.1–0.5`: Sealing `.home/` & `clause-vfs`).
+  * `03-stage1-2-compiler-orchestrator-v4.3.md` — Stage 1 & Stage 2 Deep-Dive (`Modules 1–10`: `cxc` Gleam Fork & Distributed Orchestrator).
+  * `04-vieo-ai-curriculum-portal.md` — Vieo.ai Portal & 4-Track Architecture (`CCEFS`, `Claude/OpenClaw/Hermes in Clause`, `AIEFS Encyclopedia`, `Bonus Track`).
 
 ### **1.2 Enterprise Positioning & Commercial Model (100% Open-Core + Industry Adaptation)**
 
-* **Unconstrained 100% Open-Source Substrate (MIT / Apache-2.0):** Complete bare-metal hermetic runtime (`.home/` confinement), multi-node clustering (`Nomad`, `Consul`, `Vault`, `Boundary`), cloud bursting (`Pulumi` / revived `pulumi-gestalt`), BEAM/Rust orchestration, dynamic 5-way GPU acceleration, Seax compiler toolchain (`seaxc`), pure-Rust transmedia codecs (`Craft`/`oximedia`/`nih-plug`), and the base Virtual Enterprise harness (`ADR 0007`).
-* **Commercial Tier (Bespoke Industry Adaptation & Enterprise Cartridges):** Regulated industry Virtual Enterprise packs (HIPAA Healthcare, FINRA/SEC FinTech, Air-Gapped Defense), cryptographic audit & Open Policy Agent (OPA) guardrail engines, certified edge hardware appliances, and legacy enterprise connectors (SAP, Oracle, Epic).
+* **Unconstrained 100% Open-Source Substrate (MIT / Apache-2.0):** Complete bare-metal hermetic runtime (`.home/` confinement), multi-node clustering (`Nomad`, `Consul`, `Vault`, `Boundary`), cloud bursting (`Pulumi` / revived `clause-pulumi`), BEAM/Rust orchestration (`clause_jet`), dynamic 5-way GPU acceleration, Clause compiler toolchain (`cxc`), pure-Rust transmedia codecs (`Craft`/`oximedia`/`nih-plug`), and the root `apm.yml` / `.apm/` Virtual Enterprise package harness (`ADR 0007`, `ADR 0008`).
+* **Commercial Tier (Bespoke Industry Adaptation & Enterprise Cartridges):** Regulated industry Virtual Enterprise packs (HIPAA Healthcare, FINRA/SEC FinTech, Air-Gapped Defense) packaged as downstream `.apm/` packages, cryptographic audit & Open Policy Agent (OPA) guardrail engines, certified edge hardware appliances, and legacy enterprise connectors (SAP, Oracle, Epic).
 
 ### **1.3 Design Philosophy & Ergonomic Standards ("The Laravel of AI & Transmedia")**
 
-To guarantee world-class Developer Experience (DX) and carrier-grade real-time durability, CCEFS and Seax synthesize the design ideals of **Taylor Otwell (Laravel)**, **Jules Storer (JUCE)**, **Mark Sibley (Monkey X)**, and **Thorsten Ball / Tim Boring**:
+To guarantee world-class Developer Experience (DX) and carrier-grade real-time durability, CCEFS and Clause synthesize the design ideals of **Taylor Otwell (Laravel)**, **Jules Storer (JUCE)**, **Mark Sibley (Monkey X)**, and **Louis Pilfold (Gleam)**:
 
-* **Expressive & Fluent Syntax (Developer Happiness Metric):** Code must read like clear, self-documenting prose—supporting fluent method chaining, Dart-inspired cascades (`..`), convention-over-configuration defaults, and zero-ceremony agent/pipeline declarations.
+* **Expressive & Fluent Syntax (Developer Happiness Metric):** Code must read like clear, self-documenting prose—supporting functional pipe chaining (`|>`), algebraic data types, pattern matching, convention-over-configuration defaults, and zero-ceremony agent/pipeline declarations.
 * **Elimination of Boilerplate:** Low-level plumbing (memory ownership, dirty-scheduler thread routing, stream framing, MCP/A2A JSON-RPC envelopes, webhook HMAC verification) is encapsulated behind clean, typed facades.
-* **Unified Mental Model Across Targets:** Whether compiling Seax (`.cx`) to native Rust (`Ractor`/`Spawned` OTP actors + `Craft`/`oximedia`/`nih-plug` + revived `pulumi-gestalt`), BEAM (`Core Erlang` / `Glimr`), TypeScript/Wasm, or driving polyglot CLI commands via Nushell, the architectural primitives remain identical.
+* **Unified Mental Model Across Targets:** Whether compiling Clause (`.cx`) to native Rust (`crates/clause-core/src/backend/rust.rs` linking `oximedia`/`nih-plug` + `crates/clause-pulumi`), BEAM (`Core Erlang` / OTP 29 in `packages/clause_jet/`), TypeScript/Wasm (`Lustre`/`Plushie`/`Shore`), or driving polyglot CLI commands via Nushell, the architectural primitives remain identical.
 
 ### **1.4 Master Architecture Directive: The Quad Synthesis Model**
 
@@ -32,13 +32,13 @@ All system specifications, compiler passes, and runtime modules generated for **
 
 1. **Macro Architecture (Fowler’s P-EAA Baseline):**
    * Structure system boundaries, storage, and cross-cutting layers using Fowler’s *Patterns of Enterprise Application Architecture* (Service Layer, Application Controller, Unit of Work, Domain Model, Event-Driven Messaging).
-   * Enforce strict separation between the **Orchestration Hub** (Core Loop / BEAM & Ractor Supervisors) and transient **Spokes** (Channel Connectors, Memory Backends, Tool Executors, Craft IPC Bridges). Spokes remain stateless and communicate exclusively through defined contract boundaries.
+   * Enforce strict separation between the **Orchestration Hub** (Core Loop / BEAM & Ractor Supervisors in `clause_jet`) and transient **Spokes** (Channel Connectors, Memory Backends, Tool Executors, Craft IPC Bridges). Spokes remain stateless and communicate exclusively through defined contract boundaries.
 2. **Micro Mechanics (Gang of Four Patterns):**
-   * **Chain of Responsibility & Decorator** for execution pipelines (`Illuminate\Pipeline`).
+   * **Chain of Responsibility & Decorator** for execution pipelines (`Illuminate\Pipeline` / pipe cascades).
    * **Observer** for lifecycle event broadcasting (`Illuminate\Events` / OTP PubSub).
    * **Strategy & Abstract Factory** for interchangeable tool runners, LLM coprocessors (`Lemonade`, `FastFlowLM`, `InferSSD`), and hypervisor/cloud drivers.
 3. **Ergonomic Skin (Otwell / Laravel DX):**
-   * **Expressive Fluent Chaining & Cascades:** Zero-ceremony composition (`Agent.make().withModel(...).listenOn(...)` / Dart-style `..` cascades).
+   * **Expressive Fluent Chaining & Pipelines:** Zero-ceremony composition (`agent |> with_model(...) |> listen_on(...)` / pipe cascades).
    * **Inversion of Control (IoC) & Hermetic Capabilities:** Services resolve through a central Service Container (`Illuminate\Container`) paired with compile-time `needs` / `platform` capability tokens (`ADR 0011`).
    * **Convention over Configuration:** Fail-closed tool execution, local `$HF_HOME` model caching (`ADR 0005`), and schema validation out of the box.
 4. **Real-Time Systems & Systems Discipline (Storer / JUCE Standards):**
@@ -53,9 +53,9 @@ All system specifications, compiler passes, and runtime modules generated for **
 
 ## **1.5 Core Architectural Primitives & 27-Package Illuminate Mapping**
 
-CCEFS maps all **27 Laravel Illuminate architecture components** directly onto **ClauseOS + Seax + Ractor/BEAM** primitives:
+CCEFS maps all **27 Laravel Illuminate architecture components** directly onto **ClauseOS + Clause + Ractor/BEAM** primitives:
 
-| # | Illuminate Package | CCEFS / Seax Primitive | ClauseOS Substrate & Implementation Mapping |
+| # | Illuminate Package | CCEFS / Clause Primitive | ClauseOS Substrate & Implementation Mapping |
 | :--- | :--- | :--- | :--- |
 | 1 | `illuminate/auth` | `IPermissionPipeline` | Security boundaries, `Gate::allows`, 2-Stage Classifier (AST pre-screen + contained SLM classifier per `ADR 0013`), and `needs`/`platform` capability sandboxing (`ADR 0011`). |
 | 2 | `illuminate/broadcasting` | `IWebSocketGateway` | Multi-tenant control plane streaming, real-time token streaming, and cross-client event fanning (Craft desktop UIs, Portable VS Code cockpit, Shore TUI, Lustre Web, mobile nodes). |
@@ -68,18 +68,18 @@ CCEFS maps all **27 Laravel Illuminate architecture components** directly onto *
 | 9 | `illuminate/container` | `IContainer` *(Module 0)* | Inversion of Control (IoC) & `platform` / `provide` dependency binder auto-wiring LLM coprocessors, tool registries, and content-addressed stores without global singletons. |
 | 10 | `illuminate/database` | `ITaskDAG` / `ISessionStore` | SQLite WAL mode persistence, relational message archives, FTS5 full-text indexing, vector index metadata, and Tim Boring-style Task DAG state storage inside `.home/`. |
 | 11 | `illuminate/encryption` | `SecurityVault` | HashiCorp Vault dynamic secret leases, AES-256-GCM encryption at rest/in transit, and revocable repository merge tokens (`ADR 0008`, `ADR 0010`). |
-| 12 | `illuminate/events` | `IHookSystem` | Pub/Sub lifecycle event bus (`PreToolUse`, `PostToolUse`, `ThoughtGenerated`, `ToolExecuted`, `SessionStart`) wired to Lua/Seax plugin hooks. |
-| 13 | `illuminate/filesystem` | `ContentAddressedWorkspace` | `.home/` hermetic sandboxing, atomic file writes (`os.rename`), content-addressed asset graphs, `memdir` scanning, and Git Worktree isolation. |
+| 12 | `illuminate/events` | `IHookSystem` | Pub/Sub lifecycle event bus (`PreToolUse`, `PostToolUse`, `ThoughtGenerated`, `ToolExecuted`, `SessionStart`) wired to Lua/Clause plugin hooks. |
+| 13 | `illuminate/filesystem` | `ContentAddressedWorkspace` | `.home/` hermetic sandboxing, atomic file writes (`os.rename`), content-addressed asset graphs (`.ground/`), `memdir` scanning, and Git Worktree isolation. |
 | 14 | `illuminate/hashing` | `IntegrityCheckpoints` | Cryptographic thought/asset signature hashes (SHA-256), HMAC webhook verification, and content-hash resume checkpoints (`journal.jsonl`). |
 | 15 | `illuminate/http` | `TransportLayer` | Request/Response normalization for **MCP** and **A2A** JSON-RPC envelopes, OpenAI-compatible local coprocessor APIs (`Lemonade`/`InferSSD`), and media payload parsing. |
 | 16 | `illuminate/json-schema` | `IToolRegistry` | Strict Schema-Aligned Parsing (`jet_sap` / Zod / Pydantic-equivalent) schema compilation for tool argument validation and structured model outputs. |
 | 17 | `illuminate/log` | `ObservabilityTracing` | Append-only JSONL transcripts inside `$CLAUSE_LOGS_DIR`, OpenTelemetry span trees, structured audit trails, and deterministic execution replay logs. |
-| 18 | `illuminate/macroable` | `ExtensionEngine` | Compile-time AST macros (`seaxc`) and runtime `plugins/cx-*` / `.enterprise/plugins/` extensions without modifying core engine crates. |
+| 18 | `illuminate/macroable` | `ExtensionEngine` | Compile-time AST extensions (`cxc`), runtime `plugins/cx-*`, and `.apm/plugins/` extensions without modifying core engine crates. |
 | 19 | `illuminate/notifications` | `IDeliveryQueue` | Multi-channel outgoing alerts and OpenClaw-style channel bridges (Telegram, Slack, WhatsApp, Discord, NDI/OSC studio tallies, Push). |
 | 20 | `illuminate/pipeline` | `IPipeline` *(Module 0.1)* | Sequential middleware pipeline (`send().through().then()`) intercepting and transforming context, prompts, tool calls, DSP graphs, and outputs. |
 | 21 | `illuminate/process` | `IDaemon` / `ISubAgent` | Nomad `raw_exec` workload runners, POSIX/Windows daemon supervision (`SIGTERM`/`SIGINT`), `cx vm` micro-instances, and PTY stream capturing. |
 | 22 | `illuminate/queue` | `ICronScheduler` | Async background job queues, OpenClaw heartbeat timers, deferred CRON scheduling, write-ahead delivery queues, and background subagent fleets (`/bg`). |
-| 23 | `illuminate/reflection` | `DependencyResolver` | Compile-time AST symbol & trait resolver (`seax-checker` / `seax-symbol`) auto-wiring `needs` capabilities and MCP tool schemas. |
+| 23 | `illuminate/reflection` | `DependencyResolver` | Compile-time AST symbol & trait resolver (`clause-checker` / `clause-core`) auto-wiring `needs` capabilities and MCP tool schemas. |
 | 24 | `illuminate/routing` | `IChannelAdapter` | Intent classification, multi-channel message routing, and LLM tool JSON Schema parameter dispatch. |
 | 25 | `illuminate/support` | `UniversalHelpers` | Fluent collection/string helpers, timecode/SMPTE math, and deterministic interval timers (`IHeartbeatTimer`). |
 | 26 | `illuminate/testing` | `ISpecLayer` | Hermetic Trust Gate (`cx test` / `run_all.nu` / `cargo test --offline`) compiling Definition-of-Done contracts into automated verification gates. |
@@ -90,22 +90,22 @@ CCEFS maps all **27 Laravel Illuminate architecture components** directly onto *
 ### **2.1 What Changed From v2.1 to v3.0**
 
 * **v2.1 (*Vieo Tigah*):** Modeled the agent harness as 19 standalone target language implementations built in isolation without an underlying hermetic OS substrate, unified model cache, or carrier language compiler.
-* **v3.0 (*ClauseOS + Seax + CCEFS*):**
+* **v3.0 (*ClauseOS + Clause + CCEFS*):**
   1. **Grounded on the ClauseOS Hermetic Microkernel (`v0.9.0-dev.1`):** All toolchains, Python/AI virtual environments, HashiStack daemons, BEAM/Rust runtimes, and `$HF_HOME` model caches are hermetically confined inside `${CLAUSE_PROJECT_ROOT}/.home/`.
-  2. **Unified via Seax (`seaxc`, `.cx`) & Monkey X (`transcc`) Transpilation (`ADR 0011`):** Instead of hand-writing 19 duplicate harnesses from scratch, **Seax** serves as the single Dart-flavored, Jet-semantic carrier language compiled in Rust onto primary native targets—**Pure Rust (`Ractor`/`Spawned` OTP actors + `Craft`/`oximedia`/`nih-plug` + revived `pulumi-gestalt`)**, **BEAM (`Core Erlang` / `Glimr` interop)**, and **Client (`TypeScript`/`Wasm` / `Flutter`)**—while preserving polyglot CLI/runtime parity across all 19 target ecosystems via ClauseOS's polyglot router and Mise/Scoop/Brew overlays.
+  2. **Unified via Clause (`cxc`, `.cx`) & Monkey X Multi-Target Transpilation (`ADR 0011`):** Instead of hand-writing 19 duplicate harnesses from scratch, **Clause** serves as the single carrier language constructed as an upstream-clean fork of `gleam-lang/gleam` inside `packages/clause/`, compiled in Rust onto primary native targets—**Pure Rust (`crates/clause-core/src/backend/rust.rs` + `Craft`/`oximedia`/`nih-plug` + revived `crates/clause-pulumi`)**, **BEAM (`Core Erlang` / OTP 29 in `packages/clause_jet/`)**, and **Client (`TypeScript`/`Wasm` / `Lustre`/`Plushie`)**—while preserving polyglot CLI/runtime parity across all 19 target ecosystems via ClauseOS's polyglot router and Mise/Scoop/Brew overlays.
   3. **Craft Ecosystem Absorption (`storytold/craft-*`):** Native transmedia desktop applications (`SoundCraft`, `FilmCraft`, `PhotoCraft`, `EffectCraft`, `WordCraft`, `GridCraft`, `CADCraft`, `craft-ai-mcp`) are integrated via pinned `git subtree --squash` mounts and controlled via MCP/IPC and shared Rust media crates (`ADR 0012`).
 
 ### **2.2 Target Stack Hierarchy (Primary Compiled Targets + Polyglot Parity)**
 
-* **Default Primary Language — Seax (`.cx` / `.seax`):** Native keywords for agents (`agent`, `skill`, `tool`, `memory`, `compact`, `gateway`, `channel`, `heartbeat`), transmedia (`audio`, `video`, `midi`, `ndi`, `osc`, `smpte`, `dante`, `dsp`), carriers (`actor`, `pipeline`, `telcom`, `broadcast`, `infra`), and capability gates (`needs`, `platform`, `provide`, `expose -> Schema`).
-* **Primary Native Systems & Runtime Engine (Rust — Tier 2):** `compiler/seaxc/`, `Ractor`/`Spawned` OTP supervision, `oximedia`/`nih-plug`, `vendor/craft/*`, `crates/clause-pulumi/` (revived `pulumi-gestalt`), `seax-vfs` (Content-Addressed VFS).
-* **Distributed Actor & Web Backplane (BEAM / Gleam / Elixir):** `services/orchestrator/`, `packages/carrier_jet/`, `packages/clause_cli/`, `Glimr`, `Lustre`, `Shore`, and `RinG` (`tools/ring/`).
+* **Default Primary Language — Clause (`.cx`):** Native keywords for the **Nine Canonical Operational Pillars** (`kernel`, `app`, `infra`, `deck`, `comms`, `studio`, `stage`, `stream`, `tactical`/`tigah`), and capability gates (`needs`, `platform`, `provide`, `expose -> Schema`).
+* **Primary Native Systems & Runtime Engine (Rust — Tier 2):** `packages/clause/crates/clause-core/`, `oximedia`/`nih-plug`, `vendor/craft/*`, `crates/clause-pulumi/` (revived `pulumi-gestalt`), `clause-vfs` (Content-Addressed VFS in `.ground/`).
+* **Distributed Actor & Web Backplane (BEAM / Gleam / Elixir):** `services/orchestrator/`, `packages/clause_jet/`, `packages/clause_cli/`, `packages/clause_site/` (`Lustre`), `Shore`, `Plushie`, and `RinG` (`tools/ring/`).
 * **Zero-Install & Control Plane Shells (Nushell / PowerShell / POSIX sh / Lua):** `cx.bat`, `cx.ps1`, `cx.sh`, `scripts/cli/nu/`, and `plugins/cx-*` Lua runtime hooks.
 * **Full 19-Language Polyglot Parity Matrix:** Preserved from v2.1 across Tier 1 (POSIX sh, PowerShell, Lua/LuaJIT, QuickJS, Nim, Tcl/Expect), Tier 2 (Python, TypeScript/Bun, Rust, C++20, Go, Zig), and Tier 3 (Dart/Flutter, PHP/Laravel, Elixir/BEAM, Ruby, Swift, Kotlin, C#/.NET Orleans) via Monkey X multi-target codegen and ClauseOS polyglot command routing.
 
-## **3. Source Inventory & Cross-Referencing Matrix (128+ Primary Sources)**
+## **3. Source Inventory & Cross-Referencing Matrix (199+ Primary Sources)**
 
-All source materials in the master research repository retain their canonical prefix taxonomy (`04-resource-legend`) and are extended with the **Compiler & Orchestrator Core (`c` prefix)** and **ClauseOS Foundation (`f` prefix)**:
+All source materials in the master research repository retain their canonical prefix taxonomy (`07 - resource - legend`) and are extended with the **Compiler & Orchestrator Core (`c` prefix)**, **ClauseOS Foundation (`f` prefix)**, and **Discussions & Transcripts (`d` prefix)**:
 
 * **`f` — ClauseOS Hermetic Substrate & ADRs (16+ Sources):** `README.md`, `TASK.md`, `ADR 0001`–`0013`, `cx.ps1`/`cx.sh`, `config/env/*.toml`, and `cx bundle` source snapshots.
 * **`c` — Compilers, Transpilers & Distributed Orchestrators (6+ Sources):**
@@ -115,12 +115,13 @@ All source materials in the master research repository retain their canonical pr
   * `c04` — `i2y/jet` (Jet Language & Schema-Aligned Parsing `jet_sap` reference)
   * `c05` — Mark Sibley: *Monkey X (`transcc`)* Multi-Target Transpiler Architecture
   * `c06` — `andrzejressel/pulumi-gestalt` & `pulumi/pulumi-rust`
+* **`d` — Discussions & Engineering Design Transcripts (51 Sources):** `d01`–`d51` (Codebase refactoring, APU micro-VM limits, corporate organizational structures, media convergence, Gleam-to-Clause forking consensus `d48`, Mise multipass plugin architecture `d49`).
 * **`a` — Architecture & Design Patterns (8 Sources):** `a00`–`a07` (Fowler P-EAA, Gang of Four, Laravel Patterns, Clean Guardrails).
 * **`b` — Software Engineering, AI Agents & System Design (24 Sources):** `b00`–`b23` (Pragmatic Programmer, Release It!, Clean Architecture, 60 Patterns for Autonomous Systems, AI Engineering, MLOps, Mastering API Architecture).
 * **`e` — AIEFS (*AI Engineering From Scratch*, 6 Sources):** `e01-aiefs-vol1-foundations.pdf` through `e06-aiefs-vol6-production.pdf`.
 * **`l` — Programming Languages, Shells & Tech Specs (51 Sources):** `l00`–`l50` covering all 19 target stacks.
 * **`r` — Claude Code, OpenClaw & Agent Harness Studies (22 Sources):** `r01`–`r22` (`learn-claude-code`, `build-your-own-openclaw`, `claude-code-from-source`, `claw0`, `harness-engineering`, `deep-dive-into-openclaw`).
-* **`s` & `t` — Core Protocol Specifications & Security Whitepapers (13 Sources):** `s00`–`s02` (MCP & A2A specs) and `t00`–`t08` (MCP security design, Longhorn harness, enterprise LLM integration).
+* **`s` & `t` — Core Protocol Specifications & Security Whitepapers (14 Sources):** `s01`–`s05` (MCP & A2A specs) and `t01`–`t09` (Agentic SDLC, APM specification `t03`, AI Company OS, prompt engineering).
 
 ## **4. Curriculum Construction Rules, Constraints & Pedagogy**
 
@@ -133,14 +134,14 @@ Every mechanism across the ClauseOS substrate (`f`), compiler/orchestrator books
 Every chapter/module generated for **CCEFS** MUST follow this strict four-part structure:
 
 1. **Part 1: Measurable Engineering & Learning Outcomes (SLOs) + Architectural Invariants**
-2. **Part 2: Mechanics, Illuminate/Quad Mapping & Expressive Seax/Rust API Contracts**
+2. **Part 2: Mechanics, Illuminate/Quad Mapping & Expressive Clause/Rust API Contracts**
 3. **Part 3: Step-by-Step Implementation & Verification Gate (`cargo test --offline` / `cx test`)**
-4. **Part 4: Ground-Truth Source Attribution & Citations (`[f*]`, `[c*]`, `[a*]`, `[b*]`, `[e*]`, `[l*]`, `[r*]`, `[s*]`, `[t*]`)**
+4. **Part 4: Ground-Truth Source Attribution & Citations (`[f*]`, `[c*]`, `[d*]`, `[a*]`, `[b*]`, `[e*]`, `[l*]`, `[r*]`, `[s*]`, `[t*]`)**
 
 ### **4.3 Rule C: Progressive Scaffolding (Bottom-Up Systems Construction)**
 
 The curriculum builds strictly linearly from bare metal upward—no module may rely on an unbuilt lower layer:  
-`Stage 0: Hermetic Userland (.home/) → Stage 1: Seax Language & Compiler (seaxc inside .home/) → Stage 2: Distributed Orchestrator & Pulumi IaC → Stage 3: Transmedia & Telecom Switchboard → Stage 4: Seax-Native Agent Harness (Claude Code + OpenClaw + Hermes) → Stage 5: Autonomous Virtual Enterprise & Open-Core Release`
+`Stage 0: Hermetic Userland (.home/) → Stage 1: Clause Language & Compiler (cxc inside .home/) → Stage 2: Distributed Orchestrator & Pulumi IaC → Stage 3: Transmedia & Telecom Switchboard → Stage 4: Clause-Native Agent Harness (Claude Code + OpenClaw + Hermes) → Stage 5: Autonomous Virtual Enterprise & Open-Core Release`
 
 ## **5. Master CCEFS Curriculum Blueprint (6 Stages / 30 Integrated Modules — v4.3)**
 
@@ -148,37 +149,43 @@ CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 
 
 ### **Stage 0: Sealing the Hermetic Bare-Metal Userland (Modules 0.1–0.5)**
 
+*Detailed in `docs/ccefs/02-stage0-foundation-modules-v4.3.md`.*
+
 * **Module 0.1:** Zero-Leak Profile Confinement & Stage 0 Trampolines (`cx.bat`, `cx.ps1`, `cx.sh`, `config/env/*.toml`) `[f01, ADR-0001, ADR-0004]`
 * **Module 0.2:** Three-Tier Toolchain Supply Chain (`Mise` Overlays, `plugins/cx-*` Lua Subtrees, Patched `Scoop`/`Brew`, `toml_pin.nu`) `[f02, ADR-0002]`
 * **Module 0.3:** Dynamic 5-Way Hardware Acceleration Matrix & Unified `$HF_HOME` Model Hub `[f03, ADR-0003, ADR-0005]`
 * **Module 0.4:** Hermetic Identity Lock & Automated Verification Harness (`cx identity`, `cx test` / `run_all.nu`) `[f04, ADR-0001, ADR-0004]`
-* **Module 0.5:** Content-Addressed Workspace (`seax-vfs`) & AIEFS (*AI Engineering From Scratch*, Vol. 1–6) Mathematical Spine `[e01–e06, ADR-0005, ADR-0008]`
+* **Module 0.5:** Content-Addressed Workspace (`clause-vfs` in `.ground/`) & AIEFS (*AI Engineering From Scratch*, Vol. 1–6) Mathematical Spine `[e01–e06, ADR-0005, ADR-0008]`
 
-### **Stage 1: Building the Seax (`.cx`) Language & Multi-Target Compiler Inside `.home/` (Modules 1–5)**
+### **Stage 1: Building the Clause (`.cx`) Language & Multi-Target Compiler Inside `.home/` (Modules 1–5)**
 
-* **Module 1:** Dart-Flavored Lexer & Token Spans (`crates/seax-token`, `crates/seax-lexer` — Ball Ch. 1) `[c01, c04, ADR-0011]`
-* **Module 2:** Pratt Expression Parser, Recursive-Descent Blocks & "Agent is a Directory" (`crates/seax-ast`, `crates/seax-parser` — Ball Ch. 2) `[c01, c04, ADR-0011]`
-* **Module 3:** Syntactic AST Macros & Multi-File Contract/Capability Checker (`crates/seax-macro`, `crates/seax-checker` — Ball *Lost Chapter* + Jet AST Guards) `[c01, c01-lost, c04, ADR-0011]`
-* **Module 4:** Symbol Tables, Closure Conversion & Embedded Bytecode VM (`crates/seax-symbol`, `crates/seax-vm` — Ball *Compiler Book* Ch. 1–10) `[c02]`
-* **Module 5:** Monkey-X (`transcc`) Multi-Target Emitters (`--target rust`, `--target beam`, `--target client`) & Self-Hosting `seaxc`/`air`/`jet` in `$CLAUSE_BIN_DIR` `[c02, c05, ADR-0011]`
+*Detailed in `docs/ccefs/03-stage1-2-compiler-orchestrator-v4.3.md`.*
+
+* **Module 1:** Upstream-Clean Gleam Core Extraction & Branding Constants (`packages/clause/crates/*`, `brand.rs`) `[c01, c04, d48, ADR-0011]`
+* **Module 2:** Nine-Pillar Grammar Extensions & AST Token Spans (Logos scanner, Pratt parser, top-level block keywords) `[c01, c04, d48, ADR-0011]`
+* **Module 3:** Static Domain Verification Passes (100% split rights checks, sample-rate parity, `@airgap` egress verification) `[c01, c01-lost, c04, ADR-0007, ADR-0011]`
+* **Module 4:** Monkey-X Multi-Target Codegen: `--target rust` (Native Systems, `oximedia`, `nih-plug`, `clause-pulumi`, `@external(rust, ...)`) `[c02, c05, d48, ADR-0011]`
+* **Module 5:** Monkey-X Multi-Target Codegen: `--target beam` & `--target client` (`clause_jet`, Lustre, automated `tools/ring` NIFs) `[c02, c05, d48, ADR-0011, ADR-0012]`
 
 ### **Stage 2: Distributed Orchestrator, Micro-VMs & Native Pulumi IaC (Modules 6–10)**
 
-* **Module 6:** Orchestrator Core: `Task → Worker → Manager → Scheduler` (`Ractor`/`Spawned` OTP actors — Tim Boring Ch. 1–9) `[c03, ADR-0010]`
+*Detailed in `docs/ccefs/03-stage1-2-compiler-orchestrator-v4.3.md`.*
+
+* **Module 6:** Orchestrator Core: `Task → Worker → Manager → Scheduler` (`clause_jet` OTP actors — Tim Boring Ch. 1–9) `[c03, ADR-0010]`
 * **Module 7:** Borg E-PVM Resource-Aware Scheduler & Persistent `Store` (`TaskStore` / `EventStore` + GPU scoring — Tim Boring Ch. 10–12) `[c03, ADR-0003, ADR-0010]`
 * **Module 8:** HashiStack Control Plane (`Nomad`, `Consul`, `Vault`) & Cross-Platform Micro-VMs (`cx vm` WSL2 / Lima) `[ADR-0006, ADR-0010]`
 * **Module 9:** Bare Metal as a Service (`Pixiecore` + `Packer` iPXE Netbooting) `[ADR-0010]`
-* **Module 10:** Native `infra` Keyword & Revived `pulumi-gestalt` (`crates/clause-pulumi` / `Jet` cloud bursting) `[c06, ADR-0010, ADR-0011]`
+* **Module 10:** Native `infra` Keyword & Revived `clause-pulumi` (`crates/clause-pulumi` native Rust cloud bursting) `[c06, ADR-0010, ADR-0011]`
 
 ### **Stage 3: Real-Time Transmedia Engine, RinG Bridge & Telecom Switchboard (Modules 11–15)**
 
-* **Module 11:** `RinG` (Rust-in-Gleam) Type-Safe FFI & Dirty-Scheduler Isolation (`DirtyCpu` / `DirtyIo`) `[ADR-0012]`
+* **Module 11:** `RinG` (Rust-in-Gleam/Clause) Type-Safe FFI & Dirty-Scheduler Isolation (`DirtyCpu` / `DirtyIo`) `[ADR-0012]`
 * **Module 12:** Zero-Allocation Audio/Video DSP (`dsp`, `audio`, `video`, `oximedia`, `nih-plug`) `[a00, ADR-0011, ADR-0012]`
 * **Module 13:** Hardware Control Buses (`midi`, `ndi`, `osc`, `smpte`, `dante`, `AES67`) `[ADR-0011, ADR-0012]`
 * **Module 14:** Storytold `Craft` Suite Subtrees (`SoundCraft`, `FilmCraft`, `PhotoCraft`, `EffectCraft`, `WordCraft`, `GridCraft`, `CADCraft`) & Mainstream DAW/NLE Interchange (`OTIO`, `AAF`, `FCPXML`) `[ADR-0009, ADR-0012]`
 * **Module 15:** BEAM Carrier Backplane: `Membrane` Media Router & `Kazoo` Class 5 Softswitch `[l04, ADR-0010, ADR-0011]`
 
-### **Stage 4: Seax-Native Agent Framework (`Claude Code` + `OpenClaw` + `Hermes`, Modules 16–20)**
+### **Stage 4: Clause-Native Agent Framework (`Claude Code` + `OpenClaw` + `Hermes`, Modules 16–20)**
 
 * **Module 16:** `AsyncGenerator` Agent Kernel, `<thinking>` Channels, 3-Layer Retry Onion & `jet_sap` Schema Repair *(Harness Modules 1 & 6)* `[b01, c04, l04, r01–r22, a05]`
 * **Module 17:** Self-Describing `tool` Registry, `mtime` Guards, `ArchitectTool`/ToT Planning, SSRF `web_fetch` & Speculative Parallel Batching *(Harness Modules 2 & 12)* `[r14–r22, b06, b13, b14, b16]`
@@ -189,16 +196,16 @@ CCEFS integrates the **5 Hermetic Userland Foundation Modules (Stage 0: Modules 
 ### **Stage 5: Autonomous Virtual Enterprise, Domain SLMs & Open-Core Release (Modules 21–25)**
 
 * **Module 21:** Contained Domain SLM Distillation & Local Coprocessor Fleet (`Unsloth` + `Lemonade`/`InferSSD`) `[e02, e04, ADR-0005, ADR-0013]`
-* **Module 22:** `.enterprise/` Virtual Corporation Hierarchy & Closed-World `.ground` Governance *(Harness Modules 18, 19, 20)* `[r15, r18, ADR-0008]`
+* **Module 22:** Agent Package Manager (APM) & Virtual Enterprise Directory Hierarchy: Root `apm.yml`, `.apm/` SSOT (`.apm/agents/`, `.apm/skills/`, `.apm/instructions/`), and Closed-World `.ground` Governance *(Harness Modules 18, 19, 20)* `[r15, r18, t03, ADR-0008]`
 * **Module 23:** Git Worktree Swarm Isolation, Bare-Git Scrubbing, Protocol Handshakes (`plan_approval`/`shutdown`), Adversarial Gatekeeper & Vault Merge Leases *(Harness Modules 21 & 22)* `[r15, r22, t00, t01, t05, ADR-0008, ADR-0010]`
-* **Module 24:** Portable VS Code Cockpit (`cx-vscode`), `APM` Cross-Harness Lockfiles & `Shore`/`Lustre` Telemetry `[ADR-0009]`
+* **Module 24:** Portable VS Code Cockpit (`cx-vscode`), `APM` Cross-Harness Projections (`apm build` emitting `.claude/`, `.agents/`, `.vscode/`), and `Shore`/`Lustre` Telemetry `[ADR-0009]`
 * **Module 25:** 100% Open-Source Release Engine & Commercial Industry Cartridges (`v1.0.0`) *(Harness Module 24)* `[f01, b01, ADR-0007]`
 
 ## **6. Acceptance Criteria & Audit Verification Pass**
 
 Before any CCEFS chapter/module is marked `Completed`:
 
-1. **Substrate Confinement:** Zero host filesystem/registry writes; all state, compilers (`seaxc`/`air`/`jet`), and caches verified inside `.home/` (`cx test`).
-2. **Ground-Truth Citation Integrity:** Every architectural claim and code contract cites valid `[f*]`, `[c*]`, `[a*]`, `[b*]`, `[e*]`, `[l*]`, `[r*]`, `[s*]`, or `[t*]` sources.
+1. **Substrate Confinement:** Zero host filesystem/registry writes; all state, compilers (`cxc`), control plane (`clause_jet`), and caches verified inside `.home/` (`cx test`).
+2. **Ground-Truth Citation Integrity:** Every architectural claim and code contract cites valid `[f*]`, `[c*]`, `[d*]`, `[a*]`, `[b*]`, `[e*]`, `[l*]`, `[r*]`, `[s*]`, or `[t*]` sources.
 3. **Quad & Real-Time Compliance:** Adheres to Fowler P-EAA boundaries, GoF mechanics, Otwell fluent DX, and JUCE zero-allocation hot-path rules.
 4. **Offline Deterministic Verification:** Passes `cargo test --offline` and `cx test` with exit code `0`.
