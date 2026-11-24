@@ -178,6 +178,6 @@ labels:
     color: AEB1C2
     description: "Specific to macOS (Apple Silicon/Intel), confined Homebrew, Seatbelt, or Lima micro-VMs."
 
-  - name: 'Target: Hardware & NPU-GPU'
+  - name: 'Target: Hardware'
     color: AEB1C2
     description: "Specific to hardware acceleration backends (AMD Strix Halo / ROCm, XDNA2 NPU, NVIDIA CUDA, Apple Metal, Vulkan)."
