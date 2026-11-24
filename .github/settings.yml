@@ -20,31 +20,6 @@ repository:
 
 # Labels: define labels for Issues, Pull Requests, and Virtual Enterprise (.enterprise/) routing
 labels:
-  # --- GitHub Standard Baseline Labels ---
-  - name: 'Type: Bug'
-    color: d73a4a
-    description: "Something isn't working."
-
-  - name: 'Type: Enhancement'
-    color: a2eeef
-    description: "New enhancement or request to an existing feature."
-
-  - name: 'Type: Feature'
-    color: 0075ca
-    description: "New feature or request."
-
-  - name: 'Type: Good First Issue'
-    color: 7057ff
-    description: "Good for newcomers."
-
-  - name: 'Type: Help Wanted'
-    color: 008672
-    description: "Extra attention is needed."
-
-  - name: 'Type: Question'
-    color: d876e3
-    description: "Further information is requested."
-
   # --- Workflow & Triage Status ---
   - name: 'Status: Backlog'
     color: d4c5f9
