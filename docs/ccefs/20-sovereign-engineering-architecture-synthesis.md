@@ -314,21 +314,50 @@ The 30 modules construct the entire ClauseOS software factory in 6 bottom-up sta
 
 ---
 
-## 8. Codebase Implementation Audit Baseline (`06` vs `05`)
+## 8. Codebase Implementation Audit Baseline (`06` vs `05`, `n01`, `15`–`17`)
 
-In conformance with the **Source-Code Supremacy Rule**, the physical state in `06-clauseos-source-bundle.md` (v0.9.0-dev.1) governs over all pending roadmap plans. The forensic audit (`05`) and path audit (`n01`) isolate **8 concrete defects** requiring remediation:
+In strict conformance with the **Source-Code Supremacy Rule**, the physical state in `06-clauseos-source-bundle.md` (v0.9.0-dev.1) governs over all pending roadmap plans. Synthesizing the forensic codebase audit (`05-source-bundle-audit-report.md`), the path audit (`n01-scoop-path-audit`), the package namespace refactor investigation (`15-investigation-report-cx-pkg-refactor-clauseos.md`), the documentation audit (`16-documentation-audit-and-alignment-clauseos.md`), and the totality evaluation (`17-totality-project-evaluation-clauseos.md`) isolates **12 physical subsystem defects (`DEF-01` through `DEF-12`)** and **3 repository governance configuration defects (`GITHUB-01` through `GITHUB-03`)** requiring surgical remediation in Batch 3:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        FORENSIC DEFECT REMEDIATION LEDGER                              │
+│                        BATCH 3 MASTER DEFECT REMEDIATION LEDGER                        │
 ├────────┬─────────────────────────────┬─────────────────────────────────────────────────┤
 │ Defect │ File Location               │ Root Cause & Required Surgical Remediation      │
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ [SUBSYSTEM 1: HERMETIC SUBSTRATE & ENVIRONMENT ENGINE]                                 │
 ├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
 │ DEF-01 │ scripts/cli/nu/config/      │ Reads legacy .env; references retired WIN_*     │
 │        │   env.nu                    │ variables. Refactor to read compiled TOML envs. │
 ├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ DEF-06 │ cx.sh                       │ Lacks _CALLER_CLAUSE_STATUS check for nested    │
+│        │                             │ subshells. Add recursion preflight bypass.      │
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ DEF-08 │ installer_scoop.ps1 /       │ Omission of $env:SCOOP\shims from $env:PATH in  │
+│        │   cx.ps1 / 20-toolchains    │ session. Export SCOOP_SHIMS and prepend in PATH.│
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ [SUBSYSTEM 2: PACKAGE MANAGER CONTROL PLANE (cx pkg Namespace Refactor)]               │
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ DEF-09 │ scripts/cli/nu/commands/    │ Broken Delegation: add.nu delegates to 'scoop'  │
+│        │   pkg/add.nu                │ and 'brew' instead of 'pkg:scoop'/'pkg:brew'.   │
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ DEF-10 │ scripts/cli/nu/commands/    │ Manifest Omission: parses only env_add_path;    │
+│        │   pkg/scoop.nu              │ ignores 'bin' property in 95% of Scoop manifests│
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ DEF-11 │ scripts/cli/nu/mod.nu       │ Router Breakdown: resolve-command-script fails  │
+│        │                             │ on legacy flat calls (cx scoop/brew/mise/add).  │
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ DEF-12 │ scripts/cli/nu/commands/    │ Startup Probe Defect: boot_check.nu checks      │
+│        │   boot_check.nu             │ non-existent .cache/.../shims/scoop.ps1.        │
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ [SUBSYSTEM 3: AI PLUGINS & RUNTIME ANCHORS]                                            │
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
 │ DEF-02 │ docs/adr/adr_006-micro-     │ Body duplicated from ADR 005 (Model Storage).   │
 │        │   instance-virtualization.md│ Restore canonical WSL2/Lima micro-VM spec.      │
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ DEF-07 │ plugins/cx-comfyui/hooks/   │ Omits extra_model_paths.yaml bridge. Link       │
+│        │   post_install.lua          │ ComfyUI checkpoints directly to $HF_HUB_CACHE.  │
+├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
+│ [SUBSYSTEM 4: VERIFICATION SUITES & TEST HARNESSES]                                    │
 ├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
 │ DEF-03 │ .github/workflows/ci.yml    │ ./cx.sh test and .\cx.ps1 test commented out.   │
 │        │                             │ Uncomment lines 74 & 84 to restore CI gate.     │
@@ -339,15 +368,17 @@ In conformance with the **Source-Code Supremacy Rule**, the physical state in `0
 │ DEF-05 │ tests/env/test_env.{nu,sh}  │ Contains literal paste citation markers.        │
 │        │                             │ Strip [cite:...] strings breaking syntax.       │
 ├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
-│ DEF-06 │ cx.sh                       │ Lacks _CALLER_CLAUSE_STATUS check for nested    │
-│        │                             │ subshells. Add recursion preflight bypass.      │
-├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
-│ DEF-07 │ plugins/cx-comfyui/hooks/   │ Omits extra_model_paths.yaml bridge. Link       │
-│        │   post_install.lua          │ ComfyUI checkpoints directly to $HF_HUB_CACHE.  │
-├────────┼─────────────────────────────┼─────────────────────────────────────────────────┤
-│ DEF-08 │ installer_scoop.ps1 /       │ Omission of $env:SCOOP\shims from $env:PATH.    │
-│        │   cx.ps1 / 20-toolchains    │ Export shims on PATH so Scoop CLI tools work.   │
-└────────┴─────────────────────────────┴─────────────────────────────────────────────────┘
+│ [SUBSYSTEM 5: REPOSITORY GOVERNANCE & GITHUB INTEGRATION]                              │
+├───────────┼───────────────────────────┼────────────────────────────────────────────────┤
+│ GITHUB-01 │ .github/PULL_REQUEST_     │ Subsystem Checklist Drift: lines 21–25         │
+│           │   TEMPLATE.md             │ reference dead compiler/seaxc and phantom enterprise paths│
+├───────────┼───────────────────────────┼────────────────────────────────────────────────┤
+│ GITHUB-02 │ .github/ISSUE_TEMPLATE/   │ Security Email: lines 31 & 72 contain old      │
+│           │   6-security-report.yml   │ email; update to security@vieo.ai.             │
+├───────────┼───────────────────────────┼────────────────────────────────────────────────┤
+│ GITHUB-03 │ .github/settings.yml      │ Label Description Drift: Area: Virtual         │
+│           │                           │ Enterprise references ghost enterprise paths.  │
+└───────────┴───────────────────────────┴────────────────────────────────────────────────┘
 ```
 
 ---
@@ -366,8 +397,12 @@ Reconciling the entire repository without destructive rewrites follows the **Car
    * Aligned `01-ccefs-30-modules-v4.3.md` and `03-stage1-2-compiler-orchestrator-v4.3.md` with the `packages/clause/` (`cxc`) Gleam fork, preserving all textbook lineages, FSM transition tables, and Borg LIEB mathematical constants.
    * Synchronized `02-stage0-foundation-modules-v4.3.md` and `04-vieo-ai-curriculum-portal.md` to `clause-vfs` (`.ground/`), Tracks 1–4, and Lustre SSG in `packages/clause_site/`.
    * Formally verified **zero occurrences of phantom enterprise directory constructs** across all five specifications, establishing root `apm.yml` and `.apm/` as the sole SSOT.
-3. **Batch 3 — Substrate Code & Configuration Repairs (ACTIVE GATE):**
-   * Apply physical code patches to `scripts/cli/nu/config/env.nu` (TOML hydration), `config/env/20-toolchains.toml` + `cx.ps1` (Scoop shims in PATH), `scripts/cli/nu/commands/pkg/add.nu` (delegation fix), `.github/workflows/ci.yml` (uncomment test executions), `test_stage1.nu`, `test_env.*`, and `plugins/cx-comfyui`.
+3. **Batch 3 — Substrate Code & Configuration Repairs (ACTIVE EXECUTION GATE):**
+   * Apply physical code patches to Subsystem 1 (`env.nu`, `cx.sh`, `installer_scoop.ps1`, `20-toolchains.toml`).
+   * Apply physical code patches to Subsystem 2 (`pkg/add.nu`, `pkg/scoop.nu`, `mod.nu`, `boot_check.nu`).
+   * Apply physical code patches to Subsystem 3 (`adr_006.md`, `plugins/cx-comfyui`).
+   * Apply physical code patches to Subsystem 4 (`ci.yml`, `test_stage1.nu`, `test_env.*`).
+   * Apply configuration updates to Subsystem 5 (`PULL_REQUEST_TEMPLATE.md`, `6-security-report.yml`, `settings.yml`).
    * Run `cx test` (executing `tests/system/run_all.nu`) to confirm exit code `0` across Windows, Linux, and macOS.
 4. **Stage 1 Compiler Bootstrap Authorization:**
    * Upon green verification across all three platforms, flip governance verdict from **CONDITIONAL PASS** to **FULL PASS**, authorizing active compiler development inside `packages/clause/` (`cxc`).
@@ -380,19 +415,20 @@ Reconciling the entire repository without destructive rewrites follows the **Car
 ================================================================================
                     CAPSTONE SYNTHESIS RELEASE RECORD
 ================================================================================
-RELEASE IDENTIFIER: CCEFS-20-SOVEREIGN-ENGINEERING-SYNTHESIS-V1.0
-TIMESTAMP: 2026-11-23T20:30:00-08:00
+RELEASE IDENTIFIER: CCEFS-20-SOVEREIGN-ENGINEERING-SYNTHESIS-V2.0-AUDITED
+TIMESTAMP: 2026-11-24T10:00:00-08:00
 AUTHORIZING ROLE: Principal Research & Systems Architect / PhD Curriculum Fellow
 GOVERNING MANDATE: Supreme SSOT Constitution (06 -> 05 -> 00–04 -> a–t)
 
 STATUS OF GOVERNANCE GATES:
   [✓] Batch 1 (ADRs & Root Ledgers):          100% COMPLETE & LOCKED
   [✓] Batch 2 (Supreme Specs 00–04 & Doc 19): 100% COMPLETE & VERIFIED
-  [/] Batch 3 (Code Defect Remediation):      ACTIVE EXECUTION GATE
+  [/] Batch 3 (Code Defect Remediation):      ACTIVE EXECUTION GATE (12 DEFs + 3 GITHUB)
   [ ] Stage 1 (packages/clause/ cxc Build):   PENDING BATCH 3 PASS
 
 VERDICT:
-The Sovereign Engineering Architecture Synthesis is formally sealed as Document 20.
-Batch 1 and Batch 2 stand fully reconciled. Proceed immediately to Batch 3 code repairs.
+The Sovereign Engineering Architecture Synthesis is formally validated and updated 
+as Document 20 v2. The complete 15-target defect ledger is codified. 
+Proceed directly to Batch 3 physical code repairs.
 ================================================================================
 ```
