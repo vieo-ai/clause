@@ -3,7 +3,7 @@ name: Synchronize Repository Labels
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [ main ]
     paths:
       - '.github/settings.yml'
 
@@ -16,8 +16,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Extract Labels Array from settings.yml
+        run: |
+          yq '.labels' .github/settings.yml > /tmp/labels.yml
+
       - name: Run EndBug Label Sync
         uses: EndBug/label-sync@v2
         with:
-          config-file: .github/settings.yml
+          config-file: /tmp/labels.yml
           delete-other-labels: false
