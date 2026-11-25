@@ -161,7 +161,131 @@ These fields must be created at the Organization Project level:
 
 ---
 
-## 3. Part I: Declarative Web UI Execution Runbook ("Click-Ops")
+## 3. The Operational Reality: GitHub as a Natural Agile AI Orchestration & Task Dispatch System
+
+```text
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│             THE GITHUB NATIVE AGILE ORCHESTRATION & TASK DISPATCH SYSTEM                         │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                  │
+│   [ LEVEL 1: TASK SPECIFICATION & INGESTION ]                                                    │
+│   • Issue Form / API Payload: Type (Epic, Feature, Task, Bug) + Pillar Area + Target Platform    │
+│   • SSOT Grounding: Deterministic Acceptance Criteria + Binary Verification Gate Requirement     │
+│                                           │                                                      │
+│                                           ▼                                                      │
+│   [ LEVEL 2: FEDERATED DISPATCH QUEUE (Org Project Board) ]                                      │
+│   • Automatic Priority Scheduling: Ranked by `Priority: Critical..Low` & `Effort: XS..XL`        │
+│   • Triage Holding Station: Isolates blocked dependencies, ambiguity, or quarantine items        │
+│                                           │                                                      │
+│                                           ▼ Autonomous Claim & Lock (`gh issue edit --assignee`) │
+│   [ LEVEL 3: AUTONOMOUS AGENT EXECUTION LOOP (.apm/ Swarms, Claude Code, OpenClaw) ]            │
+│   • Atomic Claim: Agent assigns `@me` and transitions `Status: In Progress` (2-Way Sync)         │
+│   • Hermetic Confinement: Execution strictly inside `.home/` userland jail or `cx vm` micro-VM   │
+│   • Continuous Verification: Self-healing loop executing `cx test` and `cargo test --offline`     │
+│                                           │                                                      │
+│                                           ▼ Pull Request Opened (`Fixes #<id>`)                  │
+│   [ LEVEL 4: DETERMINISTIC VERIFICATION & RETIREMENT GATE ]                                      │
+│   • State Transition: Automatic shift to `Status: In Review` on PR submission                    │
+│   • Offline CI Matrix: GitHub Actions runs `tests/system/run_all.nu` (exit code 0 required)      │
+│   • Atomic Retirement: PR merge automatically marks issue `Status: Done` across entire Org       │
+│                                                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+When an engineering organization configures its repositories, project fields, and status state machines to this specification, **GitHub undergoes a qualitative phase change**: it ceases to be a passive bug tracker and becomes a **natural, distributed agile orchestration engine and task dispatch backplane for autonomous AI agents**.
+
+In an autonomous virtual enterprise, managing multi-agent swarms does not require building proprietary job queues, custom Redis brokers, or brittle dashboard middleware. By leveraging GitHub's native issue boards, organization custom fields, and the November 23, 2026 two-way synchronization engine, the entire development lifecycle becomes an autonomous, audited, human-in-the-loop dispatch floor.
+
+---
+
+### 3.1 The Five Primitives of the GitHub Task Dispatch Engine
+
+Any carrier-grade distributed orchestration system requires five fundamental primitives: a **Task Specification**, a **Priority Queue**, an **Atomic Claim Lock**, a **Dead-Letter Queue (DLQ)**, and a **Verification/Retire Gate**. GitHub natively supplies all five:
+
+1. **Job Specification (Native Issues):**  
+   Issues created as `Task` or `Bug` serve as self-contained work units. They bundle markdown context, reproduction traces, target platform flags, and the explicit Definition of Done.
+2. **Priority Queue & Scheduling (Org Project Board):**  
+   The Organization Project board acts as the centralized priority queue. Autonomous agents query the queue sorted by `Priority` (`Critical` $\rightarrow$ `High` $\rightarrow$ `Medium` $\rightarrow$ `Low`) and `Effort`, immediately dequeuing the highest-impact tasks committed to the active sprint.
+3. **Atomic Claim Lock & Anti-Collision Engine (Assignee + Status):**  
+   To prevent race conditions where multiple agents attempt to solve the same problem simultaneously, an agent claims an issue by assigning itself (`@claude-bot`, `@cxc-worker`) and updating the native status to `In Progress`. Because GitHub Projects synchronizes two-way across the entire organization in real time, all other agents across the swarm immediately observe the claim.
+4. **Dead-Letter Queue / Quarantine Station (`Status: Triage`):**  
+   If an agent encounters an unresolvable obstacle—such as an upstream compiler panic, an ungrounded specification, or an unreachable external dependency—it does not halt the entire pipeline. The agent posts a structured diagnostic log as an issue comment and flips the status to **`Triage`**. This moves the item out of the active sprint queue, alerting human maintainers while the agent dequeues the next viable task.
+5. **Deterministic Retirement Gate (PR + CI Merge):**  
+   An agent cannot arbitrarily mark a task complete. It must submit a pull request referencing `Fixes #<issue_id>`. The issue automatically advances to **`In Review`**. The job is only retired and transitioned to **`Done`** when GitHub Actions passes the deterministic test suite (`cx test` exit code `0`) and the pull request is merged into `main`.
+
+---
+
+### 3.2 The Autonomous Agent Execution Protocol
+
+Autonomous coding agents (such as Claude Code, OpenClaw, or native `.apm/` Virtual Enterprise harnesses) interact with the ClauseOS project dispatch backplane via the GitHub CLI (`gh`), MCP servers, or the GitHub REST/GraphQL APIs according to this standard execution loop:
+
+```nushell
+# Example Agent Dequeue and Claim Protocol (Nushell / POSIX)
+
+# 1. Query the highest-priority unassigned task in the active sprint
+let next_task = (gh issue list 
+    --repo "vieo-ai/clause" 
+    --label "Area: Compiler (cxc)" 
+    --state open 
+    --assignee "" 
+    --json number,title,labels 
+    | from json 
+    | first)
+
+# 2. Acquire atomic claim lock on the task
+gh issue edit $next_task.number --add-assignee "@me"
+# Native two-way sync updates the master Org Project board in real time:
+gh issue edit $next_task.number --status "In Progress"
+
+# 3. Absorb task context and execute inside hermetic sandbox (.home/)
+# [Agent implements patch in packages/clause/...]
+
+# 4. Enforce deterministic binary verification gate
+let test_result = (do { ^./cx.sh test } | complete)
+
+if $test_result.exit_code == 0 {
+    # 5a. Green Gate: Create branch, commit via Conventional Commits, submit PR
+    git checkout -b $"fix/issue-($next_task.number)"
+    git commit -m $"fix(cxc): resolve AST emission bug\n\nFixes #($next_task.number)"
+    git push origin $"fix/issue-($next_task.number)"
+    gh pr create --title $"fix(cxc): resolve AST emission bug" --body $"Fixes #($next_task.number)"
+    # Issue status automatically transitions to 'In Review'
+} else {
+    # 5b. Red Gate / Blocker: Add diagnostic comment and quarantine to Triage
+    gh issue comment $next_task.number --body $"[Agent Gate Failure]\n```\n($test_result.stderr)\n```"
+    gh issue edit $next_task.number --status "Triage"
+    gh issue edit $next_task.number --remove-assignee "@me"
+}
+```
+
+---
+
+### 3.3 Eliminating Accidental Complexity in AI Swarm Infrastructure
+
+Traditional approaches to multi-agent autonomous engineering introduce immense accidental complexity by attempting to deploy custom orchestration frameworks (LangGraph, CrewAI, AutoGen, custom Redis job queues). In practice, these architectures fail on three critical dimensions:
+
+* **The "Black Box" Observability Trap:** Proprietary agent frameworks isolate task state inside memory graphs or vector databases. Human engineering leads cannot inspect what agents are doing, why tasks are stalled, or how dependencies are blocked without querying specialized observability dashboards.
+* **State Drift vs. Code Reality:** Custom task queues live entirely disconnected from the actual git commit history and CI/CD verification runners. An agent can believe a task is "complete" while the main repository build is broken.
+* **Sync Latency & Double-Entry:** Requiring engineers to update Jira, Linear, or GitHub while agents coordinate in an external database creates constant state desynchronization.
+
+By contrast, **anchoring the agile orchestration engine directly into GitHub**:
+
+1. **Total Human-in-the-Loop (HITL) Parity:** Humans and AI agents share the **exact same UI and data plane**. A principal architect can review a sprint on an iPad, re-order priority cards in the Org Project board, drag a failing agent task to `Triage`, or comment on a pull request, and the entire agent swarm reacts dynamically on its next execution tick.
+2. **Hierarchical Task Decomposition:** A high-level Lead Architect agent can ingest a complex CCEFS Stage `Epic` and programmatically decompose it into multiple child `Feature` and `Task` units across distinct repositories (`vieo-ai/clause`, `vieo-ai/craft-sound`, `vieo-ai/apm-audio`). Specialized worker agents claim child tasks in parallel.
+3. **Cryptographic & Git-Backed Provenance:** Every requirement, agent decision, code modification, and verification gate is permanently signed, associated with a git commit SHA, and verified against GitHub's enterprise security boundaries.
+
+---
+
+### 3.4 Convergence with the ClauseOS Virtual Enterprise (`.apm/`)
+
+This operational reality directly realizes the architecture defined in **ADR 008 (Virtual Enterprise Agent Hierarchy)** and **`d26-apm-github-registry-architecture`**:
+
+* **Agents as Autonomous Cartridges:** Under ClauseOS, an `.apm/` package is not just static prompt text; it represents an executable corporate role (e.g., *Systems Engineer*, *DSP Specialist*, *Security Auditor*).
+* **The Org Board as the Corporate Floor:** The Organization Project board serves as the physical workplace where these autonomous roles report. The issues are their work tickets, the 9 Canonical Pillars define their departmental domains, the sprint iterations define their operational cadence, and deterministic verification gates (`cx test` exit code `0`) serve as their non-negotiable performance evaluations.
+
+---
+
+## 4. Part I: Declarative Web UI Execution Runbook ("Click-Ops")
 
 Follow these steps sequentially to configure the organization manually in the GitHub web interface:
 
@@ -272,7 +396,7 @@ Return to the main Project view to establish the 5 pre-configured lenses:
 
 ---
 
-## 4. Part II: Programmatic Automation Engine (`gh api graphql`)
+## 5. Part II: Programmatic Automation Engine (`gh api graphql`)
 
 For headless provisioning, offline sandboxes, or automated enterprise tenant onboarding, the following standalone script automates the creation of the Project, all custom fields, and option tables using the GitHub GraphQL API v2.
 
@@ -407,17 +531,17 @@ def main [org_name: string = "vieo-ai"] {
 
 ---
 
-## 5. Repository Onboarding & Bi-Directional Telemetry Verification
+## 6. Repository Onboarding & Bi-Directional Telemetry Verification
 
 When bringing a new repository (`vieo-ai/craft-sound`, `vieo-ai/apm-security`, etc.) into the organization:
 
-### 5.1 Link Repository to Organization Project
+### 6.1 Link Repository to Organization Project
 
 1. In the repository $\rightarrow$ Go to **Projects** tab $\rightarrow$ Click **Link a project**.
 2. Select `ClauseOS Project & CDD Scrum Template` (or instance spawned from it).
 3. The repository board view automatically activates on the repo's **Issues** tab.
 
-### 5.2 Validate Zero-Lag Two-Way Synchronization
+### 6.2 Validate Zero-Lag Two-Way Synchronization
 
 Execute this test protocol to verify bi-directional telemetry:
 
@@ -437,7 +561,7 @@ Execute this test protocol to verify bi-directional telemetry:
 
 ---
 
-## 6. Formal Release Record & Capstone Seal
+## 7. Formal Release Record & Capstone Seal
 
 ```text
 ================================================================================
@@ -456,6 +580,7 @@ DOCUMENT CONTENT VERIFICATION:
   [✓] The 9 Canonical Operational Pillars mapped to universal Area schema
   [✓] Complete Click-Ops administrative manual included
   [✓] Deterministic Nushell GraphQL automation script included
+  [✓] Autonomous AI Agile Orchestration & Task Dispatch System codified (§3)
 
 STATUS: SEALED & STAGED FOR EXECUTION
 ================================================================================
