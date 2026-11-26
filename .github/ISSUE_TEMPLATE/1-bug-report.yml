@@ -1,6 +1,6 @@
 name: "🐛 Bug Report"
 description: "Report an issue to help the project improve."
-title: "[🐛 Bug] "
+title: "🐛 Bug: <Short description>"
 labels: ["Status: Backlog"]
 type: Bug
 
