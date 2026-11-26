@@ -1,13 +1,13 @@
-name: "🚀🆕 Feature Request"
+name: "✨ Feature Request"
 description: "Suggest an idea or possible new feature for this project."
-title: "[Feature]"
+title: "[✨ Feature]"
 labels: ["Type: Feature"]
 
 body:
   - type: markdown
     attributes:
       value: |
-        # **🚀 Feature Request**
+        # **✨ Feature Request**
         Use this form to suggest a new idea or feature for the project.
 
   - type: textarea
