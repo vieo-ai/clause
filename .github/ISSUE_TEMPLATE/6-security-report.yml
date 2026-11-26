@@ -1,6 +1,6 @@
 name: "🛡️ Security Report"
 description: "Report an issue to help the project improve."
-title: "[🛡️ Security]"
+title: "🛡️ Security: <Short description>"
 labels: ["Type: Security"]
 
 body:
