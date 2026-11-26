@@ -1,6 +1,6 @@
 name: "❓ Question or Support Request"
 description: "Questions and requests for support."
-title: "[Question]"
+title: "[❓ Question]"
 labels: ["Type: Question"]
 
 body:
