@@ -1,6 +1,6 @@
 name: "🧪 Failing Test / CI Gate"
 description: "Report failing verification suites (clause test, run_tests.ps1), plugin tests, or CI jobs."
-title: "[🧪 Test] "
+title: "🧪 Test: <Short description>"
 labels: ["Area: CI-CD & Tests", "Status: Backlog"]
 
 body:
