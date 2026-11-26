@@ -1,13 +1,13 @@
-name: "💉 Failing Test / CI Gate"
+name: "🧪 Failing Test / CI Gate"
 description: "Report failing verification suites (clause test, run_tests.ps1), plugin tests, or CI jobs."
-title: "[Test] "
+title: "[🧪 Test] "
 labels: ["Area: CI-CD & Tests", "Status: Backlog"]
 
 body:
   - type: markdown
     attributes:
       value: |
-        # **💉 Failing Test / CI Gate**
+        # **🧪 Failing Test / CI Gate**
         Use this form to report failing offline verification suites (`clause test`), cross-shell environment tests (`run_tests.ps1`), `plugins/cx-*` adapter checks, or GitHub Actions CI runners.
 
   - type: dropdown
