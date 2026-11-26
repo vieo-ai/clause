@@ -1,6 +1,6 @@
 name: "📝 User Story"
 description: "Create a Scrum-style user story with acceptance criteria"
-title: "[📝 Story] <Short description>"
+title: "📝 User Story: <Short description>"
 labels: ["user story"]
 assignees: []
 body:
