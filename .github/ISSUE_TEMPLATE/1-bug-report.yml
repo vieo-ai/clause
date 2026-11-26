@@ -1,6 +1,6 @@
-name: "🐞 Bug Report"
+name: "🐛 Bug Report"
 description: "Report an issue to help the project improve."
-title: "[Bug] "
+title: "[🐛 Bug] "
 labels: ["Status: Backlog"]
 type: Bug
 
@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        # **🐞 Bug Report**
+        # **🐛 Bug Report**
         Use this form to provide details about the issue.
 
   - type: textarea
